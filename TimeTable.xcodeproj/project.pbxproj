@@ -22,6 +22,7 @@
 		5741F37F182E61C4005AF6E1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5741F363182E61C4005AF6E1 /* CoreData.framework */; };
 		5741F387182E61C4005AF6E1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5741F385182E61C4005AF6E1 /* InfoPlist.strings */; };
 		5741F389182E61C4005AF6E1 /* TimeTableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5741F388182E61C4005AF6E1 /* TimeTableTests.m */; };
+		5741F394182E6642005AF6E1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5741F393182E6642005AF6E1 /* MainViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		5741F384182E61C4005AF6E1 /* TimeTableTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TimeTableTests-Info.plist"; sourceTree = "<group>"; };
 		5741F386182E61C4005AF6E1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5741F388182E61C4005AF6E1 /* TimeTableTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeTableTests.m; sourceTree = "<group>"; };
+		5741F392182E6642005AF6E1 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		5741F393182E6642005AF6E1 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 			children = (
 				5741F36E182E61C4005AF6E1 /* AppDelegate.h */,
 				5741F36F182E61C4005AF6E1 /* AppDelegate.m */,
+				5741F392182E6642005AF6E1 /* MainViewController.h */,
+				5741F393182E6642005AF6E1 /* MainViewController.m */,
 				5741F374182E61C4005AF6E1 /* Images.xcassets */,
 				5741F371182E61C4005AF6E1 /* TimeTable.xcdatamodeld */,
 				5741F366182E61C4005AF6E1 /* Supporting Files */,
@@ -251,6 +256,7 @@
 				5741F373182E61C4005AF6E1 /* TimeTable.xcdatamodeld in Sources */,
 				5741F370182E61C4005AF6E1 /* AppDelegate.m in Sources */,
 				5741F36C182E61C4005AF6E1 /* main.m in Sources */,
+				5741F394182E6642005AF6E1 /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
