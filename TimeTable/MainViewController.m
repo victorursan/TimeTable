@@ -23,13 +23,10 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.title = @"Wednesday";
+  self.navigationController.title = @"Monday";
   [self addTableView];
-
-  self.navigationController.navigationBar.barTintColor = [UIColor orangeColor];
-  self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 }
-
+#pragma mark - Table view
 - (void)addTableView {
   self.tableView = [[UITableView alloc] initWithFrame:self.view.frame];
   self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -39,7 +36,7 @@
   [self.view addSubview:self.tableView];
 
 }
-#pragma mark - Table view
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return 100;
 }

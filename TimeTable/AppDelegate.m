@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "CustomNavigationController.h"
 
 @implementation AppDelegate
 
@@ -17,7 +18,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  [self.window setRootViewController:[[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] init] ]];
+//  UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] init] ];
+//  navigation.navigationBar.barTintColor = [UIColor orangeColor];
+//  navigation.navigationBar.barStyle = UIBarStyleBlackOpaque;
+  [self.window setRootViewController:[[CustomNavigationController alloc] initWithRootViewController:[[MainViewController alloc] init]] ];
   self.window.backgroundColor = [UIColor whiteColor];
   [self.window makeKeyAndVisible];
   return YES;
