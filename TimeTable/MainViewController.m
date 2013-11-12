@@ -23,9 +23,19 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.navigationController.title = @"Monday";
+  self.title = @"Monday";
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
   [self addTableView];
 }
+
+- (void)subjectsButtonPressed {
+  NSLog(@"Subjects");
+}
+
+- (void)setTitle:(NSString *)title {
+  self.navigationController.title = title;
+}
+
 #pragma mark - Table view
 - (void)addTableView {
   self.tableView = [[UITableView alloc] initWithFrame:self.view.frame];

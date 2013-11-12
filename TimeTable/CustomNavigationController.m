@@ -29,24 +29,11 @@
   [super viewDidLoad];
   self.navigationBar.barTintColor = [UIColor orangeColor];
   self.navigationBar.barStyle = UIBarStyleBlackOpaque;
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] init];
   self.middleButton = [[UIButton alloc] init];
   [self.middleButton addTarget:self action:@selector(middleButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview: self.middleButton];
   [self addTableView];
-}
-
-- (void)addTableView {
-  self.presentTableView = [[UIView alloc] initWithFrame:CGRectMake(self.navigationBar.frame.size.width/2-100, 64, 200, 200)];
-  self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.presentTableView.frame.size.width, self.presentTableView.frame.size.height)];
-  self.tableView.delegate = self;
-  self.tableView.dataSource = self;
-  self.presentTableView.layer.masksToBounds = NO;
-  self.presentTableView.layer.cornerRadius = 8; // if you like rounded corners
-  self.presentTableView.layer.shadowOffset = CGSizeMake(0, 5);
-  self.presentTableView.layer.shadowRadius = 5;
-  self.presentTableView.layer.shadowOpacity = 0.2;
-  [self.presentTableView addSubview:self.tableView];
-
 }
 
 - (void)setTitle:(NSString *)title {
@@ -59,14 +46,36 @@
 }
 
 - (void)middleButtonWasPressed {
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:0.4f];
+  [self.middleButton setAlpha:0.1f];
+  [UIView commitAnimations];
   if (!self.presentTableView.superview) {
     [self.view addSubview:self.presentTableView];
   } else {
     [self.presentTableView removeFromSuperview];
   }
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:0.4f];
+  [self.middleButton setAlpha:1.0f];
+  [UIView commitAnimations];
 }
 
 #pragma mark - Table view
+
+- (void)addTableView {
+  self.presentTableView = [[UIView alloc] initWithFrame:CGRectMake(self.navigationBar.frame.size.width/2-100, 64, 200, 200)];
+  self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.presentTableView.frame.size.width, self.presentTableView.frame.size.height)];
+  self.tableView.delegate = self;
+  self.tableView.dataSource = self;
+  self.presentTableView.layer.masksToBounds = NO;
+  self.presentTableView.layer.cornerRadius = 8; // if you like rounded corners
+  self.presentTableView.layer.shadowOffset = CGSizeMake(0, 5);
+  self.presentTableView.layer.shadowRadius = 5;
+  self.presentTableView.layer.shadowOpacity = 0.2;
+  [self.presentTableView addSubview:self.tableView];
+  
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return 10;
@@ -83,5 +92,8 @@
   return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+}
 
 @end
