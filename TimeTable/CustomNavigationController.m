@@ -8,6 +8,7 @@
 
 #import "CustomNavigationController.h"
 
+
 @interface CustomNavigationController ()
 
 @property(strong, nonatomic) UIButton *middleButton;
@@ -29,7 +30,6 @@
   [super viewDidLoad];
   self.navigationBar.barTintColor = [UIColor orangeColor];
   self.navigationBar.barStyle = UIBarStyleBlackOpaque;
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] init];
   self.middleButton = [[UIButton alloc] init];
   [self.middleButton addTarget:self action:@selector(middleButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview: self.middleButton];

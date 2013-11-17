@@ -7,6 +7,9 @@
 //
 
 #import "MainViewController.h"
+#import "MMDrawerController.h"
+#import "UIViewController+MMDrawerController.h"
+
 
 @interface MainViewController ()
 
@@ -24,12 +27,19 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.title = @"Monday";
+  
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
+  self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+  self.navigationController.navigationBar.barTintColor = [UIColor orangeColor];
+  self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+  
   [self addTableView];
 }
 
 - (void)subjectsButtonPressed {
   NSLog(@"Subjects");
+  self.mm_drawerController.rightDrawerViewController = [[UIViewController alloc] init];
+  [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 - (void)setTitle:(NSString *)title {

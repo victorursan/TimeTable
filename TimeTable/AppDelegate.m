@@ -7,8 +7,13 @@
 //
 
 #import "AppDelegate.h"
+
 #import "MainViewController.h"
 #import "CustomNavigationController.h"
+
+#import "MMDrawerController.h"
+#import "UIViewController+MMDrawerController.h"
+
 
 @implementation AppDelegate
 
@@ -18,10 +23,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//  UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] init] ];
-//  navigation.navigationBar.barTintColor = [UIColor orangeColor];
-//  navigation.navigationBar.barStyle = UIBarStyleBlackOpaque;
-  [self.window setRootViewController:[[CustomNavigationController alloc] initWithRootViewController:[[MainViewController alloc] init]] ];
+  
+  CustomNavigationController *customNavigationController = [[CustomNavigationController alloc] initWithRootViewController:[[MainViewController alloc] init]];
+  MMDrawerController *drawerController = [[MMDrawerController alloc] initWithCenterViewController:customNavigationController rightDrawerViewController:[[UIViewController alloc] init]];
+  [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
+  [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+  [drawerController setMaximumRightDrawerWidth:240];
+  
+  [self.window setRootViewController:drawerController];
   self.window.backgroundColor = [UIColor whiteColor];
   [self.window makeKeyAndVisible];
   return YES;
