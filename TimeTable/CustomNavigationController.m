@@ -13,6 +13,8 @@
 
 @property(strong, nonatomic) UIButton *middleButton;
 @property(strong, nonatomic) UIView *presentTableView;
+@property(strong, nonatomic) UITableView *tableView;
+@property(strong, nonatomic) NSArray *tableViewElements;
 
 @end
 
@@ -33,6 +35,7 @@
   self.middleButton = [[UIButton alloc] init];
   [self.middleButton addTarget:self action:@selector(middleButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview: self.middleButton];
+  self.tableViewElements = [[NSMutableArray alloc] init];
   [self addTableView];
 }
 
@@ -43,6 +46,13 @@
                                         self.navigationBar.frame.size.height/2-self.middleButton.frame.size.height/2+20,
                                         self.middleButton.frame.size.width,
                                         self.middleButton.frame.size.height);
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key {
+  if ([key isEqualToString:@"elements"]) {
+    self.tableViewElements = value;
+    [self.tableView reloadData];
+  }
 }
 
 - (void)middleButtonWasPressed {
@@ -59,6 +69,11 @@
   [UIView setAnimationDuration:0.4f];
   [self.middleButton setAlpha:1.0f];
   [UIView commitAnimations];
+}
+
+- (void)removePresentTableView {
+  if (self.presentTableView.superview)
+    [self.presentTableView removeFromSuperview];
 }
 
 #pragma mark - Table view
@@ -78,7 +93,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 10;
+  return self.tableViewElements.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -88,7 +103,7 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  cell.textLabel.text= @"hello";
+  cell.textLabel.text = [self.tableViewElements objectAtIndex:indexPath.row];
   return cell;
 }
 

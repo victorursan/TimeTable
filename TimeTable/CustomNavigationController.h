@@ -10,6 +10,4 @@
 
 @interface CustomNavigationController : UINavigationController <UITableViewDelegate, UITableViewDataSource>
 
-@property(strong, nonatomic) UITableView *tableView;
-
 @end
