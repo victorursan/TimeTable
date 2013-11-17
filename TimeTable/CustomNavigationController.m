@@ -7,7 +7,9 @@
 //
 
 #import "CustomNavigationController.h"
-
+#import "MainViewController.h"
+#import "MMDrawerController.h"
+#import "UIViewController+MMDrawerController.h"
 
 @interface CustomNavigationController ()
 
@@ -46,13 +48,13 @@
                                         self.navigationBar.frame.size.height/2-self.middleButton.frame.size.height/2+20,
                                         self.middleButton.frame.size.width,
                                         self.middleButton.frame.size.height);
+  //[self.middleButton setTitle:@" " forState:UIControlStateNormal];
 }
 
 - (void)setValue:(id)value forKey:(NSString *)key {
-  if ([key isEqualToString:@"elements"]) {
+  if ([key isEqualToString:@"elements"])
     self.tableViewElements = value;
-    [self.tableView reloadData];
-  }
+  [self.tableView reloadData];
 }
 
 - (void)middleButtonWasPressed {
@@ -61,6 +63,7 @@
   [self.middleButton setAlpha:0.1f];
   [UIView commitAnimations];
   if (!self.presentTableView.superview) {
+    [self.tableView reloadData];
     [self.view addSubview:self.presentTableView];
   } else {
     [self.presentTableView removeFromSuperview];
@@ -69,11 +72,6 @@
   [UIView setAnimationDuration:0.4f];
   [self.middleButton setAlpha:1.0f];
   [UIView commitAnimations];
-}
-
-- (void)removePresentTableView {
-  if (self.presentTableView.superview)
-    [self.presentTableView removeFromSuperview];
 }
 
 #pragma mark - Table view
@@ -103,12 +101,13 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  cell.textLabel.text = [self.tableViewElements objectAtIndex:indexPath.row];
+  cell.textLabel.text = self.tableViewElements[indexPath.row];
   return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
+  [self.presentTableView removeFromSuperview];
+  [self.childViewControllers[0] setValue:self.tableViewElements[indexPath.row] forKey:@"resetTableView"];
 }
 
 @end

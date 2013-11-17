@@ -13,6 +13,9 @@
 
 
 @interface MainViewController ()
+
+@property(strong, nonatomic) NSString *currentTitle;
+
 @end
 
 @implementation MainViewController
@@ -26,13 +29,10 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  NSArray *days = @[@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday",@"Sunday"];
   self.title = @"Monday";
-
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
   self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
-  
-  NSArray *days = @[@"Monday",@"2",@"3"];
-  
   [self.navigationController setValue:days forKey:@"elements"];
   
   [self addTableView];
@@ -42,7 +42,15 @@
   [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
+- (void)setValue:(id)value forKey:(NSString *)key {
+  if ([key isEqualToString:@"resetTableView"]) {
+    self.title = value;
+    [self.tableView reloadData];
+  }
+}
+
 - (void)setTitle:(NSString *)title {
+  self.currentTitle = title;
   self.navigationController.title = title;
 }
 
@@ -68,7 +76,7 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  cell.textLabel.text= @"hello";
+  cell.textLabel.text= self.currentTitle;
   return cell;
 }
 

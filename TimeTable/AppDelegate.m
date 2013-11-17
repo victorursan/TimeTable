@@ -23,7 +23,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  CustomNavigationController *customNavigationController = [[CustomNavigationController alloc] initWithRootViewController:[[MainViewController alloc] init]];
+  MainViewController *main = [[MainViewController alloc] init];
+  CustomNavigationController *customNavigationController = [[CustomNavigationController alloc] initWithRootViewController:main];
   MMDrawerController *drawerController = [[MMDrawerController alloc] initWithCenterViewController:customNavigationController rightDrawerViewController:[[UIViewController alloc] init]];
  // [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
   [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
