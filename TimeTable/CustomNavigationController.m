@@ -7,7 +7,6 @@
 //
 
 #import "CustomNavigationController.h"
-//#import "MainViewController.h"
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
 
@@ -38,8 +37,10 @@
   [self.middleButton addTarget:self action:@selector(middleButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview: self.middleButton];
   self.tableViewElements = [[NSMutableArray alloc] init];
+
   [self addTableView];
 }
+
 
 - (void)setTitle:(NSString *)title {
   [self.middleButton setTitle:title forState:UIControlStateNormal];
@@ -48,12 +49,18 @@
                                         self.navigationBar.frame.size.height/2-self.middleButton.frame.size.height/2+20,
                                         self.middleButton.frame.size.width,
                                         self.middleButton.frame.size.height);
-  //[self.middleButton setTitle:@" " forState:UIControlStateNormal];
 }
 
 - (void)setValue:(id)value forKey:(NSString *)key {
   if ([key isEqualToString:@"elements"])
     self.tableViewElements = value;
+  if ([key isEqualToString:@"buttonStatus"]){
+    if ([value isEqualToString:@"ON"]) {
+      self.middleButton.enabled = YES;
+    } else {
+      self.middleButton.enabled = NO;
+    }
+  }
   [self.tableView reloadData];
 }
 

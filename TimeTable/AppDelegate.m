@@ -26,8 +26,9 @@
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   MainViewController *main = [[MainViewController alloc] init];
   CustomNavigationController *customNavigationController = [[CustomNavigationController alloc] initWithRootViewController:main];
+  customNavigationController.navigationBar.tintColor =[UIColor whiteColor];
+  customNavigationController.navigationBar.barTintColor = [UIColor orangeColor];
   MMDrawerController *drawerController = [[MMDrawerController alloc] initWithCenterViewController:customNavigationController rightDrawerViewController:[[RightViewController alloc] init]];
- // [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
   [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
   [drawerController setMaximumRightDrawerWidth:240];
   

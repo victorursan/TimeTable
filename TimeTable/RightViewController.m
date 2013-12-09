@@ -7,8 +7,8 @@
 //
 
 #import "RightViewController.h"
-//#import "MMDrawerController.h"
-//#import "UIViewController+MMDrawerController.h"
+#import "MMDrawerController.h"
+#import "UIViewController+MMDrawerController.h"
 
 @interface RightViewController ()
 
@@ -58,6 +58,11 @@
   return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  NSLog(@"%d",indexPath.row);
+//  self.mm_drawerController.centerViewController.title = @"dsa";
+//  [self.mm_drawerController.centerViewController setValue:days forKey:@"elements"];
+}
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];

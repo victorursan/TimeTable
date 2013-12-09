@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "CustomNavigationController.h"
+#import "PresentSubjectViewController.h"
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
 
@@ -30,12 +31,22 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   NSArray *days = @[@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday",@"Sunday"];
-  self.title = @"Monday";
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
-  self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
   [self.navigationController setValue:days forKey:@"elements"];
-  
   [self addTableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  [self.navigationController setValue:@"ON" forKey:@"buttonStatus"];
+  self.title = [self currentWeekDay];
+}
+
+- (NSString *)currentWeekDay {
+  NSDate *today = [NSDate date];
+  NSDateFormatter *weekdayFormatter = [[NSDateFormatter alloc] init];
+  [weekdayFormatter setDateFormat: @"EEEE"];
+  NSString *weekday = [weekdayFormatter stringFromDate: today];
+  return weekday;
 }
 
 - (void)subjectsButtonPressed {
@@ -60,13 +71,13 @@
   self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
   self.tableView.delegate = self;
   self.tableView.dataSource = self;
-  self.tableView.allowsSelection = NO;
+  self.tableView.allowsSelection = YES;
   [self.view addSubview:self.tableView];
 
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 20;
+  return 10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -78,6 +89,13 @@
   }
   cell.textLabel.text= self.currentTitle;
   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  PresentSubjectViewController *subjectView = [[PresentSubjectViewController alloc] init];
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  [self.navigationController pushViewController:subjectView animated:YES];
+  [subjectView setTitle:cell.textLabel.text];
 }
 
 - (void)didReceiveMemoryWarning {
