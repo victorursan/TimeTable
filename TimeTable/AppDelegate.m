@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 
 #import "MainViewController.h"
+#import "RightViewController.h"
 #import "CustomNavigationController.h"
 
 #import "MMDrawerController.h"
@@ -25,7 +26,7 @@
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   MainViewController *main = [[MainViewController alloc] init];
   CustomNavigationController *customNavigationController = [[CustomNavigationController alloc] initWithRootViewController:main];
-  MMDrawerController *drawerController = [[MMDrawerController alloc] initWithCenterViewController:customNavigationController rightDrawerViewController:[[UIViewController alloc] init]];
+  MMDrawerController *drawerController = [[MMDrawerController alloc] initWithCenterViewController:customNavigationController rightDrawerViewController:[[RightViewController alloc] init]];
  // [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
   [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
   [drawerController setMaximumRightDrawerWidth:240];
