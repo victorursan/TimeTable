@@ -30,6 +30,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.title = [self currentWeekDay];
   NSArray *days = @[@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday",@"Sunday"];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
   [self.navigationController setValue:days forKey:@"elements"];
@@ -38,7 +39,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [self.navigationController setValue:@"ON" forKey:@"buttonStatus"];
-  self.title = [self currentWeekDay];
+  self.title = self.currentTitle;
+  [self.tableView reloadData];
 }
 
 - (NSString *)currentWeekDay {
