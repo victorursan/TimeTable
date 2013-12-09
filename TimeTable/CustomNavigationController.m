@@ -59,6 +59,7 @@
       self.middleButton.enabled = YES;
     } else {
       self.middleButton.enabled = NO;
+      [self.presentTableView removeFromSuperview];
     }
   }
   [self.tableView reloadData];

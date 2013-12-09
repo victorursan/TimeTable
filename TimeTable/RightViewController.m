@@ -31,6 +31,14 @@
 	// Do any additional setup after loading the view.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+  [self.mm_drawerController.centerViewController setValue:@"OFF" forKey:@"buttonStatus"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+  [self.mm_drawerController.centerViewController setValue:@"ON" forKey:@"buttonStatus"];
+}
+
 #pragma mark - Table view
 
 - (void)addTableView {
