@@ -16,6 +16,7 @@
 @interface MainViewController ()
 
 @property(strong, nonatomic) NSString *currentTitle;
+@property(strong, nonatomic) NSArray *subjects;
 
 @end
 
@@ -43,6 +44,11 @@
   [self.tableView reloadData];
 }
 
+- (NSArray *)arrayForTitle{
+  NSString *test = [NSString stringWithFormat:@"%@ Subject",self.currentTitle];
+  return @[test,test,test,test,test,test];
+}
+
 - (NSString *)currentWeekDay {
   NSDate *today = [NSDate date];
   NSDateFormatter *weekdayFormatter = [[NSDateFormatter alloc] init];
@@ -64,6 +70,7 @@
 
 - (void)setTitle:(NSString *)title {
   self.currentTitle = title;
+  self.subjects = [self arrayForTitle];
   self.navigationController.title = title;
 }
 
@@ -79,7 +86,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 10;
+  return self.subjects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -89,7 +96,7 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  cell.textLabel.text= self.currentTitle;
+  cell.textLabel.text= self.subjects[indexPath.row];
   return cell;
 }
 

@@ -36,6 +36,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+  [self.tableView reloadData];
   [self.mm_drawerController.centerViewController setValue:@"ON" forKey:@"buttonStatus"];
 }
 
@@ -46,7 +47,7 @@
   self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
   self.tableView.delegate = self;
   self.tableView.dataSource = self;
-  self.tableView.allowsSelection = NO;
+  self.tableView.allowsSelection = YES;
   [self.view addSubview:self.tableView];
   
 }
@@ -62,12 +63,20 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  cell.textLabel.text= @"hello";
+  if (indexPath.row == 9) {
+    cell.textLabel.text= @"Add Subject";
+  } else {
+    cell.textLabel.text= @"Subject Cell";
+  }
   return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   NSLog(@"%d",indexPath.row);
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  if ([cell.textLabel.text isEqual:@"Add Subject"]) {
+    NSLog(@"Add Subject");
+  }
 //  self.mm_drawerController.centerViewController.title = @"dsa";
 //  [self.mm_drawerController.centerViewController setValue:days forKey:@"elements"];
 }
