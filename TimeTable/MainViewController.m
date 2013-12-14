@@ -16,7 +16,7 @@
 @interface MainViewController ()
 
 @property(strong, nonatomic) NSString *currentTitle;
-@property(strong, nonatomic) NSArray *subjects;
+@property(strong, nonatomic) NSArray *subjectsForCurrentView;
 
 @end
 
@@ -70,7 +70,7 @@
 
 - (void)setTitle:(NSString *)title {
   self.currentTitle = title;
-  self.subjects = [self arrayForTitle];
+  self.subjectsForCurrentView = [self arrayForTitle];
   self.navigationController.title = title;
 }
 
@@ -82,11 +82,11 @@
   self.tableView.dataSource = self;
   self.tableView.allowsSelection = YES;
   [self.view addSubview:self.tableView];
-
+  
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return self.subjects.count;
+  return self.subjectsForCurrentView.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -96,7 +96,7 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  cell.textLabel.text= self.subjects[indexPath.row];
+  cell.textLabel.text= self.subjectsForCurrentView[indexPath.row];
   return cell;
 }
 

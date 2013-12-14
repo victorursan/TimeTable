@@ -12,6 +12,8 @@
 
 @interface RightViewController ()
 
+@property(strong, nonatomic) NSArray *subjects;
+
 @end
 
 @implementation RightViewController
@@ -27,6 +29,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.view.backgroundColor = [UIColor whiteColor];
+  self.subjects = [self allSubjects];
   [self addTableView];
 	// Do any additional setup after loading the view.
 }
@@ -38,6 +41,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
   [self.tableView reloadData];
   [self.mm_drawerController.centerViewController setValue:@"ON" forKey:@"buttonStatus"];
+}
+
+- (NSArray *)allSubjects {
+  return @[@"one",@"two",@"three",@"four",@"five",@"six",@"seven"];
 }
 
 #pragma mark - Table view
@@ -53,7 +60,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 10;
+  return self.subjects.count+1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -63,22 +70,22 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  if (indexPath.row == 9) {
-    cell.textLabel.text= @"Add Subject";
+  if (indexPath.row != self.subjects.count) {
+    cell.textLabel.text= self.subjects[indexPath.row];
   } else {
-    cell.textLabel.text= @"Subject Cell";
+    cell.textLabel.text= @"Add Subject";
   }
   return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSLog(@"%d",indexPath.row);
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-  if ([cell.textLabel.text isEqual:@"Add Subject"]) {
-    NSLog(@"Add Subject");
+  NSLog(@"%@",cell.textLabel.text);
+  if ([cell.textLabel.text isEqualToString:@"Add Subject"]) {
+    NSLog(@"ad sub");
   }
-//  self.mm_drawerController.centerViewController.title = @"dsa";
-//  [self.mm_drawerController.centerViewController setValue:days forKey:@"elements"];
+  //  self.mm_drawerController.centerViewController.title = @"dsa";
+  //  [self.mm_drawerController.centerViewController setValue:days forKey:@"elements"];
 }
 
 - (void)didReceiveMemoryWarning {
