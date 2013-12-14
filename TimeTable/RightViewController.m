@@ -7,7 +7,6 @@
 //
 
 #import "RightViewController.h"
-#import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
 #import "AddSubjectViewController.h"
 
@@ -81,14 +80,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-  NSLog(@"%@",cell.textLabel.text);
   if ([cell.textLabel.text isEqualToString:@"Add Subject"]) {
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:Nil];
-    AddSubjectViewController *addSub = [[AddSubjectViewController alloc] init];
-    [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:addSub animated:YES];
+    [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:[AddSubjectViewController new] animated:YES];
   }
-  //  self.mm_drawerController.centerViewController.title = @"dsa";
-  //  [self.mm_drawerController.centerViewController setValue:days forKey:@"elements"];
 }
 
 - (void)didReceiveMemoryWarning {

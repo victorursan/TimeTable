@@ -7,8 +7,6 @@
 //
 
 #import "AddSubjectViewController.h"
-#import "MMDrawerController.h"
-#import "UIViewController+MMDrawerController.h"
 
 @interface AddSubjectViewController ()
 
@@ -26,17 +24,10 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  [self.navigationController setValue:@"OFF" forKey:@"buttonStatus"];
   self.navigationController.title = @"Add Subject";
   self.view.backgroundColor = [UIColor greenColor];
 	// Do any additional setup after loading the view.
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-  [self.mm_drawerController.centerViewController setValue:@"OFF" forKey:@"buttonStatus"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-  [self.mm_drawerController.centerViewController setValue:@"ON" forKey:@"buttonStatus"];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -43,7 +43,13 @@
 
 
 - (void)setTitle:(NSString *)title {
-  [self.middleButton setTitle:title forState:UIControlStateNormal];
+  NSString *newTitle;
+  if (self.middleButton.enabled) {
+    newTitle = [NSString stringWithFormat:@"%@ V",title];
+  } else {
+    newTitle = title;
+  }
+  [self.middleButton setTitle:newTitle forState:UIControlStateNormal];
   [self.middleButton sizeToFit];
   self.middleButton.frame = CGRectMake (self.navigationBar.frame.size.width/2-self.middleButton.frame.size.width/2,
                                         self.navigationBar.frame.size.height/2-self.middleButton.frame.size.height/2+20,

@@ -11,7 +11,6 @@
 #import "PresentSubjectViewController.h"
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
-#import "AddSubjectViewController.h"
 
 
 @interface MainViewController ()
@@ -33,7 +32,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.title = [self currentWeekDay];
-  NSArray *days = @[@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday",@"Sunday"];
+  NSArray *days = @[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
   [self.navigationController setValue:days forKey:@"elements"];
   [self addTableView];
@@ -45,7 +44,7 @@
   [self.tableView reloadData];
 }
 
-- (NSArray *)arrayForTitle{
+- (NSArray *)arrayForTitle {
   NSString *test = [NSString stringWithFormat:@"%@ Subject",self.currentTitle];
   return @[test,test,test,test,test,test];
 }

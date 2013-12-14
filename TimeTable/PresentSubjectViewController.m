@@ -25,10 +25,10 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.view.backgroundColor = [UIColor yellowColor];
-  [self.navigationController setValue:@"OFF" forKey:@"buttonStatus"];
 }
 
 - (void)setTitle:(NSString *)title {
+  [self.navigationController setValue:@"OFF" forKey:@"buttonStatus"];
   self.navigationController.title = title;
 }
 
