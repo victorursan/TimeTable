@@ -31,7 +31,6 @@
   self.view.backgroundColor = [UIColor whiteColor];
   self.subjects = [self allSubjects];
   [self addTableView];
-	// Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,7 +80,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
   if ([cell.textLabel.text isEqualToString:@"Add Subject"]) {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:Nil];
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
     [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:[AddSubjectViewController new] animated:YES];
   }
 }

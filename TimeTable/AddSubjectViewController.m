@@ -27,7 +27,6 @@
   [self.navigationController setValue:@"OFF" forKey:@"buttonStatus"];
   self.navigationController.title = @"Add Subject";
   self.view.backgroundColor = [UIColor greenColor];
-	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
