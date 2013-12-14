@@ -85,7 +85,7 @@
 #pragma mark - Table view
 
 - (void)addTableView {
-  self.presentTableView = [[UIView alloc] initWithFrame:CGRectMake(self.navigationBar.frame.size.width/2-100, 64, 200, 200)];
+  self.presentTableView = [[UIView alloc] initWithFrame:CGRectMake(self.navigationBar.frame.size.width/2-100, 64, 200, 220)];
   self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.presentTableView.frame.size.width, self.presentTableView.frame.size.height)];
   self.tableView.delegate = self;
   self.tableView.dataSource = self;

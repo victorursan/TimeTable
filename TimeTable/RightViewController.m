@@ -9,6 +9,7 @@
 #import "RightViewController.h"
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
+#import "AddSubjectViewController.h"
 
 @interface RightViewController ()
 
@@ -82,7 +83,9 @@
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
   NSLog(@"%@",cell.textLabel.text);
   if ([cell.textLabel.text isEqualToString:@"Add Subject"]) {
-    NSLog(@"ad sub");
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:Nil];
+    AddSubjectViewController *addSub = [[AddSubjectViewController alloc] init];
+    [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:addSub animated:YES];
   }
   //  self.mm_drawerController.centerViewController.title = @"dsa";
   //  [self.mm_drawerController.centerViewController setValue:days forKey:@"elements"];

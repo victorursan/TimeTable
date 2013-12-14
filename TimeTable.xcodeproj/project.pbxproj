@@ -26,6 +26,7 @@
 		5741F394182E6642005AF6E1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5741F393182E6642005AF6E1 /* MainViewController.m */; };
 		574AA06718564DBF00865E1E /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA06618564DBF00865E1E /* RightViewController.m */; };
 		574AA06A1856599C00865E1E /* PresentSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA0691856599C00865E1E /* PresentSubjectViewController.m */; };
+		574AA06D185CECC600865E1E /* AddSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA06C185CECC600865E1E /* AddSubjectViewController.m */; };
 		C18E94FF86C249A0B4B0DA9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 951E3A996CE742D69323E3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,8 @@
 		574AA06618564DBF00865E1E /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightViewController.m; sourceTree = "<group>"; };
 		574AA0681856599C00865E1E /* PresentSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentSubjectViewController.h; sourceTree = "<group>"; };
 		574AA0691856599C00865E1E /* PresentSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentSubjectViewController.m; sourceTree = "<group>"; };
+		574AA06B185CECC600865E1E /* AddSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSubjectViewController.h; sourceTree = "<group>"; };
+		574AA06C185CECC600865E1E /* AddSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSubjectViewController.m; sourceTree = "<group>"; };
 		951E3A996CE742D69323E3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -143,6 +146,8 @@
 				574AA06618564DBF00865E1E /* RightViewController.m */,
 				574AA0681856599C00865E1E /* PresentSubjectViewController.h */,
 				574AA0691856599C00865E1E /* PresentSubjectViewController.m */,
+				574AA06B185CECC600865E1E /* AddSubjectViewController.h */,
+				574AA06C185CECC600865E1E /* AddSubjectViewController.m */,
 				5741F374182E61C4005AF6E1 /* Images.xcassets */,
 				5741F371182E61C4005AF6E1 /* TimeTable.xcdatamodeld */,
 				5741F366182E61C4005AF6E1 /* Supporting Files */,
@@ -314,6 +319,7 @@
 				5706374B182FF73B002B9D09 /* CustomNavigationController.m in Sources */,
 				5741F370182E61C4005AF6E1 /* AppDelegate.m in Sources */,
 				5741F36C182E61C4005AF6E1 /* main.m in Sources */,
+				574AA06D185CECC600865E1E /* AddSubjectViewController.m in Sources */,
 				5741F394182E6642005AF6E1 /* MainViewController.m in Sources */,
 				574AA06718564DBF00865E1E /* RightViewController.m in Sources */,
 			);
