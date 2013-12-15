@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "CustomNavigationController.h"
 #import "PresentSubjectViewController.h"
+#import "CustomCell.h"
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
 
@@ -91,20 +92,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellIdentifier = @"Cell";
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  CustomCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  cell.textLabel.text= self.subjectsForCurrentView[indexPath.row];
+  cell.title.text= self.subjectsForCurrentView[indexPath.row];
+  cell.position.text = [NSString stringWithFormat:@" #%d",indexPath.row+1];
   return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return 50;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   PresentSubjectViewController *subjectView = [[PresentSubjectViewController alloc] init];
-  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
   [self.navigationController pushViewController:subjectView animated:YES];
-  [subjectView setTitle:cell.textLabel.text];
+  [subjectView setTitle:self.subjectsForCurrentView[indexPath.row]];
 }
 
 - (void)didReceiveMemoryWarning {

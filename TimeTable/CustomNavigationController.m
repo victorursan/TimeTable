@@ -45,7 +45,7 @@
 - (void)setTitle:(NSString *)title {
   NSString *newTitle;
   if (self.middleButton.enabled) {
-    newTitle = [NSString stringWithFormat:@"%@ V",title];
+    newTitle = [NSString stringWithFormat:@"%@  V",title];
   } else {
     newTitle = title;
   }
