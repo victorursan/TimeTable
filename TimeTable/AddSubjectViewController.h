@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddSubjectViewController : UIViewController
+@interface AddSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+
+@property(strong, nonatomic) UITableView *tableView;
 
 @end

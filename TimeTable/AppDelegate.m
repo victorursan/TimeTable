@@ -25,10 +25,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   MainViewController *main = [[MainViewController alloc] init];
+  main.managedObjectContext = self.managedObjectContext;
+
   CustomNavigationController *customNavigationController = [[CustomNavigationController alloc] initWithRootViewController:main];
   customNavigationController.navigationBar.tintColor =[UIColor whiteColor];
   customNavigationController.navigationBar.barTintColor = [UIColor orangeColor];
-  MMDrawerController *drawerController = [[MMDrawerController alloc] initWithCenterViewController:customNavigationController rightDrawerViewController:[[RightViewController alloc] init]];
+
+  RightViewController *right =[[RightViewController alloc] init];
+  right.managedObjectContext = self.managedObjectContext;
+
+  MMDrawerController *drawerController = [[MMDrawerController alloc] initWithCenterViewController:customNavigationController
+                                                                        rightDrawerViewController:right];
   [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
   [drawerController setMaximumRightDrawerWidth:240];
   

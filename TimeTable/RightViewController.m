@@ -49,7 +49,10 @@
 #pragma mark - Table view
 
 - (void)addTableView {
-  self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, 30, self.view.frame.size.width, self.view.frame.size.height-30)];
+  self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x,
+                                                                 30,
+                                                                 self.view.frame.size.width,
+                                                                 self.view.frame.size.height-30)];
   self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
   self.tableView.delegate = self;
   self.tableView.dataSource = self;
@@ -81,7 +84,10 @@
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
   if ([cell.textLabel.text isEqualToString:@"Add Subject"]) {
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
-    [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:[AddSubjectViewController new] animated:YES];
+    AddSubjectViewController *addVC = [[AddSubjectViewController alloc] init];
+    addVC.managedObjectContext = self.managedObjectContext;
+    [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:addVC
+                                                                                                            animated:YES];
   }
 }
 

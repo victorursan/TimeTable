@@ -10,6 +10,9 @@
 
 @interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+
 @property(strong, nonatomic) UITableView *tableView;
 
 @end

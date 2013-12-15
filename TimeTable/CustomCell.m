@@ -14,7 +14,7 @@
   self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
   if (self) {
     self.position = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 30, 30)];
-    self.position.backgroundColor = [UIColor redColor];
+    //self.position.backgroundColor = [UIColor redColor];
     [self addSubview:self.position];
 
     self.positionDescription = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 40, 20)];
@@ -22,7 +22,7 @@
     [self addSubview:self.positionDescription];
 
     self.title = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 280, 30)];
-    self.title.backgroundColor = [UIColor yellowColor];
+    //self.title.backgroundColor = [UIColor yellowColor];
     [self addSubview:self.title];
 
     self.titleDescription = [[UILabel alloc] initWithFrame:CGRectMake(40, 30, 280, 20)];
