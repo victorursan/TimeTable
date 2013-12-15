@@ -11,6 +11,9 @@
 @interface AddSubjectViewController ()
 
 @property(strong, nonatomic) UITextField *subjectField;
+@property(strong, nonatomic) NSMutableDictionary *sectionDictionary;
+@property(strong, nonatomic) NSArray *daysArray;
+
 
 @end
 
@@ -28,6 +31,16 @@
   [super viewDidLoad];
   [self.navigationController setValue:@"OFF" forKey:@"buttonStatus"];
   self.navigationController.title = @"Add Subject";
+
+  self.sectionDictionary = [[NSMutableDictionary alloc] initWithDictionary: @{@"Monday":@[],
+                                                                              @"Tuesday": @[],
+                                                                              @"Wednesday": @[],
+                                                                              @"Thursday": @[],
+                                                                              @"Friday": @[],
+                                                                              @"Saturday": @[],
+                                                                              @"Sunday": @[]}];
+  self.daysArray = @[@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday",@"Sunday"];
+
   self.view.backgroundColor = [UIColor whiteColor];
 
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addSubject)];
@@ -44,6 +57,7 @@
   [self.view addSubview:self.subjectField];
 
   [self addTableView];
+  [self addPickerView];
 }
 
 - (void)subjectEditingEnded {
@@ -72,20 +86,11 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  switch (section) {
-    case 0: return @"Monday";
-    case 1: return @"Tuesday";
-    case 2: return @"Wednesday";
-    case 3: return @"Thursday";
-    case 4: return @"Friday";
-    case 5: return @"Saturday";
-    case 6: return @"Sunday";
-    default: return @"";
-  }
+  return self.daysArray[section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 1;
+  return [[self.sectionDictionary valueForKey:self.daysArray[section]] count]+1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -95,7 +100,12 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  cell.textLabel.text = @"+";
+  if (indexPath.row != [[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count] ) {
+    NSString *string = [[NSString alloc] initWithFormat:@"%@",[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]][indexPath.row]];
+    cell.textLabel.text = string;
+  } else {
+    cell.textLabel.text = @"+";
+  }
   return cell;
 }
 
@@ -104,7 +114,50 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
+  if ([[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count] == indexPath.row) {
+    NSMutableArray *new = [[NSMutableArray alloc] initWithArray: [self.sectionDictionary valueForKey:self.daysArray[indexPath.section]]];
+    [new addObject:@1];
+
+    UIView *hide = [[UIView alloc] initWithFrame:self.view.bounds];
+    hide.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    [self.view addSubview:hide];
+
+    [self.view bringSubviewToFront:self.pickerView];
+
+    self.pickerView.hidden = NO;
+    [self.sectionDictionary setValue:new forKey:self.daysArray[indexPath.section]];
+    [self.tableView reloadData];
+  }
+}
+
+#pragma mark - Picker View 
+
+- (void)addPickerView {
+  self.pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 350, 320, 250)];
+  self.pickerView.backgroundColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:0.8];
+  self.pickerView.delegate = self;
+  self.pickerView.dataSource = self;
+  self.pickerView.hidden = YES;
+
+  [self.view addSubview:self.pickerView];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
+  return 4;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)thePickerView numberOfRowsInComponent:(NSInteger)component {
+  switch (component) {
+    case 0: return 1;
+    case 1: return 4;
+    case 2: return 1;
+    case 3: return 4;
+    default: return -1;
+  }
+}
+
+- (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+  return [NSString stringWithFormat:@"Choice-%d",row];
 }
 
 - (void)didReceiveMemoryWarning {
