@@ -84,8 +84,10 @@
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
   if ([cell.textLabel.text isEqualToString:@"Add Subject"]) {
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+
     AddSubjectViewController *addVC = [[AddSubjectViewController alloc] init];
     addVC.managedObjectContext = self.managedObjectContext;
+
     [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:addVC
                                                                                                             animated:YES];
   }

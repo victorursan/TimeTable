@@ -15,19 +15,14 @@
 
 @property (nonatomic, retain) NSString * dayName;
 @property (nonatomic, retain) Subject *subjects;
-@property (nonatomic, retain) NSOrderedSet *timeInterval;
+@property (nonatomic, retain) NSSet *timeInterval;
 @end
 
 @interface Day (CoreDataGeneratedAccessors)
 
-- (void)insertObject:(TimeInterval *)value inTimeIntervalAtIndex:(NSUInteger)idx;
-- (void)removeObjectFromTimeIntervalAtIndex:(NSUInteger)idx;
-- (void)insertTimeInterval:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
-- (void)removeTimeIntervalAtIndexes:(NSIndexSet *)indexes;
-- (void)replaceObjectInTimeIntervalAtIndex:(NSUInteger)idx withObject:(TimeInterval *)value;
-- (void)replaceTimeIntervalAtIndexes:(NSIndexSet *)indexes withTimeInterval:(NSArray *)values;
 - (void)addTimeIntervalObject:(TimeInterval *)value;
 - (void)removeTimeIntervalObject:(TimeInterval *)value;
-- (void)addTimeInterval:(NSOrderedSet *)values;
-- (void)removeTimeInterval:(NSOrderedSet *)values;
+- (void)addTimeInterval:(NSSet *)values;
+- (void)removeTimeInterval:(NSSet *)values;
+
 @end

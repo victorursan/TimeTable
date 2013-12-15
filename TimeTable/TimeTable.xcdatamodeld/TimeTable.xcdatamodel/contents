@@ -3,11 +3,11 @@
     <entity name="Day" representedClassName="Day" syncable="YES">
         <attribute name="dayName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="subjects" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Subject" inverseName="days" inverseEntity="Subject" syncable="YES"/>
-        <relationship name="timeInterval" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TimeInterval" inverseName="day" inverseEntity="TimeInterval" syncable="YES"/>
+        <relationship name="timeInterval" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TimeInterval" inverseName="day" inverseEntity="TimeInterval" syncable="YES"/>
     </entity>
     <entity name="Subject" representedClassName="Subject" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="days" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Day" inverseName="subjects" inverseEntity="Day" syncable="YES"/>
+        <relationship name="days" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Day" inverseName="subjects" inverseEntity="Day" syncable="YES"/>
     </entity>
     <entity name="TimeInterval" representedClassName="TimeInterval" syncable="YES">
         <attribute name="from" optional="YES" attributeType="Date" syncable="YES"/>

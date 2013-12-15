@@ -9,11 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Day;
 
 @interface TimeInterval : NSManagedObject
 
 @property (nonatomic, retain) NSDate * from;
 @property (nonatomic, retain) NSDate * to;
-@property (nonatomic, retain) NSManagedObject *day;
+@property (nonatomic, retain) Day *day;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "Subject.h"
+#import "Day.h"
 
 
 @implementation Subject

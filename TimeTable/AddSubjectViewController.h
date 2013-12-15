@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface AddSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 
 @property(strong, nonatomic) UITableView *tableView;
-@property(strong, nonatomic) UIPickerView *pickerView;
+@property(strong, nonatomic) UIDatePicker *datePicker;
 
 @end

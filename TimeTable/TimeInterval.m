@@ -7,6 +7,7 @@
 //
 
 #import "TimeInterval.h"
+#import "Day.h"
 
 
 @implementation TimeInterval
