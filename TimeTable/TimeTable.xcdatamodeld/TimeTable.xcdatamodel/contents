@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Day" representedClassName="Day" syncable="YES">
+        <attribute name="dayName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="subjects" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Subject" inverseName="days" inverseEntity="Subject" syncable="YES"/>
+        <relationship name="timeInterval" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TimeInterval" inverseName="day" inverseEntity="TimeInterval" syncable="YES"/>
+    </entity>
+    <entity name="Subject" representedClassName="Subject" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="days" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Day" inverseName="subjects" inverseEntity="Day" syncable="YES"/>
+    </entity>
+    <entity name="TimeInterval" representedClassName="TimeInterval" syncable="YES">
+        <attribute name="from" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="to" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="day" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="timeInterval" inverseEntity="Day" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Subject" positionX="-6795" positionY="-1782" width="191" height="73"/>
+        <element name="Day" positionX="-6509" positionY="-1782" width="128" height="88"/>
+        <element name="TimeInterval" positionX="-6266" positionY="-1782" width="128" height="88"/>
+    </elements>
 </model>

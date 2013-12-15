@@ -28,6 +28,9 @@
 		574AA06A1856599C00865E1E /* PresentSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA0691856599C00865E1E /* PresentSubjectViewController.m */; };
 		574AA06D185CECC600865E1E /* AddSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA06C185CECC600865E1E /* AddSubjectViewController.m */; };
 		574AA070185D0C7300865E1E /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA06F185D0C7300865E1E /* CustomCell.m */; };
+		574AA073185DEC6C00865E1E /* TimeInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA072185DEC6C00865E1E /* TimeInterval.m */; };
+		574AA076185DEC6D00865E1E /* Subject.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA075185DEC6D00865E1E /* Subject.m */; };
+		574AA079185DEC6E00865E1E /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA078185DEC6D00865E1E /* Day.m */; };
 		C18E94FF86C249A0B4B0DA9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 951E3A996CE742D69323E3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +76,12 @@
 		574AA06C185CECC600865E1E /* AddSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSubjectViewController.m; sourceTree = "<group>"; };
 		574AA06E185D0C7300865E1E /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		574AA06F185D0C7300865E1E /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
+		574AA071185DEC6C00865E1E /* TimeInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeInterval.h; sourceTree = "<group>"; };
+		574AA072185DEC6C00865E1E /* TimeInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeInterval.m; sourceTree = "<group>"; };
+		574AA074185DEC6D00865E1E /* Subject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Subject.h; sourceTree = "<group>"; };
+		574AA075185DEC6D00865E1E /* Subject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Subject.m; sourceTree = "<group>"; };
+		574AA077185DEC6D00865E1E /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Day.h; sourceTree = "<group>"; };
+		574AA078185DEC6D00865E1E /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Day.m; sourceTree = "<group>"; };
 		951E3A996CE742D69323E3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -155,6 +164,12 @@
 				574AA06F185D0C7300865E1E /* CustomCell.m */,
 				5741F374182E61C4005AF6E1 /* Images.xcassets */,
 				5741F371182E61C4005AF6E1 /* TimeTable.xcdatamodeld */,
+				574AA077185DEC6D00865E1E /* Day.h */,
+				574AA078185DEC6D00865E1E /* Day.m */,
+				574AA074185DEC6D00865E1E /* Subject.h */,
+				574AA075185DEC6D00865E1E /* Subject.m */,
+				574AA071185DEC6C00865E1E /* TimeInterval.h */,
+				574AA072185DEC6C00865E1E /* TimeInterval.m */,
 				5741F366182E61C4005AF6E1 /* Supporting Files */,
 			);
 			path = TimeTable;
@@ -324,10 +339,13 @@
 				5706374B182FF73B002B9D09 /* CustomNavigationController.m in Sources */,
 				5741F370182E61C4005AF6E1 /* AppDelegate.m in Sources */,
 				5741F36C182E61C4005AF6E1 /* main.m in Sources */,
+				574AA076185DEC6D00865E1E /* Subject.m in Sources */,
+				574AA079185DEC6E00865E1E /* Day.m in Sources */,
 				574AA06D185CECC600865E1E /* AddSubjectViewController.m in Sources */,
 				5741F394182E6642005AF6E1 /* MainViewController.m in Sources */,
 				574AA06718564DBF00865E1E /* RightViewController.m in Sources */,
 				574AA070185D0C7300865E1E /* CustomCell.m in Sources */,
+				574AA073185DEC6C00865E1E /* TimeInterval.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
