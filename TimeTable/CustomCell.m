@@ -14,15 +14,17 @@
   self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
   if (self) {
     self.position = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 30, 22)];
+    self.position.textColor = [UIColor darkGrayColor];
     //self.position.backgroundColor = [UIColor redColor];
     [self addSubview:self.position];
 
     self.positionDescription = [[UILabel alloc] initWithFrame:CGRectMake(5, 22, 60, 20)];
     self.positionDescription.font = [UIFont fontWithName:@"Arial" size:11];
+    self.positionDescription.textColor = [UIColor lightGrayColor];
     //self.positionDescription.backgroundColor = [UIColor lightGrayColor];
     [self addSubview:self.positionDescription];
 
-    self.title = [[UILabel alloc] initWithFrame:CGRectMake(65, 0, 260, 25)];
+    self.title = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 260, 25)];
     //self.title.backgroundColor = [UIColor yellowColor];
     [self addSubview:self.title];
 

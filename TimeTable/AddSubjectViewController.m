@@ -18,6 +18,7 @@
 @property(strong, nonatomic) NSArray *daysArray;
 @property(strong, nonatomic) UIView *hide;
 @property(strong, nonatomic) UIButton *done;
+@property(strong, nonatomic) UIButton *cancel;
 @property(strong, nonatomic) NSIndexPath *temp;
 @property(strong, nonatomic) NSDateFormatter *timeFormat;
 
@@ -54,13 +55,19 @@
   self.done.hidden = YES;
   [self.view addSubview:self.done];
 
+  self.cancel = [[UIButton alloc] initWithFrame:CGRectMake(0, 350, 50, 30)];
+  [self.cancel setTitle:@"Cancel" forState:UIControlStateNormal];
+  [self.cancel setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+  [self.cancel sizeToFit];
+  [self.cancel addTarget:self action:@selector(cancelButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+  self.cancel.hidden = YES;
+  [self.view addSubview:self.cancel];
+
+
   self.view.backgroundColor = [UIColor whiteColor];
   self.hide = [[UIView alloc] initWithFrame:self.view.bounds];
   self.hide.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                         target:self
-                                                                                         action:@selector(addSubject)];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(addSubject)];
 
   UILabel *subjectLable = [[UILabel alloc] initWithFrame:CGRectMake(25, 105, 50, 25)];
   subjectLable.text = @"Subject :";
@@ -81,54 +88,79 @@
 }
 
 - (void)subjectEditingEnded {
- // NSLog(@"editing: %@", self.subjectField.text);
+  // NSLog(@"editing: %@", self.subjectField.text);
 }
 
 - (void)addSubject {
 
-  NSError *error;
-  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
-  [fetchRequest setEntity:entity];
+  if ([self.subjectField.text isEqualToString:@""]) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                    message:@"Subject field is empty"
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+  } else if([self isTableViewEmpty]){
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                    message:@"Table view is empty"
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
 
-  Subject *newSubject = [NSEntityDescription insertNewObjectForEntityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
-  newSubject.name = self.subjectField.text;
+  } else {
 
-  if (![self.managedObjectContext save:&error]) {
-    NSLog(@"Problem saving: %@", [error localizedDescription]);
-  }
+    NSError *error;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
 
-  for (int i=0 ; i<7; i++) {
-    if ([self.sectionDictionary[self.daysArray[i]] count]!=0) {
-      Day *newDay = [NSEntityDescription insertNewObjectForEntityForName:@"Day" inManagedObjectContext:self.managedObjectContext];
-      newDay.dayName = self.daysArray[i];
+    Subject *newSubject = [NSEntityDescription insertNewObjectForEntityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
+    newSubject.name = self.subjectField.text;
 
-      if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Problem saving: %@", [error localizedDescription]);
-      }
+    if (![self.managedObjectContext save:&error]) {
+      NSLog(@"Problem saving: %@", [error localizedDescription]);
+    }
 
-      for (int j=0; j<[self.sectionDictionary[self.daysArray[i]] count]; j++) {
-        NSDate *from = [self.sectionDictionary valueForKey:self.daysArray[i]][j];
-        NSDate *to = [from dateByAddingTimeInterval:60*60];
-        TimeInterval *newTimeInterval = [NSEntityDescription insertNewObjectForEntityForName:@"TimeInterval"
-                                                                      inManagedObjectContext:self.managedObjectContext];
-        newTimeInterval.from =from;
-        newTimeInterval.to = to;
+    for (int i=0 ; i<7; i++) {
+      if ([self.sectionDictionary[self.daysArray[i]] count]!=0) {
+        Day *newDay = [NSEntityDescription insertNewObjectForEntityForName:@"Day" inManagedObjectContext:self.managedObjectContext];
+        newDay.dayName = self.daysArray[i];
+
         if (![self.managedObjectContext save:&error]) {
           NSLog(@"Problem saving: %@", [error localizedDescription]);
         }
-        [newDay addTimeIntervalObject:newTimeInterval];
+
+        for (int j=0; j<[self.sectionDictionary[self.daysArray[i]] count]; j++) {
+          NSDate *from = [self.sectionDictionary valueForKey:self.daysArray[i]][j];
+          NSDate *to = [from dateByAddingTimeInterval:60*60];
+          TimeInterval *newTimeInterval = [NSEntityDescription insertNewObjectForEntityForName:@"TimeInterval"
+                                                                        inManagedObjectContext:self.managedObjectContext];
+          newTimeInterval.from =from;
+          newTimeInterval.to = to;
+          if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Problem saving: %@", [error localizedDescription]);
+          }
+          [newDay addTimeIntervalObject:newTimeInterval];
+          if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Problem saving: %@", [error localizedDescription]);
+          }
+        }
+        [newSubject addDaysObject:newDay];
         if (![self.managedObjectContext save:&error]) {
           NSLog(@"Problem saving: %@", [error localizedDescription]);
         }
-      }
-      [newSubject addDaysObject:newDay];
-      if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Problem saving: %@", [error localizedDescription]);
       }
     }
+    [self.navigationController popToRootViewControllerAnimated:YES];
   }
-  [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (BOOL)isTableViewEmpty {
+  BOOL permission=YES;
+  for (int i =0; i<7; i++)
+    if ([self.sectionDictionary[self.daysArray[i]] count] != 0) permission = NO;
+  return permission;
 }
 
 #pragma mark - Table view
@@ -186,8 +218,10 @@
     [self.view addSubview:self.hide];
     [self.view bringSubviewToFront:self.datePicker];
     [self.view bringSubviewToFront:self.done];
+    [self.view bringSubviewToFront:self.cancel];
     self.datePicker.hidden = NO;
     self.done.hidden = NO;
+    self.cancel.hidden = NO;
     self.temp = indexPath;
   }
 }
@@ -211,6 +245,15 @@
   [self.sectionDictionary setValue:new forKey:self.daysArray[self.temp.section]];
   self.datePicker.hidden = YES;
   self.done.hidden = YES;
+  self.cancel.hidden = YES;
+  [self.tableView reloadData];
+}
+
+- (void)cancelButtonPressed {
+  [self.hide removeFromSuperview];
+  self.datePicker.hidden = YES;
+  self.done.hidden = YES;
+  self.cancel.hidden = YES;
   [self.tableView reloadData];
 }
 
