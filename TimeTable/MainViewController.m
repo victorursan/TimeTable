@@ -40,11 +40,9 @@
   NSArray *days = @[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
   [self.navigationController setValue:days forKey:@"elements"];
-
   self.subjectsForCurrentView = [[NSArray alloc] init];
   self.timeFormat = [[NSDateFormatter alloc] init];
   [self.timeFormat setDateFormat:@"HH:00"];
-
   [self addTableView];
 }
 
@@ -151,26 +149,38 @@
   cell.positionDescription.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:timeInterval.from],[self.timeFormat stringFromDate:timeInterval.to]];
   return cell;
 }
-//here
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
   return YES;
 }
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (self.editing) {
-    NSLog(@"delete");
-    return UITableViewCellEditingStyleDelete;
-  }
-  return UITableViewCellEditingStyleNone;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    NSLog(@"delete");
+    
+    NSError *error;
+
+    TimeInterval *timeInterval = self.subjectsForCurrentView[indexPath.row];
+    Day *day = timeInterval.day;
+    [day.managedObjectContext deleteObject:timeInterval];
+    self.subjectsForCurrentView = [self arrayForTitle];
+    [self.tableView reloadData];
+    if (![self.managedObjectContext save:&error]) {
+      NSLog(@"Problem saving: %@", [error localizedDescription]);
+    }
+    Subject *subject = day.subjects;
+    if (day.timeInterval.count==0) {
+      [subject.managedObjectContext deleteObject:day];
+    }
+    if (![self.managedObjectContext save:&error]) {
+      NSLog(@"Problem saving: %@", [error localizedDescription]);
+    }
+    if (subject.days.count==0) {
+      [self.managedObjectContext deleteObject:subject];
+    }
+    if (![self.managedObjectContext save:&error]) {
+      NSLog(@"Problem saving: %@", [error localizedDescription]);
+    }
   }
 }
-//here
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   return 45;

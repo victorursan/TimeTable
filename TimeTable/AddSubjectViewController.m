@@ -233,6 +233,7 @@
   self.datePicker.hidden = YES;
   self.datePicker.backgroundColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:0.8];
   self.datePicker.datePickerMode = UIDatePickerModeTime;
+  self.datePicker.minuteInterval = 30;
   [self.view addSubview:self.datePicker];
 }
 

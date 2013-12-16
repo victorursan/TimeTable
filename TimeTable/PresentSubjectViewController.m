@@ -20,6 +20,7 @@
 @property(strong, nonatomic) NSArray *timeInterval;
 @property(strong, nonatomic) NSDictionary *dayDictionary;
 @property(strong, nonatomic) NSDateFormatter *timeFormat;
+@property(strong, nonatomic) NSArray *days;
 
 @end
 
@@ -36,6 +37,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.view.backgroundColor = [UIColor whiteColor];
+
+   self.days = @[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
 
   UILabel *subjectLable = [[UILabel alloc] initWithFrame:CGRectMake(25, 105, 75, 25)];
   subjectLable.text = @"Subject :";
@@ -102,15 +105,15 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return self.presentedDays.count;
+  return 7;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  return self.presentedDays[section];
+  return self.days[section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[self.dayDictionary valueForKey:self.presentedDays[section]] count];
+  return [[self.dayDictionary valueForKey:self.days[section]] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -120,7 +123,7 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  TimeInterval *temp = [self.dayDictionary valueForKey:self.presentedDays[indexPath.section]][indexPath.row];
+  TimeInterval *temp = [self.dayDictionary valueForKey:self.days[indexPath.section]][indexPath.row];
   cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
   return cell;
 }
