@@ -13,20 +13,21 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
   self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
   if (self) {
-    self.position = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 30, 30)];
+    self.position = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 30, 22)];
     //self.position.backgroundColor = [UIColor redColor];
     [self addSubview:self.position];
 
-    self.positionDescription = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 40, 20)];
-    self.positionDescription.backgroundColor = [UIColor lightGrayColor];
+    self.positionDescription = [[UILabel alloc] initWithFrame:CGRectMake(5, 22, 60, 20)];
+    self.positionDescription.font = [UIFont fontWithName:@"Arial" size:11];
+    //self.positionDescription.backgroundColor = [UIColor lightGrayColor];
     [self addSubview:self.positionDescription];
 
-    self.title = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 280, 30)];
+    self.title = [[UILabel alloc] initWithFrame:CGRectMake(65, 0, 260, 25)];
     //self.title.backgroundColor = [UIColor yellowColor];
     [self addSubview:self.title];
 
-    self.titleDescription = [[UILabel alloc] initWithFrame:CGRectMake(40, 30, 280, 20)];
-    self.titleDescription.backgroundColor = [UIColor darkGrayColor];
+    self.titleDescription = [[UILabel alloc] initWithFrame:CGRectMake(60, 30, 280, 20)];
+    //self.titleDescription.backgroundColor = [UIColor darkGrayColor];
     [self addSubview:self.titleDescription];
   }
   return self;

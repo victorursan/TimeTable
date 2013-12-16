@@ -9,6 +9,9 @@
 #import "RightViewController.h"
 #import "UIViewController+MMDrawerController.h"
 #import "AddSubjectViewController.h"
+#import "Subject.h"
+#import "Day.h"
+#import "TimeInterval.h"
 
 @interface RightViewController ()
 
@@ -34,6 +37,10 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+  self.subjects = [self allSubjects];
+  NSArray *sortedArray = [self.subjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+  self.subjects = sortedArray;
+  [self.tableView reloadData];
   [self.mm_drawerController.centerViewController setValue:@"OFF" forKey:@"buttonStatus"];
 }
 
@@ -43,7 +50,16 @@
 }
 
 - (NSArray *)allSubjects {
-  return @[@"one",@"two",@"three",@"four",@"five",@"six",@"seven"];
+  NSMutableArray *toSort = [[NSMutableArray alloc] init];
+  NSError *error;
+  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
+  [fetchRequest setEntity:entity];
+  NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+  for (Subject *subject in fetchedObjects){
+    [toSort addObject:subject.name];
+  }
+  return toSort;
 }
 
 #pragma mark - Table view
@@ -58,7 +74,7 @@
   self.tableView.dataSource = self;
   self.tableView.allowsSelection = YES;
   [self.view addSubview:self.tableView];
-  
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

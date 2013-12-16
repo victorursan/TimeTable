@@ -12,12 +12,16 @@
 #import "CustomCell.h"
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
+#import "Subject.h"
+#import "Day.h"
+#import "TimeInterval.h"
 
 
 @interface MainViewController ()
 
 @property(strong, nonatomic) NSString *currentTitle;
 @property(strong, nonatomic) NSArray *subjectsForCurrentView;
+@property(strong, nonatomic) NSDateFormatter *timeFormat;
 
 @end
 
@@ -36,6 +40,11 @@
   NSArray *days = @[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
   [self.navigationController setValue:days forKey:@"elements"];
+
+  self.subjectsForCurrentView = [[NSArray alloc] init];
+  self.timeFormat = [[NSDateFormatter alloc] init];
+  [self.timeFormat setDateFormat:@"HH:00"];
+
   [self addTableView];
 }
 
@@ -46,9 +55,47 @@
 }
 
 - (NSArray *)arrayForTitle {
-  NSString *test = [NSString stringWithFormat:@"%@ Subject",self.currentTitle];
-  return @[test,test,test,test,test,test];
+
+  NSMutableArray *toSort = [[NSMutableArray alloc] init];
+
+  NSError *error;
+  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
+  [fetchRequest setEntity:entity];
+
+  NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+  for (Subject *subject in fetchedObjects){
+    for (Day *day in subject.days){
+      if ([day.dayName isEqualToString:self.currentTitle]) {
+        for (TimeInterval *timeInterval in day.timeInterval){
+          [toSort addObject:timeInterval];
+        }
+      }
+    }
+  }
+  if (toSort.count != 0) {
+    return [self sortSubjects:toSort];
+  } else {
+    return @[];
+  }
 }
+
+- (NSArray *)sortSubjects:(NSMutableArray *)toSort {
+  for (int i=0; i<toSort.count-1; i++) {
+    for (int j=i+1; j<toSort.count; j++) {
+      NSString *from1 = [self.timeFormat stringFromDate:[toSort[i] from]];
+      NSString *from2 = [self.timeFormat stringFromDate:[toSort[j] from]];
+      if (from1.intValue>from2.intValue) {
+        id aux = toSort[i];
+        toSort[i]=toSort[j];
+        toSort[j]=aux;
+      }
+    }
+  }
+  NSArray *sorted = [[NSArray alloc] initWithArray:toSort];
+  return sorted;
+}
+
 
 - (NSString *)currentWeekDay {
   NSDate *today = [NSDate date];
@@ -83,7 +130,7 @@
   self.tableView.dataSource = self;
   self.tableView.allowsSelection = YES;
   [self.view addSubview:self.tableView];
-  
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -97,19 +144,43 @@
     cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  cell.title.text= self.subjectsForCurrentView[indexPath.row];
+  TimeInterval *timeInterval = self.subjectsForCurrentView[indexPath.row];
+  cell.title.text= [timeInterval.day.subjects name];
   cell.position.text = [NSString stringWithFormat:@" #%d",indexPath.row+1];
+  cell.positionDescription.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:timeInterval.from],[self.timeFormat stringFromDate:timeInterval.to]];
   return cell;
 }
+//here
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+  return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (self.editing) {
+    NSLog(@"delete");
+    return UITableViewCellEditingStyleDelete;
+  }
+  return UITableViewCellEditingStyleNone;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    NSLog(@"delete");
+  }
+}
+//here
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 50;
+  return 45;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   PresentSubjectViewController *subjectView = [[PresentSubjectViewController alloc] init];
+  subjectView.managedObjectContext = self.managedObjectContext;
   [self.navigationController pushViewController:subjectView animated:YES];
-  [subjectView setTitle:self.subjectsForCurrentView[indexPath.row]];
+  TimeInterval *timeInterval = self.subjectsForCurrentView[indexPath.row];
+  [subjectView setTitle:[timeInterval.day.subjects name]];
 }
 
 - (void)didReceiveMemoryWarning {

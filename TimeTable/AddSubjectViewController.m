@@ -81,7 +81,7 @@
 }
 
 - (void)subjectEditingEnded {
-  NSLog(@"editing: %@", self.subjectField.text);
+ // NSLog(@"editing: %@", self.subjectField.text);
 }
 
 - (void)addSubject {
@@ -126,9 +126,9 @@
       if (![self.managedObjectContext save:&error]) {
         NSLog(@"Problem saving: %@", [error localizedDescription]);
       }
-      NSLog(@"%d",[self.sectionDictionary[self.daysArray[i]] count]);
     }
   }
+  [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view
@@ -181,8 +181,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [self.subjectField resignFirstResponder];
   if ([[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count] == indexPath.row) {
-
     [self.view addSubview:self.hide];
     [self.view bringSubviewToFront:self.datePicker];
     [self.view bringSubviewToFront:self.done];
