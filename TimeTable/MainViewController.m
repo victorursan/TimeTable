@@ -52,6 +52,7 @@
   [self.tableView reloadData];
 }
 
+
 - (NSArray *)arrayForTitle {
 
   NSMutableArray *toSort = [[NSMutableArray alloc] init];
@@ -111,7 +112,11 @@
   if ([key isEqualToString:@"resetTableView"]) {
     self.title = value;
     [self.tableView reloadData];
+  } else if ([key isEqualToString:@"reloadData"]) {
+    self.title = self.currentTitle;
+    [self.tableView reloadData];
   }
+
 }
 
 - (void)setTitle:(NSString *)title {

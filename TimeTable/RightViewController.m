@@ -108,12 +108,13 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-  // Return YES if you want the specified item to be editable.
-  return YES;
+  if (indexPath.row != self.subjects.count)
+    return YES;
+  return NO;
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    NSLog(@"press");
+//    NSLog(@"press");
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
@@ -121,59 +122,35 @@
     NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     for (Subject *subject in fetchedObjects) {
       if ([subject.name isEqualToString:self.subjects[indexPath.row]]) {
-        for (Day *day in subject.days) {
+        Subject *thisSub = subject;
+        for (Day *day in thisSub.days) {
+//          NSLog(@"%@",day.dayName);
           for (TimeInterval *timeInt in day.timeInterval){
             [day.managedObjectContext deleteObject:timeInt];
-            if (![self.managedObjectContext save:&error]) {
-              NSLog(@"Problem saving: %@", [error localizedDescription]);
-            }
+//              if (![self.managedObjectContext save:&error]) {
+//                NSLog(@"Problem saving: %@", [error localizedDescription]);
+//            }
           }
           [subject.managedObjectContext deleteObject:day];
-          if (![self.managedObjectContext save:&error]) {
-            NSLog(@"Problem saving: %@", [error localizedDescription]);
-          }
+//          if (![self.managedObjectContext save:&error]) {
+//            NSLog(@"Problem saving: %@", [error localizedDescription]);
+//          }
         }
-        [self.managedObjectContext deleteObject:subject];
+        [self.managedObjectContext deleteObject:thisSub];
         if (![self.managedObjectContext save:&error]) {
           NSLog(@"Problem saving: %@", [error localizedDescription]);
         }
       }
     }
   }
+
+  [self.mm_drawerController.centerViewController.childViewControllers[0] setValue:@"YES" forKey:@"reloadData"];
+
   self.subjects = [self allSubjects];
   NSArray *sortedArray = [self.subjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
   self.subjects = sortedArray;
   [self.tableView reloadData];
-
-
-
-  /*NSError *error;
-
-   TimeInterval *timeInterval = self.subjectsForCurrentView[indexPath.row];
-   Day *day = timeInterval.day;
-   [day.managedObjectContext deleteObject:timeInterval];
-   self.subjectsForCurrentView = [self arrayForTitle];
-   [self.tableView reloadData];
-   if (![self.managedObjectContext save:&error]) {
-   NSLog(@"Problem saving: %@", [error localizedDescription]);
-   }
-   Subject *subject = day.subjects;
-   if (day.timeInterval.count==0) {
-   [subject.managedObjectContext deleteObject:day];
-   }
-   if (![self.managedObjectContext save:&error]) {
-   NSLog(@"Problem saving: %@", [error localizedDescription]);
-   }
-   if (subject.days.count==0) {
-   [self.managedObjectContext deleteObject:subject];
-   }
-   if (![self.managedObjectContext save:&error]) {
-   NSLog(@"Problem saving: %@", [error localizedDescription]);
-   }
-   */
 }
-
-
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];

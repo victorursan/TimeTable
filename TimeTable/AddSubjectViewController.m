@@ -226,6 +226,19 @@
   }
 }
 
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+//  if([[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count] != indexPath.row){
+//    return YES;
+//  } else {
+//    return NO;
+//  }
+//}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//  if (editingStyle == UITableViewCellEditingStyleDelete) {
+//    [self.sectionDictionary removeo]
+//  }
+//}
+
 #pragma mark - DatePicker
 
 - (void)addDatePicker {
