@@ -37,11 +37,9 @@
                                                                       inManagedObjectContext:self.context];
         newTimeInterval.from =from;
         newTimeInterval.to = to;
-        
         [newDay addTimeIntervalObject:newTimeInterval];
-        if (![newDay.managedObjectContext save:&error]) {
+        if (![newDay.managedObjectContext save:&error])
           NSLog(@"Problem saving: %@", [error localizedDescription]);
-        }
       }
       [days addObject:newDay];
     }

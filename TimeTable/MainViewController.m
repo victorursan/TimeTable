@@ -16,6 +16,7 @@
 #import "Day.h"
 #import "TimeInterval.h"
 #import "config.h"
+#import "SubjectStore.h"
 
 
 @interface MainViewController ()
@@ -23,6 +24,7 @@
 @property(strong, nonatomic) NSString *currentTitle;
 @property(strong, nonatomic) NSArray *subjectsForCurrentView;
 @property(strong, nonatomic) NSDateFormatter *timeFormat;
+@property (nonatomic, retain) SubjectStore *subjectsStore;
 
 @end
 
@@ -37,6 +39,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.subjectsStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
   self.title = [self currentWeekDay];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
   [self.navigationController setValue:WEEKDAYS forKey:@"elements"];
@@ -52,49 +55,9 @@
   [self.tableView reloadData];
 }
 
-
 - (NSArray *)arrayForTitle {
-
-  NSMutableArray *toSort = [[NSMutableArray alloc] init];
-
-  NSError *error;
-  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
-  [fetchRequest setEntity:entity];
-
-  NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-  for (Subject *subject in fetchedObjects){
-    for (Day *day in subject.days){
-      if ([day.dayName isEqualToString:self.currentTitle]) {
-        for (TimeInterval *timeInterval in day.timeInterval){
-          [toSort addObject:timeInterval];
-        }
-      }
-    }
-  }
-  if (toSort.count != 0) {
-    return [self sortSubjects:toSort];
-  } else {
-    return @[];
-  }
+  return [self.subjectsStore subjectsForDay:self.currentTitle];
 }
-
-- (NSArray *)sortSubjects:(NSMutableArray *)toSort {
-  for (int i=0; i<toSort.count-1; i++) {
-    for (int j=i+1; j<toSort.count; j++) {
-      NSString *from1 = [self.timeFormat stringFromDate:[toSort[i] from]];
-      NSString *from2 = [self.timeFormat stringFromDate:[toSort[j] from]];
-      if (from1.intValue>from2.intValue) {
-        id aux = toSort[i];
-        toSort[i]=toSort[j];
-        toSort[j]=aux;
-      }
-    }
-  }
-  NSArray *sorted = [[NSArray alloc] initWithArray:toSort];
-  return sorted;
-}
-
 
 - (NSString *)currentWeekDay {
   NSDate *today = [NSDate date];
@@ -158,32 +121,12 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
   return YES;
 }
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    
-    NSError *error;
-
-    TimeInterval *timeInterval = self.subjectsForCurrentView[indexPath.row];
-    Day *day = timeInterval.day;
-    [day.managedObjectContext deleteObject:timeInterval];
+    [self.subjectsStore deleteTimeInterval:self.subjectsForCurrentView[indexPath.row]];
     self.subjectsForCurrentView = [self arrayForTitle];
     [self.tableView reloadData];
-    if (![self.managedObjectContext save:&error]) {
-      NSLog(@"Problem saving: %@", [error localizedDescription]);
-    }
-    Subject *subject = day.subjects;
-    if (day.timeInterval.count==0) {
-      [subject.managedObjectContext deleteObject:day];
-    }
-    if (![self.managedObjectContext save:&error]) {
-      NSLog(@"Problem saving: %@", [error localizedDescription]);
-    }
-    if (subject.days.count==0) {
-      [self.managedObjectContext deleteObject:subject];
-    }
-    if (![self.managedObjectContext save:&error]) {
-      NSLog(@"Problem saving: %@", [error localizedDescription]);
-    }
   }
 }
 

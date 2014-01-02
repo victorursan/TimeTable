@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TimeInterval.h"
 
 @interface SubjectStore : NSObject
 
@@ -17,5 +18,7 @@
 - (void)addSubjectWithName:(NSString *)name onDays:(NSSet *)days;
 - (NSArray *)subjectsTitles;
 - (void)deleteSubjectWithName:(NSString *)name;
+- (NSArray *)subjectsForDay:(NSString *)day;
+- (void)deleteTimeInterval:(TimeInterval *)timeInterval;
 
 @end
