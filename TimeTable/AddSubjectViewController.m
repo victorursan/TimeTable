@@ -92,7 +92,6 @@
 }
 
 - (void)addSubject {
-
   if ([self.subjectField.text isEqualToString:@""]) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
                                                     message:@"Subject field is empty"
@@ -107,7 +106,6 @@
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
     [alert show];
-
   } else {
 
     NSError *error;
@@ -142,12 +140,12 @@
             NSLog(@"Problem saving: %@", [error localizedDescription]);
           }
           [newDay addTimeIntervalObject:newTimeInterval];
-          if (![self.managedObjectContext save:&error]) {
+          if (![newDay.managedObjectContext save:&error]) {
             NSLog(@"Problem saving: %@", [error localizedDescription]);
           }
         }
         [newSubject addDaysObject:newDay];
-        if (![self.managedObjectContext save:&error]) {
+        if (![newSubject.managedObjectContext save:&error]) {
           NSLog(@"Problem saving: %@", [error localizedDescription]);
         }
       }

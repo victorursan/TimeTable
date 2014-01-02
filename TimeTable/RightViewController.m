@@ -114,7 +114,7 @@
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-//    NSLog(@"press");
+    Subject *subjectToDelete;
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
@@ -122,34 +122,27 @@
     NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     for (Subject *subject in fetchedObjects) {
       if ([subject.name isEqualToString:self.subjects[indexPath.row]]) {
-        Subject *thisSub = subject;
-        for (Day *day in thisSub.days) {
-//          NSLog(@"%@",day.dayName);
-          for (TimeInterval *timeInt in day.timeInterval){
-            [day.managedObjectContext deleteObject:timeInt];
-//              if (![self.managedObjectContext save:&error]) {
-//                NSLog(@"Problem saving: %@", [error localizedDescription]);
-//            }
-          }
-          [subject.managedObjectContext deleteObject:day];
-//          if (![self.managedObjectContext save:&error]) {
-//            NSLog(@"Problem saving: %@", [error localizedDescription]);
-//          }
-        }
-        [self.managedObjectContext deleteObject:thisSub];
-        if (![self.managedObjectContext save:&error]) {
-          NSLog(@"Problem saving: %@", [error localizedDescription]);
-        }
+        subjectToDelete = subject;
       }
     }
+    for (Day *day in subjectToDelete.days) {
+      for (TimeInterval *timeInt in day.timeInterval){
+        [day.managedObjectContext deleteObject:timeInt];
+      }
+      [subjectToDelete.managedObjectContext deleteObject:day];
+    }
+    [self.managedObjectContext deleteObject:subjectToDelete];
+
+    if (![self.managedObjectContext save:&error]) {
+      NSLog(@"Problem saving: %@", [error localizedDescription]);
+    }
+
+    [self.mm_drawerController.centerViewController.childViewControllers[0] setValue:@"YES" forKey:@"reloadData"];
+    self.subjects = [self allSubjects];
+    NSArray *sortedArray = [self.subjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    self.subjects = sortedArray;
+    [self.tableView reloadData];
   }
-
-  [self.mm_drawerController.centerViewController.childViewControllers[0] setValue:@"YES" forKey:@"reloadData"];
-
-  self.subjects = [self allSubjects];
-  NSArray *sortedArray = [self.subjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-  self.subjects = sortedArray;
-  [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
