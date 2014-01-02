@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5706374B182FF73B002B9D09 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5706374A182FF73B002B9D09 /* CustomNavigationController.m */; };
+		573BE2F2187581D000F042A4 /* SubjectStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 573BE2F1187581D000F042A4 /* SubjectStore.m */; };
+		573BE2F3187581D000F042A4 /* SubjectStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 573BE2F1187581D000F042A4 /* SubjectStore.m */; };
 		5741F35E182E61C4005AF6E1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5741F35D182E61C4005AF6E1 /* Foundation.framework */; };
 		5741F360182E61C4005AF6E1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5741F35F182E61C4005AF6E1 /* CoreGraphics.framework */; };
 		5741F362182E61C4005AF6E1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5741F361182E61C4005AF6E1 /* UIKit.framework */; };
@@ -49,6 +51,8 @@
 		57063749182FF73B002B9D09 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
 		5706374A182FF73B002B9D09 /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		573BE2EF18757D5F00F042A4 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		573BE2F0187581D000F042A4 /* SubjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectStore.h; sourceTree = "<group>"; };
+		573BE2F1187581D000F042A4 /* SubjectStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectStore.m; sourceTree = "<group>"; };
 		5741F35A182E61C4005AF6E1 /* TimeTable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeTable.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5741F35D182E61C4005AF6E1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5741F35F182E61C4005AF6E1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -123,6 +127,8 @@
 				574AA081185E4D1F00865E1E /* Day.m */,
 				574AA07A185E4D1F00865E1E /* TimeInterval.h */,
 				574AA07B185E4D1F00865E1E /* TimeInterval.m */,
+				573BE2F0187581D000F042A4 /* SubjectStore.h */,
+				573BE2F1187581D000F042A4 /* SubjectStore.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -350,6 +356,7 @@
 				5741F370182E61C4005AF6E1 /* AppDelegate.m in Sources */,
 				5741F36C182E61C4005AF6E1 /* main.m in Sources */,
 				574AA06D185CECC600865E1E /* AddSubjectViewController.m in Sources */,
+				573BE2F2187581D000F042A4 /* SubjectStore.m in Sources */,
 				574AA082185E4D1F00865E1E /* Day.m in Sources */,
 				5741F394182E6642005AF6E1 /* MainViewController.m in Sources */,
 				574AA07F185E4D1F00865E1E /* Subject.m in Sources */,
@@ -363,6 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				573BE2F3187581D000F042A4 /* SubjectStore.m in Sources */,
 				5741F389182E61C4005AF6E1 /* TimeTableTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

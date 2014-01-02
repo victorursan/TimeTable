@@ -11,6 +11,7 @@
 #import "Day.h"
 #import "TimeInterval.h"
 #import "config.h"
+#import "SubjectStore.h"
 
 @interface AddSubjectViewController ()
 
@@ -110,17 +111,8 @@
   } else {
 
     NSError *error;
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-
-    Subject *newSubject = [NSEntityDescription insertNewObjectForEntityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
-    newSubject.name = self.subjectField.text;
-
-    if (![self.managedObjectContext save:&error]) {
-      NSLog(@"Problem saving: %@", [error localizedDescription]);
-    }
-
+    NSMutableArray *days = [@[] mutableCopy];
+    
     for (int i=0 ; i<7; i++) {
       if ([self.sectionDictionary[self.daysArray[i]] count]!=0) {
         Day *newDay = [NSEntityDescription insertNewObjectForEntityForName:@"Day" inManagedObjectContext:self.managedObjectContext];
@@ -145,12 +137,17 @@
             NSLog(@"Problem saving: %@", [error localizedDescription]);
           }
         }
-        [newSubject addDaysObject:newDay];
-        if (![newSubject.managedObjectContext save:&error]) {
-          NSLog(@"Problem saving: %@", [error localizedDescription]);
-        }
+        [days addObject:newDay];
       }
     }
+    
+    // DayStore *dayStore = [[DayStore alloc] initWithContext: self.managedObjectContext];
+    // NSSet days = [dayStore daysWithTimeIntervalsFromDictionary: sectionDictionary];
+    
+    SubjectStore  *subjectStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
+    NSSet *daysSet = [[NSSet alloc] initWithArray:days];
+    [subjectStore addSubjectWithName:self.subjectField.text onDays:daysSet];
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
   }
 }
