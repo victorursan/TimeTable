@@ -12,6 +12,7 @@
 #import "TimeInterval.h"
 #import "config.h"
 #import "SubjectStore.h"
+#import "DayStore.h"
 
 @interface AddSubjectViewController ()
 
@@ -40,7 +41,7 @@
   [super viewDidLoad];
   [self.navigationController setValue:@"OFF" forKey:@"buttonStatus"];
   self.navigationController.title = @"Add Subject";
-
+  
   self.sectionDictionary = [[NSMutableDictionary alloc] initWithDictionary: @{MONDAY:@[],
                                                                               TUESDAY: @[],
                                                                               WEDNESDAY: @[],
@@ -49,14 +50,14 @@
                                                                               SATURDAY: @[],
                                                                               SUNDAY: @[]}];
   self.daysArray = WEEKDAYS;
-
+  
   self.done = [[UIButton alloc] initWithFrame:CGRectMake(270, 350, 50, 30)];
   [self.done setTitle:@"Done" forState:UIControlStateNormal];
   [self.done setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
   [self.done addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
   self.done.hidden = YES;
   [self.view addSubview:self.done];
-
+  
   self.cancel = [[UIButton alloc] initWithFrame:CGRectMake(0, 350, 50, 30)];
   [self.cancel setTitle:@"Cancel" forState:UIControlStateNormal];
   [self.cancel setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
@@ -64,27 +65,27 @@
   [self.cancel addTarget:self action:@selector(cancelButtonPressed) forControlEvents:UIControlEventTouchUpInside];
   self.cancel.hidden = YES;
   [self.view addSubview:self.cancel];
-
-
+  
+  
   self.view.backgroundColor = [UIColor whiteColor];
   self.hide = [[UIView alloc] initWithFrame:self.view.bounds];
   self.hide.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(addSubject)];
-
+  
   UILabel *subjectLable = [[UILabel alloc] initWithFrame:CGRectMake(25, 105, 50, 25)];
   subjectLable.text = @"Subject :";
   [subjectLable sizeToFit];
   [self.view addSubview:subjectLable];
-
+  
   self.timeFormat = [[NSDateFormatter alloc] init];
   [self.timeFormat setDateFormat:@"HH:00"];
-
+  
   self.subjectField = [[UITextField alloc] initWithFrame:CGRectMake(100, 100, 150, 25)];
   self.subjectField.borderStyle = UITextBorderStyleLine;
   self.subjectField.returnKeyType = UIReturnKeyDone;
   [self.subjectField addTarget:self action:@selector(subjectEditingEnded) forControlEvents:UIControlEventAllEditingEvents];
   [self.view addSubview:self.subjectField];
-
+  
   [self addTableView];
   [self addDatePicker];
 }
@@ -110,42 +111,10 @@
     [alert show];
   } else {
 
-    NSError *error;
-    NSMutableArray *days = [@[] mutableCopy];
-    
-    for (int i=0 ; i<7; i++) {
-      if ([self.sectionDictionary[self.daysArray[i]] count]!=0) {
-        Day *newDay = [NSEntityDescription insertNewObjectForEntityForName:@"Day" inManagedObjectContext:self.managedObjectContext];
-        newDay.dayName = self.daysArray[i];
-
-        if (![self.managedObjectContext save:&error]) {
-          NSLog(@"Problem saving: %@", [error localizedDescription]);
-        }
-
-        for (int j=0; j<[self.sectionDictionary[self.daysArray[i]] count]; j++) {
-          NSDate *from = [self.sectionDictionary valueForKey:self.daysArray[i]][j];
-          NSDate *to = [from dateByAddingTimeInterval:60*60];
-          TimeInterval *newTimeInterval = [NSEntityDescription insertNewObjectForEntityForName:@"TimeInterval"
-                                                                        inManagedObjectContext:self.managedObjectContext];
-          newTimeInterval.from =from;
-          newTimeInterval.to = to;
-          if (![self.managedObjectContext save:&error]) {
-            NSLog(@"Problem saving: %@", [error localizedDescription]);
-          }
-          [newDay addTimeIntervalObject:newTimeInterval];
-          if (![newDay.managedObjectContext save:&error]) {
-            NSLog(@"Problem saving: %@", [error localizedDescription]);
-          }
-        }
-        [days addObject:newDay];
-      }
-    }
-    
-    // DayStore *dayStore = [[DayStore alloc] initWithContext: self.managedObjectContext];
-    // NSSet days = [dayStore daysWithTimeIntervalsFromDictionary: sectionDictionary];
+    DayStore *dayStore = [[DayStore alloc] initWithContext: self.managedObjectContext];
+    NSSet *daysSet = [dayStore daysWithTimeIntervalsFromDictionary: self.sectionDictionary];
     
     SubjectStore  *subjectStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
-    NSSet *daysSet = [[NSSet alloc] initWithArray:days];
     [subjectStore addSubjectWithName:self.subjectField.text onDays:daysSet];
     
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -169,7 +138,7 @@
   self.tableView.allowsSelection = YES;
   self.tableView.scrollEnabled = YES;
   [self.view addSubview:self.tableView];
-
+  
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -192,10 +161,10 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
   if (indexPath.row != [[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count]) {
-
+    
     NSDate *from =[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]][indexPath.row];
     NSDate *to = [from dateByAddingTimeInterval:60*60];
-
+    
     NSString *string = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:from],[self.timeFormat stringFromDate:to]];
     cell.textLabel.text = string;
   } else {

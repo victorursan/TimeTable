@@ -38,9 +38,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.title = [self currentWeekDay];
-  NSArray *days = WEEKDAYS;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
-  [self.navigationController setValue:days forKey:@"elements"];
+  [self.navigationController setValue:WEEKDAYS forKey:@"elements"];
   self.subjectsForCurrentView = [[NSArray alloc] init];
   self.timeFormat = [[NSDateFormatter alloc] init];
   [self.timeFormat setDateFormat:@"HH:00"];

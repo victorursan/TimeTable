@@ -10,6 +10,8 @@
 		5706374B182FF73B002B9D09 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5706374A182FF73B002B9D09 /* CustomNavigationController.m */; };
 		573BE2F2187581D000F042A4 /* SubjectStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 573BE2F1187581D000F042A4 /* SubjectStore.m */; };
 		573BE2F3187581D000F042A4 /* SubjectStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 573BE2F1187581D000F042A4 /* SubjectStore.m */; };
+		573BE2F61875907C00F042A4 /* DayStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 573BE2F51875907C00F042A4 /* DayStore.m */; };
+		573BE2F71875907C00F042A4 /* DayStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 573BE2F51875907C00F042A4 /* DayStore.m */; };
 		5741F35E182E61C4005AF6E1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5741F35D182E61C4005AF6E1 /* Foundation.framework */; };
 		5741F360182E61C4005AF6E1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5741F35F182E61C4005AF6E1 /* CoreGraphics.framework */; };
 		5741F362182E61C4005AF6E1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5741F361182E61C4005AF6E1 /* UIKit.framework */; };
@@ -53,6 +55,8 @@
 		573BE2EF18757D5F00F042A4 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		573BE2F0187581D000F042A4 /* SubjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectStore.h; sourceTree = "<group>"; };
 		573BE2F1187581D000F042A4 /* SubjectStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectStore.m; sourceTree = "<group>"; };
+		573BE2F41875907C00F042A4 /* DayStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayStore.h; sourceTree = "<group>"; };
+		573BE2F51875907C00F042A4 /* DayStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayStore.m; sourceTree = "<group>"; };
 		5741F35A182E61C4005AF6E1 /* TimeTable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeTable.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5741F35D182E61C4005AF6E1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5741F35F182E61C4005AF6E1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -129,6 +133,8 @@
 				574AA07B185E4D1F00865E1E /* TimeInterval.m */,
 				573BE2F0187581D000F042A4 /* SubjectStore.h */,
 				573BE2F1187581D000F042A4 /* SubjectStore.m */,
+				573BE2F41875907C00F042A4 /* DayStore.h */,
+				573BE2F51875907C00F042A4 /* DayStore.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -358,6 +364,7 @@
 				574AA06D185CECC600865E1E /* AddSubjectViewController.m in Sources */,
 				573BE2F2187581D000F042A4 /* SubjectStore.m in Sources */,
 				574AA082185E4D1F00865E1E /* Day.m in Sources */,
+				573BE2F61875907C00F042A4 /* DayStore.m in Sources */,
 				5741F394182E6642005AF6E1 /* MainViewController.m in Sources */,
 				574AA07F185E4D1F00865E1E /* Subject.m in Sources */,
 				574AA07C185E4D1F00865E1E /* TimeInterval.m in Sources */,
@@ -371,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				573BE2F3187581D000F042A4 /* SubjectStore.m in Sources */,
+				573BE2F71875907C00F042A4 /* DayStore.m in Sources */,
 				5741F389182E61C4005AF6E1 /* TimeTableTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
