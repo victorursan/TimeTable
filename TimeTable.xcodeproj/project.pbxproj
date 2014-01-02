@@ -112,6 +112,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		573BE2EB1875776000F042A4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5741F371182E61C4005AF6E1 /* TimeTable.xcdatamodeld */,
+				574AA07D185E4D1F00865E1E /* Subject.h */,
+				574AA07E185E4D1F00865E1E /* Subject.m */,
+				574AA080185E4D1F00865E1E /* Day.h */,
+				574AA081185E4D1F00865E1E /* Day.m */,
+				574AA07A185E4D1F00865E1E /* TimeInterval.h */,
+				574AA07B185E4D1F00865E1E /* TimeInterval.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		5741F351182E61C4005AF6E1 = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +162,7 @@
 		5741F365182E61C4005AF6E1 /* TimeTable */ = {
 			isa = PBXGroup;
 			children = (
+				573BE2EB1875776000F042A4 /* Models */,
 				5741F36E182E61C4005AF6E1 /* AppDelegate.h */,
 				5741F36F182E61C4005AF6E1 /* AppDelegate.m */,
 				57063749182FF73B002B9D09 /* CustomNavigationController.h */,
@@ -163,13 +178,6 @@
 				574AA06E185D0C7300865E1E /* CustomCell.h */,
 				574AA06F185D0C7300865E1E /* CustomCell.m */,
 				5741F374182E61C4005AF6E1 /* Images.xcassets */,
-				5741F371182E61C4005AF6E1 /* TimeTable.xcdatamodeld */,
-				574AA07D185E4D1F00865E1E /* Subject.h */,
-				574AA07E185E4D1F00865E1E /* Subject.m */,
-				574AA080185E4D1F00865E1E /* Day.h */,
-				574AA081185E4D1F00865E1E /* Day.m */,
-				574AA07A185E4D1F00865E1E /* TimeInterval.h */,
-				574AA07B185E4D1F00865E1E /* TimeInterval.m */,
 				5741F366182E61C4005AF6E1 /* Supporting Files */,
 			);
 			path = TimeTable;
