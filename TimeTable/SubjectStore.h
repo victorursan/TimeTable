@@ -15,5 +15,7 @@
 
 - (id)initWithContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)addSubjectWithName:(NSString *)name onDays:(NSSet *)days;
+- (NSArray *)subjectsTitles;
+- (void)deleteSubjectWithName:(NSString *)name;
 
 @end

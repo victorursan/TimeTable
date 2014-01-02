@@ -12,12 +12,12 @@
 #import "Subject.h"
 #import "Day.h"
 #import "TimeInterval.h"
-#import "SubjectStore.h"
 #import "DayStore.h"
 
 @interface RightViewController ()
 
 @property(strong, nonatomic) NSArray *subjects;
+@property (nonatomic, retain) SubjectStore *subjectsStore;
 
 @end
 
@@ -34,14 +34,13 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.view.backgroundColor = [UIColor whiteColor];
-  self.subjects = [self allSubjects];
+  self.subjectsStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
+  self.subjects = [self.subjectsStore subjectsTitles];
   [self addTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  self.subjects = [self allSubjects];
-  NSArray *sortedArray = [self.subjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-  self.subjects = sortedArray;
+  self.subjects = [self.subjectsStore subjectsTitles];
   [self.tableView reloadData];
   [self.mm_drawerController.centerViewController setValue:@"OFF" forKey:@"buttonStatus"];
 }
@@ -49,19 +48,6 @@
 - (void)viewWillDisappear:(BOOL)animated {
   [self.tableView reloadData];
   [self.mm_drawerController.centerViewController setValue:@"ON" forKey:@"buttonStatus"];
-}
-
-- (NSArray *)allSubjects {
-  NSMutableArray *toSort = [[NSMutableArray alloc] init];
-  NSError *error;
-  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
-  [fetchRequest setEntity:entity];
-  NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-  for (Subject *subject in fetchedObjects){
-    [toSort addObject:subject.name];
-  }
-  return toSort;
 }
 
 #pragma mark - Table view
@@ -104,8 +90,7 @@
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
     AddSubjectViewController *addVC = [[AddSubjectViewController alloc] init];
     addVC.dayStore = [[DayStore alloc] initWithContext:self.managedObjectContext];
-    addVC.subjectStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
-  
+    addVC.subjectStore = self.subjectsStore;
     [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:addVC
                                                                                                             animated:YES];
   }
@@ -116,35 +101,12 @@
     return YES;
   return NO;
 }
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    Subject *subjectToDelete;
-    NSError *error;
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    for (Subject *subject in fetchedObjects) {
-      if ([subject.name isEqualToString:self.subjects[indexPath.row]]) {
-        subjectToDelete = subject;
-      }
-    }
-    for (Day *day in subjectToDelete.days) {
-      for (TimeInterval *timeInt in day.timeInterval){
-        [day.managedObjectContext deleteObject:timeInt];
-      }
-      [subjectToDelete.managedObjectContext deleteObject:day];
-    }
-    [self.managedObjectContext deleteObject:subjectToDelete];
-
-    if (![self.managedObjectContext save:&error]) {
-      NSLog(@"Problem saving: %@", [error localizedDescription]);
-    }
-
+    [self.subjectsStore deleteSubjectWithName:self.subjects[indexPath.row]];
     [self.mm_drawerController.centerViewController.childViewControllers[0] setValue:@"YES" forKey:@"reloadData"];
-    self.subjects = [self allSubjects];
-    NSArray *sortedArray = [self.subjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-    self.subjects = sortedArray;
+    self.subjects = [self.subjectsStore subjectsTitles];
     [self.tableView reloadData];
   }
 }

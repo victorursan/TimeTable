@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SubjectStore.h"
 
 @interface RightViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
