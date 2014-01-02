@@ -10,6 +10,7 @@
 #import "Subject.h"
 #import "Day.h"
 #import "TimeInterval.h"
+#import "config.h"
 
 @interface PresentSubjectViewController ()
 
@@ -38,7 +39,7 @@
   [super viewDidLoad];
   self.view.backgroundColor = [UIColor whiteColor];
 
-   self.days = @[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
+   self.days = WEEKDAYS;
 
   UILabel *subjectLable = [[UILabel alloc] initWithFrame:CGRectMake(25, 105, 75, 25)];
   subjectLable.text = @"Subject :";

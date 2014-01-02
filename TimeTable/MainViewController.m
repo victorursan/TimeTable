@@ -15,6 +15,7 @@
 #import "Subject.h"
 #import "Day.h"
 #import "TimeInterval.h"
+#import "config.h"
 
 
 @interface MainViewController ()
@@ -37,7 +38,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.title = [self currentWeekDay];
-  NSArray *days = @[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
+  NSArray *days = WEEKDAYS;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
   [self.navigationController setValue:days forKey:@"elements"];
   self.subjectsForCurrentView = [[NSArray alloc] init];

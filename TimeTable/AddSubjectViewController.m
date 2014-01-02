@@ -10,6 +10,7 @@
 #import "Subject.h"
 #import "Day.h"
 #import "TimeInterval.h"
+#import "config.h"
 
 @interface AddSubjectViewController ()
 
@@ -39,14 +40,14 @@
   [self.navigationController setValue:@"OFF" forKey:@"buttonStatus"];
   self.navigationController.title = @"Add Subject";
 
-  self.sectionDictionary = [[NSMutableDictionary alloc] initWithDictionary: @{@"Monday":@[],
-                                                                              @"Tuesday": @[],
-                                                                              @"Wednesday": @[],
-                                                                              @"Thursday": @[],
-                                                                              @"Friday": @[],
-                                                                              @"Saturday": @[],
-                                                                              @"Sunday": @[]}];
-  self.daysArray = @[@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday",@"Sunday"];
+  self.sectionDictionary = [[NSMutableDictionary alloc] initWithDictionary: @{MONDAY:@[],
+                                                                              TUESDAY: @[],
+                                                                              WEDNESDAY: @[],
+                                                                              THURSDAY: @[],
+                                                                              FRIDAY: @[],
+                                                                              SATURDAY: @[],
+                                                                              SUNDAY: @[]}];
+  self.daysArray = WEEKDAYS;
 
   self.done = [[UIButton alloc] initWithFrame:CGRectMake(270, 350, 50, 30)];
   [self.done setTitle:@"Done" forState:UIControlStateNormal];
@@ -156,7 +157,7 @@
 
 - (BOOL)isTableViewEmpty {
   BOOL permission=YES;
-  for (int i =0; i<7; i++)
+  for (int i =0; i < WEEKDAYSNUM; i++)
     if ([self.sectionDictionary[self.daysArray[i]] count] != 0) permission = NO;
   return permission;
 }
@@ -175,7 +176,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 7;
+  return WEEKDAYSNUM;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {

@@ -48,6 +48,7 @@
 		110967A559EF4A89B28611D7 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		57063749182FF73B002B9D09 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
 		5706374A182FF73B002B9D09 /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
+		573BE2EF18757D5F00F042A4 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		5741F35A182E61C4005AF6E1 /* TimeTable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeTable.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5741F35D182E61C4005AF6E1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5741F35F182E61C4005AF6E1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -162,6 +163,7 @@
 		5741F365182E61C4005AF6E1 /* TimeTable */ = {
 			isa = PBXGroup;
 			children = (
+				573BE2EF18757D5F00F042A4 /* config.h */,
 				573BE2EB1875776000F042A4 /* Models */,
 				5741F36E182E61C4005AF6E1 /* AppDelegate.h */,
 				5741F36F182E61C4005AF6E1 /* AppDelegate.m */,
