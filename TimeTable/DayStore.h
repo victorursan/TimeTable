@@ -12,6 +12,7 @@
 
 @property (nonatomic, retain) NSManagedObjectContext *context;
 
--(id) initWithContext:(NSManagedObjectContext *)managedObjectContext;
--(NSSet *) daysWithTimeIntervalsFromDictionary:(NSDictionary *)dictionary;
+- (id)initWithContext:(NSManagedObjectContext *)managedObjectContext;
+- (NSSet *)daysWithTimeIntervalsFromDictionary:(NSDictionary *)dictionary;
+
 @end

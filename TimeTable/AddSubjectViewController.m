@@ -11,8 +11,6 @@
 #import "Day.h"
 #import "TimeInterval.h"
 #import "config.h"
-#import "SubjectStore.h"
-#import "DayStore.h"
 
 @interface AddSubjectViewController ()
 
@@ -95,36 +93,32 @@
 }
 
 - (void)addSubject {
-  if ([self.subjectField.text isEqualToString:@""]) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
-                                                    message:@"Subject field is empty"
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
-  } else if([self isTableViewEmpty]){
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
-                                                    message:@"Table view is empty"
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
-  } else {
+  if ([self.subjectField.text isEqualToString:@""])
+    [self allertWithMessage:@"Subject field is empty"];
+  else if([self isTableViewEmpty])
+    [self allertWithMessage:@"Table view is empty"];
+  else {
 
-    DayStore *dayStore = [[DayStore alloc] initWithContext: self.managedObjectContext];
-    NSSet *daysSet = [dayStore daysWithTimeIntervalsFromDictionary: self.sectionDictionary];
-    
-    SubjectStore  *subjectStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
-    [subjectStore addSubjectWithName:self.subjectField.text onDays:daysSet];
+    NSSet *daysSet = [self.dayStore daysWithTimeIntervalsFromDictionary: self.sectionDictionary];
+    [self.subjectStore addSubjectWithName:self.subjectField.text onDays:daysSet];
     
     [self.navigationController popToRootViewControllerAnimated:YES];
   }
 }
 
+- (void)allertWithMessage:(NSString *)message {
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                  message:message
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
+}
+
 - (BOOL)isTableViewEmpty {
-  BOOL permission=YES;
-  for (int i =0; i < WEEKDAYSNUM; i++)
-    if ([self.sectionDictionary[self.daysArray[i]] count] != 0) permission = NO;
+  BOOL permission = YES;
+  for (NSString *day in self.daysArray)
+    if ([self.sectionDictionary[day] count] != 0) permission = NO;
   return permission;
 }
 

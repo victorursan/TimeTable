@@ -12,7 +12,7 @@
 
 @implementation SubjectStore
 
--(id) initWithContext:(NSManagedObjectContext *)managedObjectContext {
+- (id)initWithContext:(NSManagedObjectContext *)managedObjectContext {
   self = [super init];
   
   if (self) {
@@ -25,7 +25,7 @@
   return self;
 }
 
--(void) addSubjectWithName:(NSString *)name onDays:(NSSet *)days {
+- (void)addSubjectWithName:(NSString *)name onDays:(NSSet *)days {
   
   NSError *error;
   

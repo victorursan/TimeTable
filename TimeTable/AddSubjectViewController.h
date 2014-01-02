@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SubjectStore.h"
+#import "DayStore.h"
 
 @interface AddSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, retain) SubjectStore *subjectStore;
+@property (nonatomic, retain) DayStore *dayStore;
 
 @property(strong, nonatomic) UITableView *tableView;
 @property(strong, nonatomic) UIDatePicker *datePicker;

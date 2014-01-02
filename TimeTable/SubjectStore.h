@@ -13,7 +13,7 @@
 @property (nonatomic, retain) NSManagedObjectContext *context;
 @property (nonatomic, retain) NSFetchRequest *fetcher;
 
--(id) initWithContext:(NSManagedObjectContext *)managedObjectContext;
--(void) addSubjectWithName:(NSString *)name onDays:(NSSet *)days;
+- (id)initWithContext:(NSManagedObjectContext *)managedObjectContext;
+- (void)addSubjectWithName:(NSString *)name onDays:(NSSet *)days;
 
 @end

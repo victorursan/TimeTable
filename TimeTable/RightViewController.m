@@ -12,6 +12,8 @@
 #import "Subject.h"
 #import "Day.h"
 #import "TimeInterval.h"
+#import "SubjectStore.h"
+#import "DayStore.h"
 
 @interface RightViewController ()
 
@@ -101,8 +103,9 @@
   if ([cell.textLabel.text isEqualToString:@"Add Subject"]) {
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
     AddSubjectViewController *addVC = [[AddSubjectViewController alloc] init];
-    
-    addVC.managedObjectContext = self.managedObjectContext;
+    addVC.dayStore = [[DayStore alloc] initWithContext:self.managedObjectContext];
+    addVC.subjectStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
+  
     [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:addVC
                                                                                                             animated:YES];
   }
