@@ -17,7 +17,7 @@
   if (self) {
     self.context = managedObjectContext;
     self.fetcher = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext: self.context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.context];
     [self.fetcher setEntity:entity];
   }
   return self;
@@ -25,7 +25,7 @@
 
 - (void)addSubjectWithName:(NSString *)name onDays:(NSSet *)days {
   NSError *error;
-  Subject *newSubject = [NSEntityDescription insertNewObjectForEntityForName:@"Subject" inManagedObjectContext: self.context];
+  Subject *newSubject = [NSEntityDescription insertNewObjectForEntityForName:@"Subject" inManagedObjectContext:self.context];
   newSubject.name = name;
   [newSubject addDays: days];
   if (![self.context save:&error])
@@ -34,10 +34,7 @@
 
 - (NSArray *)subjects {
   NSError *error;
-  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.context];
-  [fetchRequest setEntity:entity];
-  return [self.context executeFetchRequest:fetchRequest error:&error];
+  return [self.context executeFetchRequest:self.fetcher error:&error];
 }
 
 - (NSArray *)subjectsTitles {
@@ -71,7 +68,6 @@
 - (NSArray *)sortSubjects:(NSMutableArray *)toSort {
   NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
   [timeFormat setDateFormat:@"HH:00"];
-  
   for (int i=0; i<toSort.count-1; i++) {
     for (int j=i+1; j<toSort.count; j++) {
       NSString *from1 = [timeFormat stringFromDate:[toSort[i] from]];
@@ -104,10 +100,8 @@
     [subjectToDelete.managedObjectContext deleteObject:day];
   }
   [self.context deleteObject:subjectToDelete];
-  if (![self.context save:&error]) {
+  if (![self.context save:&error])
     NSLog(@"Problem saving: %@", [error localizedDescription]);
-  }
-
 }
 
 - (void)deleteTimeInterval:(TimeInterval *)timeInterval {

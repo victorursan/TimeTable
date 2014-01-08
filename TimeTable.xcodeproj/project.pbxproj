@@ -175,7 +175,6 @@
 		5741F365182E61C4005AF6E1 /* TimeTable */ = {
 			isa = PBXGroup;
 			children = (
-				573BE2EF18757D5F00F042A4 /* config.h */,
 				573BE2EB1875776000F042A4 /* Models */,
 				5741F36E182E61C4005AF6E1 /* AppDelegate.h */,
 				5741F36F182E61C4005AF6E1 /* AppDelegate.m */,
@@ -200,6 +199,7 @@
 		5741F366182E61C4005AF6E1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				573BE2EF18757D5F00F042A4 /* config.h */,
 				5741F367182E61C4005AF6E1 /* TimeTable-Info.plist */,
 				5741F368182E61C4005AF6E1 /* InfoPlist.strings */,
 				5741F36B182E61C4005AF6E1 /* main.m */,
@@ -275,6 +275,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Victor Ursan";
 				TargetAttributes = {
+					5741F359182E61C4005AF6E1 = {
+						DevelopmentTeam = 94TWQJ7GSF;
+					};
 					5741F379182E61C4005AF6E1 = {
 						TestTargetID = 5741F359182E61C4005AF6E1;
 					};
@@ -491,10 +494,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TimeTable/TimeTable-Prefix.pch";
 				INFOPLIST_FILE = "TimeTable/TimeTable-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -505,10 +511,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TimeTable/TimeTable-Prefix.pch";
 				INFOPLIST_FILE = "TimeTable/TimeTable-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

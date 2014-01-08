@@ -21,10 +21,10 @@
 
 @interface MainViewController ()
 
-@property(strong, nonatomic) NSString *currentTitle;
-@property(strong, nonatomic) NSArray *subjectsForCurrentView;
+@property(strong, nonatomic) NSString *currentDay;
+@property(strong, nonatomic) NSArray *subjectsForCurrentDay;
 @property(strong, nonatomic) NSDateFormatter *timeFormat;
-@property (nonatomic, retain) SubjectStore *subjectsStore;
+@property(strong, nonatomic) SubjectStore *subjectsStore;
 
 @end
 
@@ -43,7 +43,7 @@
   self.title = [self currentWeekDay];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
   [self.navigationController setValue:WEEKDAYS forKey:@"elements"];
-  self.subjectsForCurrentView = [[NSArray alloc] init];
+  self.subjectsForCurrentDay = [[NSArray alloc] init];
   self.timeFormat = [[NSDateFormatter alloc] init];
   [self.timeFormat setDateFormat:@"HH:00"];
   [self addTableView];
@@ -51,12 +51,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [self.navigationController setValue:@"ON" forKey:@"buttonStatus"];
-  self.title = self.currentTitle;
+  self.title = self.currentDay;
   [self.tableView reloadData];
 }
 
 - (NSArray *)arrayForTitle {
-  return [self.subjectsStore subjectsForDay:self.currentTitle];
+  return [self.subjectsStore subjectsForDay:self.currentDay];
 }
 
 - (NSString *)currentWeekDay {
@@ -76,15 +76,15 @@
     self.title = value;
     [self.tableView reloadData];
   } else if ([key isEqualToString:@"reloadData"]) {
-    self.title = self.currentTitle;
+    self.title = self.currentDay;
     [self.tableView reloadData];
   }
 
 }
 
 - (void)setTitle:(NSString *)title {
-  self.currentTitle = title;
-  self.subjectsForCurrentView = [self arrayForTitle];
+  self.currentDay = title;
+  self.subjectsForCurrentDay = [self arrayForTitle];
   self.navigationController.title = title;
 }
 
@@ -100,7 +100,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return self.subjectsForCurrentView.count;
+  return self.subjectsForCurrentDay.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -110,7 +110,7 @@
     cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  TimeInterval *timeInterval = self.subjectsForCurrentView[indexPath.row];
+  TimeInterval *timeInterval = self.subjectsForCurrentDay[indexPath.row];
   cell.title.text= [timeInterval.day.subjects name];
   cell.position.text = [NSString stringWithFormat:@" #%d",indexPath.row+1];
   [cell.position sizeToFit];
@@ -124,8 +124,8 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    [self.subjectsStore deleteTimeInterval:self.subjectsForCurrentView[indexPath.row]];
-    self.subjectsForCurrentView = [self arrayForTitle];
+    [self.subjectsStore deleteTimeInterval:self.subjectsForCurrentDay[indexPath.row]];
+    self.subjectsForCurrentDay = [self arrayForTitle];
     [self.tableView reloadData];
   }
 }
@@ -138,7 +138,7 @@
   PresentSubjectViewController *subjectView = [[PresentSubjectViewController alloc] init];
   subjectView.managedObjectContext = self.managedObjectContext;
   [self.navigationController pushViewController:subjectView animated:YES];
-  TimeInterval *timeInterval = self.subjectsForCurrentView[indexPath.row];
+  TimeInterval *timeInterval = self.subjectsForCurrentDay[indexPath.row];
   [subjectView setTitle:[timeInterval.day.subjects name]];
 }
 

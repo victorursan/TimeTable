@@ -36,8 +36,9 @@
 
   MMDrawerController *drawerController = [[MMDrawerController alloc] initWithCenterViewController:customNavigationController
                                                                         rightDrawerViewController:right];
-  [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-  [drawerController setMaximumRightDrawerWidth:240];
+  drawerController.shouldStretchDrawer = NO;
+  [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
+  [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView | MMCloseDrawerGestureModePanningCenterView | MMCloseDrawerGestureModeTapNavigationBar];  [drawerController setMaximumRightDrawerWidth:240];
   
   [self.window setRootViewController:drawerController];
   self.window.backgroundColor = [UIColor whiteColor];

@@ -48,15 +48,15 @@
                                                                               SATURDAY: @[],
                                                                               SUNDAY: @[]}];
   self.daysArray = WEEKDAYS;
-  
-  self.done = [[UIButton alloc] initWithFrame:CGRectMake(270, 350, 50, 30)];
+
+  self.done = [[UIButton alloc] initWithFrame:CGRectMake(270, self.view.frame.size.height-215, 50, 30)];
   [self.done setTitle:@"Done" forState:UIControlStateNormal];
   [self.done setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
   [self.done addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
   self.done.hidden = YES;
   [self.view addSubview:self.done];
   
-  self.cancel = [[UIButton alloc] initWithFrame:CGRectMake(0, 350, 50, 30)];
+  self.cancel = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-215, 50, 30)];
   [self.cancel setTitle:@"Cancel" forState:UIControlStateNormal];
   [self.cancel setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
   [self.cancel sizeToFit];
@@ -201,7 +201,7 @@
 #pragma mark - DatePicker
 
 - (void)addDatePicker {
-  self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 350, 320, 250)];
+  self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-215, 320, 250)];
   self.datePicker.hidden = YES;
   self.datePicker.backgroundColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:0.8];
   self.datePicker.datePickerMode = UIDatePickerModeTime;
