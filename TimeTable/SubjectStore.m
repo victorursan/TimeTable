@@ -46,6 +46,16 @@
   return sortedArray;
 }
 
+- (Subject *)subjectForTitle:(NSString *)title {
+  NSArray *subjects = [self subjects];
+  for (Subject *subject in subjects) {
+    if ([subject.name isEqualToString:title]) {
+      return subject;
+    }
+  }
+  return 0;
+}
+
 - (NSArray *)subjectsForDay:(NSString *)day {
   NSArray *subjects = [self subjects];
   NSMutableArray *toSort = [@[] mutableCopy];

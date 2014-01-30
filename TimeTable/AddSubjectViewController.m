@@ -7,9 +7,6 @@
 //
 
 #import "AddSubjectViewController.h"
-#import "Subject.h"
-#import "Day.h"
-#import "TimeInterval.h"
 #import "config.h"
 
 @interface AddSubjectViewController ()

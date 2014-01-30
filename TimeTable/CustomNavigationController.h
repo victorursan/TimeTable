@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PresentDayTableDelegate.h"
 
-@interface CustomNavigationController : UINavigationController <UITableViewDelegate, UITableViewDataSource>
+@interface CustomNavigationController : UINavigationController <PresentDayTableDelegate>
 
 @end

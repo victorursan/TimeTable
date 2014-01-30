@@ -82,6 +82,7 @@
   self.dayDictionary = [[NSDictionary alloc] initWithDictionary:tempDayDictionary];
 
   NSArray *sortedArray = [self.presentedDays sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+  
   self.presentedDays = sortedArray;
 
   [self addTableView];

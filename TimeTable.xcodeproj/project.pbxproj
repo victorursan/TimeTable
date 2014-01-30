@@ -35,6 +35,7 @@
 		574AA07C185E4D1F00865E1E /* TimeInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA07B185E4D1F00865E1E /* TimeInterval.m */; };
 		574AA07F185E4D1F00865E1E /* Subject.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA07E185E4D1F00865E1E /* Subject.m */; };
 		574AA082185E4D1F00865E1E /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA081185E4D1F00865E1E /* Day.m */; };
+		57539D07189AE493009B6CF1 /* PresentDayTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 57539D06189AE493009B6CF1 /* PresentDayTable.m */; };
 		C18E94FF86C249A0B4B0DA9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 951E3A996CE742D69323E3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +92,9 @@
 		574AA07E185E4D1F00865E1E /* Subject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Subject.m; sourceTree = "<group>"; };
 		574AA080185E4D1F00865E1E /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Day.h; sourceTree = "<group>"; };
 		574AA081185E4D1F00865E1E /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Day.m; sourceTree = "<group>"; };
+		57539D05189AE493009B6CF1 /* PresentDayTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentDayTable.h; sourceTree = "<group>"; };
+		57539D06189AE493009B6CF1 /* PresentDayTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentDayTable.m; sourceTree = "<group>"; };
+		57539D08189AFA5B009B6CF1 /* PresentDayTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentDayTableDelegate.h; sourceTree = "<group>"; };
 		951E3A996CE742D69323E3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -180,6 +184,9 @@
 				5741F36F182E61C4005AF6E1 /* AppDelegate.m */,
 				57063749182FF73B002B9D09 /* CustomNavigationController.h */,
 				5706374A182FF73B002B9D09 /* CustomNavigationController.m */,
+				57539D05189AE493009B6CF1 /* PresentDayTable.h */,
+				57539D06189AE493009B6CF1 /* PresentDayTable.m */,
+				57539D08189AFA5B009B6CF1 /* PresentDayTableDelegate.h */,
 				5741F392182E6642005AF6E1 /* MainViewController.h */,
 				5741F393182E6642005AF6E1 /* MainViewController.m */,
 				574AA06518564DBF00865E1E /* RightViewController.h */,
@@ -362,6 +369,7 @@
 				574AA06A1856599C00865E1E /* PresentSubjectViewController.m in Sources */,
 				5741F373182E61C4005AF6E1 /* TimeTable.xcdatamodeld in Sources */,
 				5706374B182FF73B002B9D09 /* CustomNavigationController.m in Sources */,
+				57539D07189AE493009B6CF1 /* PresentDayTable.m in Sources */,
 				5741F370182E61C4005AF6E1 /* AppDelegate.m in Sources */,
 				5741F36C182E61C4005AF6E1 /* main.m in Sources */,
 				574AA06D185CECC600865E1E /* AddSubjectViewController.m in Sources */,

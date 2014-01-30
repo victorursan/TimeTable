@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TimeInterval.h"
+#import "Subject.h"
 
 @interface SubjectStore : NSObject
 
@@ -20,5 +21,6 @@
 - (void)deleteSubjectWithName:(NSString *)name;
 - (NSArray *)subjectsForDay:(NSString *)day;
 - (void)deleteTimeInterval:(TimeInterval *)timeInterval;
+- (Subject *)subjectForTitle:(NSString *)title;
 
 @end

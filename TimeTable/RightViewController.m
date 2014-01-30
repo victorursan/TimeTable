@@ -9,6 +9,7 @@
 #import "RightViewController.h"
 #import "UIViewController+MMDrawerController.h"
 #import "AddSubjectViewController.h"
+#import "PresentSubjectViewController.h"
 #import "Subject.h"
 #import "Day.h"
 #import "TimeInterval.h"
@@ -87,12 +88,21 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
   if ([cell.textLabel.text isEqualToString:@"Add Subject"]) {
+    
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
     AddSubjectViewController *addVC = [[AddSubjectViewController alloc] init];
     addVC.dayStore = [[DayStore alloc] initWithContext:self.managedObjectContext];
     addVC.subjectStore = self.subjectsStore;
     [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:addVC
                                                                                                             animated:YES];
+  } else {
+    
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+    PresentSubjectViewController *subjectView = [[PresentSubjectViewController alloc] init];
+    subjectView.managedObjectContext = self.managedObjectContext;
+    [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:subjectView animated:YES];
+    [subjectView setTitle:self.subjects[indexPath.row]];
+    
   }
 }
 

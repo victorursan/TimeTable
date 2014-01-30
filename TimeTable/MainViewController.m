@@ -94,7 +94,7 @@
   self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
   self.tableView.delegate = self;
   self.tableView.dataSource = self;
-  self.tableView.allowsSelection = YES;
+  self.tableView.allowsSelection = NO;
   [self.view addSubview:self.tableView];
 
 }
@@ -112,7 +112,7 @@
   }
   TimeInterval *timeInterval = self.subjectsForCurrentDay[indexPath.row];
   cell.title.text= [timeInterval.day.subjects name];
-  cell.position.text = [NSString stringWithFormat:@" #%d",indexPath.row+1];
+  cell.position.text = [NSString stringWithFormat:@" #%d",(int)indexPath.row+1];
   [cell.position sizeToFit];
   cell.positionDescription.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:timeInterval.from],[self.timeFormat stringFromDate:timeInterval.to]];
   return cell;
@@ -135,11 +135,6 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  PresentSubjectViewController *subjectView = [[PresentSubjectViewController alloc] init];
-  subjectView.managedObjectContext = self.managedObjectContext;
-  [self.navigationController pushViewController:subjectView animated:YES];
-  TimeInterval *timeInterval = self.subjectsForCurrentDay[indexPath.row];
-  [subjectView setTitle:[timeInterval.day.subjects name]];
 }
 
 - (void)didReceiveMemoryWarning {

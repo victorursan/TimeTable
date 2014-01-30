@@ -9,13 +9,12 @@
 #import "CustomNavigationController.h"
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
+#import "PresentDayTable.h"
 
 @interface CustomNavigationController ()
 
 @property(strong, nonatomic) UIButton *middleButton;
-@property(strong, nonatomic) UIView *presentTableView;
-@property(strong, nonatomic) UITableView *tableView;
-@property(strong, nonatomic) NSArray *tableViewElements;
+@property(strong, nonatomic) PresentDayTable *presentDayTable;
 
 @end
 
@@ -35,10 +34,10 @@
   self.navigationBar.barStyle = UIBarStyleBlackOpaque;
   self.middleButton = [[UIButton alloc] init];
   [self.middleButton addTarget:self action:@selector(middleButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
+  [self.middleButton setTitleColor:[UIColor lightTextColor] forState:UIControlStateHighlighted];
   [self.view addSubview: self.middleButton];
-  self.tableViewElements = [[NSMutableArray alloc] init];
-
-  [self addTableView];
+  
+  self.presentDayTable = [[PresentDayTable alloc] initWithFrame:CGRectMake(self.navigationBar.frame.size.width/2-100, 64, 200, 220) andDelegate:self];
 }
 
 
@@ -58,70 +57,33 @@
 }
 
 - (void)setValue:(id)value forKey:(NSString *)key {
-  if ([key isEqualToString:@"elements"])
-    self.tableViewElements = value;
+  if ([key isEqualToString:@"elements"]) {
+    self.presentDayTable.tableViewElements = value;
+  }
   if ([key isEqualToString:@"buttonStatus"]){
     if ([value isEqualToString:@"ON"]) {
       self.middleButton.enabled = YES;
     } else {
       self.middleButton.enabled = NO;
-      [self.presentTableView removeFromSuperview];
+      [self.presentDayTable removeFromSuperview];
     }
   }
-  [self.tableView reloadData];
+  [self.presentDayTable.tableView reloadData];
 }
 
 - (void)middleButtonWasPressed {
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.4f];
-  [self.middleButton setAlpha:0.1f];
-  [UIView commitAnimations];
-  if (!self.presentTableView.superview) {
-    [self.tableView reloadData];
-    [self.view addSubview:self.presentTableView];
+  if (!self.presentDayTable.superview) {
+    [self.presentDayTable.tableView reloadData];
+    [self.view addSubview:self.presentDayTable];
   } else {
-    [self.presentTableView removeFromSuperview];
+    [self.presentDayTable removeFromSuperview];
   }
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.4f];
-  [self.middleButton setAlpha:1.0f];
-  [UIView commitAnimations];
 }
 
-#pragma mark - Table view
-
-- (void)addTableView {
-  self.presentTableView = [[UIView alloc] initWithFrame:CGRectMake(self.navigationBar.frame.size.width/2-100, 64, 200, 220)];
-  self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.presentTableView.frame.size.width, self.presentTableView.frame.size.height)];
-  self.tableView.delegate = self;
-  self.tableView.dataSource = self;
-  self.presentTableView.layer.masksToBounds = NO;
-  self.presentTableView.layer.cornerRadius = 8; // if you like rounded corners
-  self.presentTableView.layer.shadowOffset = CGSizeMake(0, 5);
-  self.presentTableView.layer.shadowRadius = 5;
-  self.presentTableView.layer.shadowOpacity = 0.2;
-  [self.presentTableView addSubview:self.tableView];
+- (void)presentViewControllerForDay:(NSString *)day {
+  [self.presentDayTable removeFromSuperview];
+  [self.childViewControllers[0] setValue:day forKey:@"resetTableView"];
   
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return self.tableViewElements.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *CellIdentifier = @"Cell";
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    cell.accessoryType = UITableViewCellAccessoryNone;
-  }
-  cell.textLabel.text = self.tableViewElements[indexPath.row];
-  return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [self.presentTableView removeFromSuperview];
-  [self.childViewControllers[0] setValue:self.tableViewElements[indexPath.row] forKey:@"resetTableView"];
 }
 
 @end
