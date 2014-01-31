@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "PresentDayTableDelegate.h"
 
+
 @interface PresentDayTable : UIView <UITableViewDelegate, UITableViewDataSource>
 
 @property(strong, nonatomic) id<PresentDayTableDelegate>delegate;
+
 @property(strong, nonatomic) UITableView *tableView;
 @property(strong, nonatomic) NSArray *tableViewElements;
 

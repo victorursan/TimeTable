@@ -47,5 +47,13 @@
   return [[NSSet alloc] initWithArray:days];
 }
 
+- (NSDictionary *)timeIntervalsForDay:(Day *)day {
+  NSMutableArray *timeIntervals = [@[] mutableCopy];
+  for (TimeInterval *time in day.timeInterval) {
+    [timeIntervals addObject:time];
+  }
+  NSDictionary *dayDictionary = @{day.dayName: timeIntervals};
+  return dayDictionary;
+}
 
 @end

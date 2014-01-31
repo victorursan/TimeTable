@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Day.h"
 
 @interface DayStore : NSObject
 
@@ -14,5 +15,6 @@
 
 - (id)initWithContext:(NSManagedObjectContext *)managedObjectContext;
 - (NSSet *)daysWithTimeIntervalsFromDictionary:(NSDictionary *)dictionary;
+- (NSDictionary *)timeIntervalsForDay:(Day *)day;
 
 @end

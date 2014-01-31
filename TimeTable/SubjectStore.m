@@ -7,6 +7,7 @@
 //
 
 #import "SubjectStore.h"
+#import "DayStore.h"
 #import "Subject.h"
 #import "Day.h"
 
@@ -54,6 +55,16 @@
     }
   }
   return 0;
+}
+
+- (NSDictionary *)dictionaryforSubject:(Subject *)subject {
+  NSLog(@"dictionaryforSubject: %@",subject.name);
+  DayStore *dayStore = [[DayStore alloc] initWithContext:self.context];
+  NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+  for (Day *day in subject.days ) {
+    [mutableDictionary addEntriesFromDictionary:[dayStore timeIntervalsForDay:day]];
+  }
+  return mutableDictionary;
 }
 
 - (NSArray *)subjectsForDay:(NSString *)day {

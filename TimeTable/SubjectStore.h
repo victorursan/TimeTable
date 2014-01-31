@@ -20,6 +20,7 @@
 - (NSArray *)subjectsTitles;
 - (void)deleteSubjectWithName:(NSString *)name;
 - (NSArray *)subjectsForDay:(NSString *)day;
+- (NSDictionary *)dictionaryforSubject:(Subject *)subject;
 - (void)deleteTimeInterval:(TimeInterval *)timeInterval;
 - (Subject *)subjectForTitle:(NSString *)title;
 

@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SubjectStore.h"
 
 @interface PresentSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
-
 @property(strong, nonatomic) UITableView *tableView;
+@property(strong, nonatomic) SubjectStore *subjectStore;
+
+- (void)setTitleWithSubject:(Subject *)subject;
 
 @end

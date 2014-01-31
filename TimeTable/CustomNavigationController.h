@@ -11,4 +11,6 @@
 
 @interface CustomNavigationController : UINavigationController <PresentDayTableDelegate>
 
+@property(strong, nonatomic) UIButton *middleButton;
+
 @end

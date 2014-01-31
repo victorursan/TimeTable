@@ -17,6 +17,7 @@
 @property(strong, nonatomic) NSString *currentTitle;
 @property(strong, nonatomic) UILabel *subjectName;
 @property(strong, nonatomic) Subject *presentedSubject;
+
 @property(strong, nonatomic) NSArray *presentedDays;
 @property(strong, nonatomic) NSArray *timeInterval;
 @property(strong, nonatomic) NSDictionary *dayDictionary;
@@ -39,7 +40,11 @@
   [super viewDidLoad];
   self.view.backgroundColor = [UIColor whiteColor];
 
-   self.days = WEEKDAYS;
+  self.dayDictionary = [self.subjectStore dictionaryforSubject:self.presentedSubject];
+  NSLog(@"%d",[self.dayDictionary count]);
+
+  
+  self.days = WEEKDAYS;
 
   UILabel *subjectLable = [[UILabel alloc] initWithFrame:CGRectMake(25, 105, 75, 25)];
   subjectLable.text = @"Subject :";
@@ -53,46 +58,49 @@
   self.subjectName.text = self.currentTitle;
   [self.subjectName sizeToFit];
   [self.view addSubview:self.subjectName];
-
-  NSMutableArray *tempDays = [[NSMutableArray alloc] init];
-  //NSMutableArray *tempTimeInt = [[NSMutableArray alloc] init];
-  NSMutableDictionary *tempDayDictionary = [[NSMutableDictionary alloc] init];
-
-
-  NSError *error;
-  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
-  [fetchRequest setEntity:entity];
-
-  NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-  for (Subject *subject in fetchedObjects){
-    if ([subject.name isEqualToString:self.currentTitle]) {
-      self.presentedSubject = subject;
-      for (Day *day in subject.days) {
-        [tempDays addObject:day.dayName];
-        NSMutableArray *tempTimeInt = [[NSMutableArray alloc] init];
-        for (TimeInterval *timeInt in day.timeInterval){
-          [tempTimeInt addObject:timeInt];
-        }
-        [tempDayDictionary addEntriesFromDictionary:@{day.dayName: tempTimeInt}];
-      }
-    }
-  }
-  self.presentedDays = [[NSArray alloc] initWithArray:tempDays];
-  self.dayDictionary = [[NSDictionary alloc] initWithDictionary:tempDayDictionary];
-
-  NSArray *sortedArray = [self.presentedDays sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-  
-  self.presentedDays = sortedArray;
+//
+//  NSMutableArray *tempDays = [[NSMutableArray alloc] init];
+//  //NSMutableArray *tempTimeInt = [[NSMutableArray alloc] init];
+//  NSMutableDictionary *tempDayDictionary = [[NSMutableDictionary alloc] init];
+//
+//
+//  NSError *error;
+//  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.managedObjectContext];
+//  [fetchRequest setEntity:entity];
+//
+//  NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//  for (Subject *subject in fetchedObjects){
+//    if ([subject.name isEqualToString:self.currentTitle]) {
+//      self.presentedSubject = subject;
+//      for (Day *day in subject.days) {
+//        [tempDays addObject:day.dayName];
+//        NSMutableArray *tempTimeInt = [[NSMutableArray alloc] init];
+//        for (TimeInterval *timeInt in day.timeInterval){
+//          [tempTimeInt addObject:timeInt];
+//        }
+//        [tempDayDictionary addEntriesFromDictionary:@{day.dayName: tempTimeInt}];
+//      }
+//    }
+//  }
+//  self.presentedDays = [[NSArray alloc] initWithArray:tempDays];
+//  self.dayDictionary = [[NSDictionary alloc] initWithDictionary:tempDayDictionary];
+//
+//  NSArray *sortedArray = [self.presentedDays sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+//  
+//  self.presentedDays = sortedArray;
 
   [self addTableView];
 }
 
-- (void)setTitle:(NSString *)title {
+- (void)setTitleWithSubject:(Subject *)subject {
   [self.navigationController setValue:@"OFF" forKey:@"buttonStatus"];
-  self.currentTitle = title;
-  self.navigationController.title = title;
+  self.currentTitle = subject.name;
+  self.navigationController.title = subject.name;
+  self.presentedSubject = subject;
+  
 }
+
 
 #pragma mark - Table view
 
@@ -107,15 +115,17 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 7;
+  return [self.dayDictionary count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  return self.days[section];
+  return 0;
+//  self.days[section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[self.dayDictionary valueForKey:self.days[section]] count];
+  return 0;
+//  [[self.dayDictionary valueForKey:self.days[section]] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -125,8 +135,8 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType = UITableViewCellAccessoryNone;
   }
-  TimeInterval *temp = [self.dayDictionary valueForKey:self.days[indexPath.section]][indexPath.row];
-  cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
+//  TimeInterval *temp = [self.dayDictionary valueForKey:self.days[indexPath.section]][indexPath.row];
+//  cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
   return cell;
 }
 

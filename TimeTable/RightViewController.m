@@ -10,15 +10,13 @@
 #import "UIViewController+MMDrawerController.h"
 #import "AddSubjectViewController.h"
 #import "PresentSubjectViewController.h"
-#import "Subject.h"
-#import "Day.h"
-#import "TimeInterval.h"
 #import "DayStore.h"
+#import "SubjectStore.h"
 
 @interface RightViewController ()
 
 @property(strong, nonatomic) NSArray *subjects;
-@property (nonatomic, retain) SubjectStore *subjectsStore;
+@property(nonatomic, retain) SubjectStore *subjectStore;
 
 @end
 
@@ -35,13 +33,13 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.view.backgroundColor = [UIColor whiteColor];
-  self.subjectsStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
-  self.subjects = [self.subjectsStore subjectsTitles];
+  self.subjectStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
+  self.subjects = [self.subjectStore subjectsTitles];
   [self addTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  self.subjects = [self.subjectsStore subjectsTitles];
+  self.subjects = [self.subjectStore subjectsTitles];
   [self.tableView reloadData];
   [self.mm_drawerController.centerViewController setValue:@"OFF" forKey:@"buttonStatus"];
 }
@@ -92,16 +90,16 @@
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
     AddSubjectViewController *addVC = [[AddSubjectViewController alloc] init];
     addVC.dayStore = [[DayStore alloc] initWithContext:self.managedObjectContext];
-    addVC.subjectStore = self.subjectsStore;
+    addVC.subjectStore = self.subjectStore;
     [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:addVC
                                                                                                             animated:YES];
   } else {
     
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
     PresentSubjectViewController *subjectView = [[PresentSubjectViewController alloc] init];
-    subjectView.managedObjectContext = self.managedObjectContext;
+    subjectView.subjectStore = self.subjectStore;
     [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:subjectView animated:YES];
-    [subjectView setTitle:self.subjects[indexPath.row]];
+    [subjectView setTitleWithSubject:[self.subjectStore subjectForTitle:self.subjects[indexPath.row]]];
     
   }
 }
@@ -114,9 +112,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    [self.subjectsStore deleteSubjectWithName:self.subjects[indexPath.row]];
+    [self.subjectStore deleteSubjectWithName:self.subjects[indexPath.row]];
     [self.mm_drawerController.centerViewController.childViewControllers[0] setValue:@"YES" forKey:@"reloadData"];
-    self.subjects = [self.subjectsStore subjectsTitles];
+    self.subjects = [self.subjectStore subjectsTitles];
     [self.tableView reloadData];
   }
 }

@@ -13,6 +13,7 @@
 - (id)initWithFrame:(CGRect)frame andDelegate:(id) delegate {
   self = [super initWithFrame:frame];
   if (self) {
+    
     self.delegate = delegate;
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     self.tableView.delegate = self;
