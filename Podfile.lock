@@ -1,21 +1,24 @@
 PODS:
-  - MMDrawerController (0.5.1):
+  - MMDrawerController (0.5.2):
     - MMDrawerController/Core
     - MMDrawerController/MMDrawerBarButtonItem
     - MMDrawerController/MMDrawerVisualStates
     - MMDrawerController/Subclass
-  - MMDrawerController/Core (0.5.1)
-  - MMDrawerController/MMDrawerBarButtonItem (0.5.1):
+  - MMDrawerController/Core (0.5.2)
+  - MMDrawerController/MMDrawerBarButtonItem (0.5.2):
     - MMDrawerController/Core
-  - MMDrawerController/MMDrawerVisualStates (0.5.1):
+  - MMDrawerController/MMDrawerVisualStates (0.5.2):
     - MMDrawerController/Core
-  - MMDrawerController/Subclass (0.5.1):
+  - MMDrawerController/Subclass (0.5.2):
     - MMDrawerController/Core
+  - SWTableViewCell (0.2.3)
 
 DEPENDENCIES:
-  - MMDrawerController (~> 0.5.1)
+  - MMDrawerController (~> 0.5.2)
+  - SWTableViewCell (~> 0.2.3)
 
 SPEC CHECKSUMS:
-  MMDrawerController: 3e22aec684dbee5307ff9d1e76523003a3303a2d
+  MMDrawerController: 60bce0387ff42670d9a5a392e2f531be2fd39ce9
+  SWTableViewCell: 270c3758a84547b1cad43d70b72203b3003ce27b
 
 COCOAPODS: 0.29.0
