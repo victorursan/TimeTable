@@ -28,9 +28,6 @@
   main.managedObjectContext = self.managedObjectContext;
 
   CustomNavigationController *customNavigationController = [[CustomNavigationController alloc] initWithRootViewController:main];
-  customNavigationController.navigationBar.tintColor =[UIColor whiteColor];
-  customNavigationController.navigationBar.barTintColor = [UIColor orangeColor];
-
   RightViewController *right =[[RightViewController alloc] init];
   right.managedObjectContext = self.managedObjectContext;
 

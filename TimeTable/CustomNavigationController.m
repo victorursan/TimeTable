@@ -32,6 +32,8 @@
   [super viewDidLoad];
   self.navigationBar.barTintColor = [UIColor orangeColor];
   self.navigationBar.barStyle = UIBarStyleBlackOpaque;
+  self.navigationBar.tintColor =[UIColor whiteColor];
+
   self.middleButton = [[UIButton alloc] init];
   [self.middleButton addTarget:self action:@selector(middleButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
   [self.middleButton setTitleColor:[UIColor lightTextColor] forState:UIControlStateHighlighted];

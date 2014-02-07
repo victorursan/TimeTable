@@ -12,7 +12,7 @@
 #import "CustomCell.h"
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
-#import "Subject.h"
+
 #import "Day.h"
 #import "TimeInterval.h"
 #import "config.h"
@@ -105,11 +105,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellIdentifier = @"Cell";
-  CustomCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  CustomCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
     cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    cell.accessoryType = UITableViewCellAccessoryNone;
   }
+  
+  
+  CustomCell __weak *weakCell = cell;
+  
+  [cell setAppearanceWithBlock:^{
+    weakCell.rightUtilityButtons = [self rightButtons];
+    weakCell.delegate = self;
+    weakCell.containingTableView = tableView;
+  } force:NO];
+  
+  [cell setCellHeight:45];
+  
   TimeInterval *timeInterval = self.subjectsForCurrentDay[indexPath.row];
   cell.title.text= [timeInterval.day.subjects name];
   cell.position.text = [NSString stringWithFormat:@" #%d",(int)indexPath.row+1];
@@ -118,34 +129,36 @@
   return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSArray *)rightButtons
+{
+  NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+  [rightUtilityButtons sw_addUtilityButtonWithColor:
+   [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                              title:@"Delete"];
+  
+  return rightUtilityButtons;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+  switch (index) {
+    case 0:
+    {
+    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+    [self.tableView beginUpdates];
+    [self.subjectsStore deleteTimeInterval:self.subjectsForCurrentDay[cellIndexPath.row]];
+    self.subjectsForCurrentDay = [self arrayForTitle];
+    [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath]
+                          withRowAnimation:UITableViewRowAnimationLeft];
+    [self.tableView endUpdates];
+    break;
+    }
+    default:
+      break;
+  }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
   return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (editingStyle == UITableViewCellEditingStyleDelete) {
-    [self.tableView beginUpdates];
-    [self.subjectsStore deleteTimeInterval:self.subjectsForCurrentDay[indexPath.row]];
-    self.subjectsForCurrentDay = [self arrayForTitle];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath]
-                          withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView endUpdates];
-  }
-  if (editingStyle == UITableViewCellEditingStyleNone) {
-    [self.tableView beginUpdates];
-    [self.subjectsStore deleteTimeInterval:self.subjectsForCurrentDay[indexPath.row]];
-    self.subjectsForCurrentDay = [self arrayForTitle];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath]
-                          withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView endUpdates];
-  }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 45;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)didReceiveMemoryWarning {

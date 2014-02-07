@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "SubjectStore.h"
 #import "DayStore.h"
+#import "SWTableViewCell.h"
 
-@interface AddSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface AddSubjectViewController : UIViewController  <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate>
 
 @property (nonatomic, retain) SubjectStore *subjectStore;
 @property (nonatomic, retain) DayStore *dayStore;

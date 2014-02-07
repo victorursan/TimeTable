@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
 
-@interface RightViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface RightViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate>
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;

@@ -8,6 +8,7 @@
 
 #import "AddSubjectViewController.h"
 #import "config.h"
+#import "SWTableViewCell.h"
 
 @interface AddSubjectViewController ()
 
@@ -45,7 +46,7 @@
                                                                               SATURDAY: @[],
                                                                               SUNDAY: @[]}];
   self.daysArray = WEEKDAYS;
-
+  
   self.done = [[UIButton alloc] initWithFrame:CGRectMake(270, self.view.frame.size.height-215, 50, 30)];
   [self.done setTitle:@"Done" forState:UIControlStateNormal];
   [self.done setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
@@ -86,7 +87,6 @@
 }
 
 - (void)subjectEditingEnded {
-  // NSLog(@"editing: %@", self.subjectField.text);
 }
 
 - (void)addSubject {
@@ -95,7 +95,7 @@
   else if([self isTableViewEmpty])
     [self allertWithMessage:@"Table view is empty"];
   else {
-
+    
     NSSet *daysSet = [self.dayStore daysWithTimeIntervalsFromDictionary: self.sectionDictionary];
     [self.subjectStore addSubjectWithName:self.subjectField.text onDays:daysSet];
     
@@ -128,6 +128,7 @@
   self.tableView.dataSource = self;
   self.tableView.allowsSelection = YES;
   self.tableView.scrollEnabled = YES;
+  self.tableView.editing = NO;
   [self.view addSubview:self.tableView];
   
 }
@@ -146,22 +147,83 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellIdentifier = @"Cell";
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  SWTableViewCell *cell =(SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  
   if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                  reuseIdentifier:CellIdentifier
+                              containingTableView:_tableView // Used for row height and selection
+                               leftUtilityButtons:nil
+                              rightUtilityButtons:[self rightButtons]];
+    cell.delegate = self;
+    [cell setCellHeight:30];
   }
+  
   if (indexPath.row != [[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count]) {
-    
     NSDate *from =[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]][indexPath.row];
     NSDate *to = [from dateByAddingTimeInterval:60*60];
-    
     NSString *string = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:from],[self.timeFormat stringFromDate:to]];
     cell.textLabel.text = string;
   } else {
     cell.textLabel.text = @"+";
   }
   return cell;
+}
+
+- (NSArray *)rightButtons
+{
+  NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+  [rightUtilityButtons sw_addUtilityButtonWithColor:
+   [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+                                              title:@"Edit"];
+  [rightUtilityButtons sw_addUtilityButtonWithColor:
+   [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                              title:@"Delete"];
+  
+  return rightUtilityButtons;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+  switch (index) {
+    case 0:
+    {
+    NSLog(@"More button was pressed");
+    UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello"
+                                                        message:@"More more more"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"cancel"
+                                              otherButtonTitles: nil];
+    [alertTest show];
+    
+    [cell hideUtilityButtonsAnimated:YES];
+    break;
+    }
+    case 1:
+    {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSMutableArray *change = [self.sectionDictionary objectForKey:self.daysArray[indexPath.section]];
+    [change removeObjectAtIndex:indexPath.row];
+    [self.sectionDictionary setValue:change forKey:self.daysArray[indexPath.section]];
+
+    [self.tableView beginUpdates];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                          withRowAnimation:UITableViewRowAnimationRight];
+    [self.tableView endUpdates];
+    break;
+    }
+    default:
+      break;
+  }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
+  return YES;
+}
+
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state {
+  if ([cell.textLabel.text isEqualToString:@"+"])
+    return NO;
+  return YES;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -181,19 +243,6 @@
     self.temp = indexPath;
   }
 }
-
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-//  if([[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count] != indexPath.row){
-//    return YES;
-//  } else {
-//    return NO;
-//  }
-//}
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//  if (editingStyle == UITableViewCellEditingStyleDelete) {
-//    [self.sectionDictionary removeo]
-//  }
-//}
 
 #pragma mark - DatePicker
 

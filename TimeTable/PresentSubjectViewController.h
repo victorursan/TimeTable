@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "SubjectStore.h"
+#import "SWTableViewCell.h"
 
-@interface PresentSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface PresentSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate>
 
 @property(strong, nonatomic) UITableView *tableView;
 @property(strong, nonatomic) SubjectStore *subjectStore;

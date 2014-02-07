@@ -80,7 +80,7 @@
   self.tableView.allowsSelection = NO;
   self.tableView.scrollEnabled = YES;
   self.tableView.editing = NO;
- // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
   [self.view addSubview:self.tableView];
 }
 
@@ -98,15 +98,74 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellIdentifier = @"Cell";
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  
+  SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  
   if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                  reuseIdentifier:CellIdentifier
+                              containingTableView:_tableView // Used for row height and selection
+                               leftUtilityButtons:nil
+                              rightUtilityButtons:[self rightButtons]];
+    cell.delegate = self;
   }
+  
+  [cell setCellHeight:30];
   TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
   cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
   return cell;
 }
+
+- (NSArray *)rightButtons
+{
+  NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+  [rightUtilityButtons sw_addUtilityButtonWithColor:
+   [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+                                              title:@"Edit"];
+  [rightUtilityButtons sw_addUtilityButtonWithColor:
+   [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                              title:@"Delete"];
+  
+  return rightUtilityButtons;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+  switch (index) {
+    case 0:
+    {
+    NSLog(@"Edit button was pressed");
+    UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"Edit" delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles: nil];
+    [alertTest show];
+    
+    [cell hideUtilityButtonsAnimated:YES];
+    break;
+    }
+    case 1:
+    {
+    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+    [self.tableView beginUpdates];
+    TimeInterval *temp = self.dayDictionary[self.presentedDays[cellIndexPath.section]][cellIndexPath.row];
+    [self.subjectStore deleteTimeInterval:temp];
+    [self setSubjectData];
+    
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:cellIndexPath]
+                          withRowAnimation:UITableViewRowAnimationRight];
+    if ([self.tableView numberOfRowsInSection:cellIndexPath.section]==1) {
+      [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: cellIndexPath.section]
+                    withRowAnimation:UITableViewRowAnimationRight];
+    }
+    [self.tableView endUpdates];
+    break;
+    }
+    default:
+      break;
+  }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
+  return YES;
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   return 30;
@@ -115,39 +174,6 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-  return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (editingStyle == UITableViewCellEditingStyleDelete) {
-    [self.tableView beginUpdates];
-    TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
-    [self.subjectStore deleteTimeInterval:temp];
-    [self setSubjectData];
-    
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                          withRowAnimation:UITableViewRowAnimationRight];
-    if ([self.tableView numberOfRowsInSection:indexPath.section]==1) {
-      [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: indexPath.section]
-                    withRowAnimation:UITableViewRowAnimationRight];
-    }
-    [self.tableView endUpdates];
-  } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-    
-  }
-}
-
--(void)setEditing:(BOOL)editing animated:(BOOL)animated {
-  [super setEditing:editing animated:animated];
-  [self.tableView setEditing:editing animated:animated];
-  if ([self isEditing]) {
-    NSLog(@"yes");
-  } else {
-    NSLog(@"no");
-  }
 }
 
 @end
