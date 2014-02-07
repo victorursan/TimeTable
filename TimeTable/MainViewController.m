@@ -79,7 +79,7 @@
     self.title = self.currentDay;
     [self.tableView reloadData];
   }
-
+  
 }
 
 - (void)setTitle:(NSString *)title {
@@ -96,7 +96,7 @@
   self.tableView.dataSource = self;
   self.tableView.allowsSelection = NO;
   [self.view addSubview:self.tableView];
-
+  
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -124,9 +124,20 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
+    [self.tableView beginUpdates];
     [self.subjectsStore deleteTimeInterval:self.subjectsForCurrentDay[indexPath.row]];
     self.subjectsForCurrentDay = [self arrayForTitle];
-    [self.tableView reloadData];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                          withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
+  }
+  if (editingStyle == UITableViewCellEditingStyleNone) {
+    [self.tableView beginUpdates];
+    [self.subjectsStore deleteTimeInterval:self.subjectsForCurrentDay[indexPath.row]];
+    self.subjectsForCurrentDay = [self arrayForTitle];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                          withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
   }
 }
 
