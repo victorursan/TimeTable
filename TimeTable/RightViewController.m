@@ -91,8 +91,10 @@
 - (NSArray *)rightButtons
 {
   NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-  [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
-                                              title:@"Delete"];
+  [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f
+                                                                    green:0.231f
+                                                                     blue:0.188
+                                                                    alpha:1.0f] title:@"Delete"];
   
   return rightUtilityButtons;
 }
@@ -104,9 +106,11 @@
     // Delete button was pressed
     NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
     [self.subjectStore deleteSubjectWithName:self.subjects[cellIndexPath.row]];
-    [self.mm_drawerController.centerViewController.childViewControllers[0] setValue:@"YES" forKey:@"reloadData"];
+    [self.mm_drawerController.centerViewController.childViewControllers[0] setValue:@"YES"
+                                                                             forKey:@"reloadData"];
     self.subjects = [self.subjectStore subjectsTitles];
-    [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath]
+                          withRowAnimation:UITableViewRowAnimationLeft];
     break;
     }
     default:

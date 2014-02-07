@@ -149,10 +149,10 @@
     [self setSubjectData];
     
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:cellIndexPath]
-                          withRowAnimation:UITableViewRowAnimationRight];
+                          withRowAnimation:UITableViewRowAnimationLeft];
     if ([self.tableView numberOfRowsInSection:cellIndexPath.section]==1) {
       [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: cellIndexPath.section]
-                    withRowAnimation:UITableViewRowAnimationRight];
+                    withRowAnimation:UITableViewRowAnimationLeft];
     }
     [self.tableView endUpdates];
     break;

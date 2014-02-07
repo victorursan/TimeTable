@@ -66,7 +66,10 @@
   self.view.backgroundColor = [UIColor whiteColor];
   self.hide = [[UIView alloc] initWithFrame:self.view.bounds];
   self.hide.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(addSubject)];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save"
+                                                                            style:UIBarButtonItemStylePlain
+                                                                           target:self
+                                                                           action:@selector(addSubject)];
   
   UILabel *subjectLable = [[UILabel alloc] initWithFrame:CGRectMake(25, 105, 50, 25)];
   subjectLable.text = @"Subject :";
@@ -162,7 +165,9 @@
   if (indexPath.row != [[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count]) {
     NSDate *from =[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]][indexPath.row];
     NSDate *to = [from dateByAddingTimeInterval:60*60];
-    NSString *string = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:from],[self.timeFormat stringFromDate:to]];
+    NSString *string = [NSString stringWithFormat:@"%@-%@",
+                        [self.timeFormat stringFromDate:from],
+                        [self.timeFormat stringFromDate:to]];
     cell.textLabel.text = string;
   } else {
     cell.textLabel.text = @"+";
@@ -207,7 +212,7 @@
 
     [self.tableView beginUpdates];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                          withRowAnimation:UITableViewRowAnimationRight];
+                          withRowAnimation:UITableViewRowAnimationLeft];
     [self.tableView endUpdates];
     break;
     }

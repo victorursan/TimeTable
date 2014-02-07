@@ -13,7 +13,6 @@
 
 @interface CustomNavigationController ()
 
-//@property(strong, nonatomic) UIButton *middleButton;
 @property(strong, nonatomic) PresentDayTable *presentDayTable;
 
 @end

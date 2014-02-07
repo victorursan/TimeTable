@@ -41,7 +41,10 @@
   [super viewDidLoad];
   self.subjectsStore = [[SubjectStore alloc] initWithContext:self.managedObjectContext];
   self.title = [self currentWeekDay];
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects" style:UIBarButtonItemStylePlain target:self action:@selector(subjectsButtonPressed)];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Subjects"
+                                                                            style:UIBarButtonItemStylePlain
+                                                                           target:self
+                                                                           action:@selector(subjectsButtonPressed)];
   [self.navigationController setValue:WEEKDAYS forKey:@"elements"];
   self.subjectsForCurrentDay = [[NSArray alloc] init];
   self.timeFormat = [[NSDateFormatter alloc] init];
@@ -125,7 +128,9 @@
   cell.title.text= [timeInterval.day.subjects name];
   cell.position.text = [NSString stringWithFormat:@" #%d",(int)indexPath.row+1];
   [cell.position sizeToFit];
-  cell.positionDescription.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:timeInterval.from],[self.timeFormat stringFromDate:timeInterval.to]];
+  cell.positionDescription.text = [NSString stringWithFormat:@"%@-%@",
+                                   [self.timeFormat stringFromDate:timeInterval.from],
+                                   [self.timeFormat stringFromDate:timeInterval.to]];
   return cell;
 }
 

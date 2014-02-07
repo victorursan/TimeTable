@@ -26,16 +26,17 @@
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   MainViewController *main = [[MainViewController alloc] init];
   main.managedObjectContext = self.managedObjectContext;
-
+  
   CustomNavigationController *customNavigationController = [[CustomNavigationController alloc] initWithRootViewController:main];
   RightViewController *right =[[RightViewController alloc] init];
   right.managedObjectContext = self.managedObjectContext;
-
+  
   MMDrawerController *drawerController = [[MMDrawerController alloc] initWithCenterViewController:customNavigationController
                                                                         rightDrawerViewController:right];
   drawerController.shouldStretchDrawer = NO;
   [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
-  [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView | MMCloseDrawerGestureModePanningCenterView | MMCloseDrawerGestureModeTapNavigationBar];  [drawerController setMaximumRightDrawerWidth:240];
+  [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView | MMCloseDrawerGestureModePanningCenterView | MMCloseDrawerGestureModeTapNavigationBar];
+  [drawerController setMaximumRightDrawerWidth:240];
   
   [self.window setRootViewController:drawerController];
   self.window.backgroundColor = [UIColor whiteColor];
