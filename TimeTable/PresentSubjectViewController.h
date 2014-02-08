@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "SubjectStore.h"
 #import "SWTableViewCell.h"
+#import "CustomTimePicker.h"
 
-@interface PresentSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate>
+@interface PresentSubjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, CustomTimePickerDelegate>
 
 @property(strong, nonatomic) UITableView *tableView;
 @property(strong, nonatomic) SubjectStore *subjectStore;

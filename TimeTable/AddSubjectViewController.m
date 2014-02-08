@@ -160,11 +160,7 @@
 
 - (NSArray *)rightButtons {
   NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-  [rightUtilityButtons sw_addUtilityButtonWithColor:
-   [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                              title:@"Edit"];
-  [rightUtilityButtons sw_addUtilityButtonWithColor:
-   [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+  [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
                                               title:@"Delete"];
   
   return rightUtilityButtons;
@@ -173,19 +169,6 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
   switch (index) {
     case 0:
-    {
-    NSLog(@"More button was pressed");
-    UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello"
-                                                        message:@"More more more"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"cancel"
-                                              otherButtonTitles: nil];
-    [alertTest show];
-    
-    [cell hideUtilityButtonsAnimated:YES];
-    break;
-    }
-    case 1:
     {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     NSMutableArray *change = [self.sectionDictionary objectForKey:self.daysArray[indexPath.section]];

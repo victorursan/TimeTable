@@ -33,6 +33,17 @@
     NSLog(@"Problem saving: %@", [error localizedDescription]);
 }
 
+- (void)addTimeInterval:(NSDate *)date forSubject:(Subject *)subject andDay:(Day *)day {
+  NSError *error;
+  TimeInterval *timeInterval = [NSEntityDescription insertNewObjectForEntityForName:@"TimeInterval" inManagedObjectContext:self.context];
+  timeInterval.from = date;
+  timeInterval.to = [date dateByAddingTimeInterval:60*60];
+ // timeInterval.day = day;
+  [day addTimeIntervalObject:timeInterval];
+  if (![self.context save:&error])
+    NSLog(@"Problem saving: %@", [error localizedDescription]);
+}
+
 - (NSArray *)subjects {
   NSError *error;
   return [self.context executeFetchRequest:self.fetcher error:&error];

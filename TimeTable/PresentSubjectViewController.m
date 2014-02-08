@@ -21,6 +21,8 @@
 @property(strong, nonatomic) NSArray *days;
 @property(strong, nonatomic) NSDictionary *dayDictionary;
 @property(strong, nonatomic) NSDateFormatter *timeFormat;
+@property(strong, nonatomic) CustomTimePicker *customTimePicker;
+@property(strong, nonatomic) NSIndexPath *selectedIndex;
 
 @end
 
@@ -40,6 +42,8 @@
   
   [self setSubjectData];
   self.days = WEEKDAYS;
+  
+  self.customTimePicker = [[CustomTimePicker alloc] initWithFrame:self.view.frame andDelegate:self];
   
   UILabel *subjectLable = [[UILabel alloc] initWithFrame:CGRectMake(25, 105, 75, 25)];
   subjectLable.text = @"Subject :";
@@ -130,19 +134,19 @@
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+  NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
   switch (index) {
     case 0:
     {
-    NSLog(@"Edit button was pressed");
-    UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"Edit" delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles: nil];
-    [alertTest show];
+    ////[self.customTimePicker pickerWithoutHours:@[@1,@4,@7]];
+    self.selectedIndex = cellIndexPath;
+    [self.view addSubview:self.customTimePicker];
     
     [cell hideUtilityButtonsAnimated:YES];
     break;
     }
     case 1:
     {
-    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
     [self.tableView beginUpdates];
     TimeInterval *temp = self.dayDictionary[self.presentedDays[cellIndexPath.section]][cellIndexPath.row];
     [self.subjectStore deleteTimeInterval:temp];
@@ -166,9 +170,18 @@
   return YES;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   return 30;
+}
+
+- (void)addTime:(NSDate *)time {
+  NSMutableArray *new = [[NSMutableArray alloc] initWithArray: [self.dayDictionary valueForKey:self.presentedDays[self.selectedIndex.section]]];
+  TimeInterval *temp = new[self.selectedIndex.row];
+  Day *selectedDay = temp.day;
+  [self.subjectStore deleteTimeInterval:temp];
+  [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDay:selectedDay];
+  [self setSubjectData];
+  [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

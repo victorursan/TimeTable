@@ -19,6 +19,4 @@
 
 @property(strong, nonatomic) UITableView *tableView;
 
-- (void)addTime:(NSDate *)time;
-
 @end
