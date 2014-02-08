@@ -10,13 +10,15 @@
 #import "SubjectStore.h"
 #import "DayStore.h"
 #import "SWTableViewCell.h"
+#import "CustomTimePicker.h"
 
-@interface AddSubjectViewController : UIViewController  <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate>
+@interface AddSubjectViewController : UIViewController  <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, CustomTimePickerDelegate>
 
 @property (nonatomic, retain) SubjectStore *subjectStore;
 @property (nonatomic, retain) DayStore *dayStore;
 
 @property(strong, nonatomic) UITableView *tableView;
-@property(strong, nonatomic) UIDatePicker *datePicker;
+
+- (void)addTime:(NSDate *)time;
 
 @end

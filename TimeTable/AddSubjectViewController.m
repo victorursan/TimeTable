@@ -15,11 +15,9 @@
 @property(strong, nonatomic) UITextField *subjectField;
 @property(strong, nonatomic) NSMutableDictionary *sectionDictionary;
 @property(strong, nonatomic) NSArray *daysArray;
-@property(strong, nonatomic) UIView *hide;
-@property(strong, nonatomic) UIButton *done;
-@property(strong, nonatomic) UIButton *cancel;
 @property(strong, nonatomic) NSIndexPath *temp;
 @property(strong, nonatomic) NSDateFormatter *timeFormat;
+@property(strong, nonatomic) CustomTimePicker *customTimePicker;
 
 @end
 
@@ -47,25 +45,11 @@
                                                                               SUNDAY: @[]}];
   self.daysArray = WEEKDAYS;
   
-  self.done = [[UIButton alloc] initWithFrame:CGRectMake(270, self.view.frame.size.height-215, 50, 30)];
-  [self.done setTitle:@"Done" forState:UIControlStateNormal];
-  [self.done setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-  [self.done addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-  self.done.hidden = YES;
-  [self.view addSubview:self.done];
-  
-  self.cancel = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-215, 50, 30)];
-  [self.cancel setTitle:@"Cancel" forState:UIControlStateNormal];
-  [self.cancel setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-  [self.cancel sizeToFit];
-  [self.cancel addTarget:self action:@selector(cancelButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-  self.cancel.hidden = YES;
-  [self.view addSubview:self.cancel];
+  self.customTimePicker = [[CustomTimePicker alloc] initWithFrame:self.view.frame andDelegate:self];
   
   
   self.view.backgroundColor = [UIColor whiteColor];
-  self.hide = [[UIView alloc] initWithFrame:self.view.bounds];
-  self.hide.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+  
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save"
                                                                             style:UIBarButtonItemStylePlain
                                                                            target:self
@@ -86,7 +70,6 @@
   [self.view addSubview:self.subjectField];
   
   [self addTableView];
-  [self addDatePicker];
 }
 
 - (void)subjectEditingEnded {
@@ -175,8 +158,7 @@
   return cell;
 }
 
-- (NSArray *)rightButtons
-{
+- (NSArray *)rightButtons {
   NSMutableArray *rightUtilityButtons = [NSMutableArray new];
   [rightUtilityButtons sw_addUtilityButtonWithColor:
    [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
@@ -209,7 +191,7 @@
     NSMutableArray *change = [self.sectionDictionary objectForKey:self.daysArray[indexPath.section]];
     [change removeObjectAtIndex:indexPath.row];
     [self.sectionDictionary setValue:change forKey:self.daysArray[indexPath.section]];
-
+    
     [self.tableView beginUpdates];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                           withRowAnimation:UITableViewRowAnimationLeft];
@@ -237,49 +219,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [self.subjectField resignFirstResponder];
-  if ([[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count] == indexPath.row) {
-    [self.view addSubview:self.hide];
-    [self.view bringSubviewToFront:self.datePicker];
-    [self.view bringSubviewToFront:self.done];
-    [self.view bringSubviewToFront:self.cancel];
-    self.datePicker.hidden = NO;
-    self.done.hidden = NO;
-    self.cancel.hidden = NO;
-    self.temp = indexPath;
-  }
+  //[self.customTimePicker pickerWithoutHours:@[@1,@4,@7]];
+  [self.view addSubview:self.customTimePicker];
+  self.temp = indexPath;
 }
 
-#pragma mark - DatePicker
 
-- (void)addDatePicker {
-  self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-215, 320, 250)];
-  self.datePicker.hidden = YES;
-  self.datePicker.backgroundColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:0.8];
-  self.datePicker.datePickerMode = UIDatePickerModeTime;
-  self.datePicker.minuteInterval = 30;
-  [self.view addSubview:self.datePicker];
-}
-
-- (void)doneButtonPressed {
-  [self.hide removeFromSuperview];
-  NSString *string = [self.timeFormat stringFromDate:self.datePicker.date];
-  NSDate *date = [self.timeFormat dateFromString:string];
+- (void)addTime:(NSDate *)time {
   NSMutableArray *new = [[NSMutableArray alloc] initWithArray: [self.sectionDictionary valueForKey:self.daysArray[self.temp.section]]];
-  [new addObject:date];
+  if (new.count != 0 && self.temp.row<new.count) {
+    [new setObject:time atIndexedSubscript:self.temp.row];
+  } else {
+    [new addObject:time];
+  }
   [self.sectionDictionary setValue:new forKey:self.daysArray[self.temp.section]];
-  self.datePicker.hidden = YES;
-  self.done.hidden = YES;
-  self.cancel.hidden = YES;
   [self.tableView reloadData];
 }
 
-- (void)cancelButtonPressed {
-  [self.hide removeFromSuperview];
-  self.datePicker.hidden = YES;
-  self.done.hidden = YES;
-  self.cancel.hidden = YES;
-  [self.tableView reloadData];
-}
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];

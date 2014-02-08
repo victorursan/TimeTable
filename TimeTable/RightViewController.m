@@ -123,7 +123,6 @@
 }
 
 - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state {
-  NSLog(@"label:%@",cell.textLabel.text);
   NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
   if (indexPath.row != self.subjects.count)
     return YES;

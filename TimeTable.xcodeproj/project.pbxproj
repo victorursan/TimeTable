@@ -36,6 +36,7 @@
 		574AA07F185E4D1F00865E1E /* Subject.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA07E185E4D1F00865E1E /* Subject.m */; };
 		574AA082185E4D1F00865E1E /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 574AA081185E4D1F00865E1E /* Day.m */; };
 		57539D07189AE493009B6CF1 /* PresentDayTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 57539D06189AE493009B6CF1 /* PresentDayTable.m */; };
+		57862FEC18A68B9700B9281C /* CustomTimePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 57862FEB18A68B9700B9281C /* CustomTimePicker.m */; };
 		C18E94FF86C249A0B4B0DA9C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 951E3A996CE742D69323E3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +96,9 @@
 		57539D05189AE493009B6CF1 /* PresentDayTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentDayTable.h; sourceTree = "<group>"; };
 		57539D06189AE493009B6CF1 /* PresentDayTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentDayTable.m; sourceTree = "<group>"; };
 		57539D08189AFA5B009B6CF1 /* PresentDayTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentDayTableDelegate.h; sourceTree = "<group>"; };
+		57862FEA18A68B9700B9281C /* CustomTimePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTimePicker.h; sourceTree = "<group>"; };
+		57862FEB18A68B9700B9281C /* CustomTimePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTimePicker.m; sourceTree = "<group>"; };
+		57862FED18A68D3D00B9281C /* CustomTimePickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTimePickerDelegate.h; sourceTree = "<group>"; };
 		951E3A996CE742D69323E3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -195,6 +199,9 @@
 				574AA0691856599C00865E1E /* PresentSubjectViewController.m */,
 				574AA06B185CECC600865E1E /* AddSubjectViewController.h */,
 				574AA06C185CECC600865E1E /* AddSubjectViewController.m */,
+				57862FEA18A68B9700B9281C /* CustomTimePicker.h */,
+				57862FEB18A68B9700B9281C /* CustomTimePicker.m */,
+				57862FED18A68D3D00B9281C /* CustomTimePickerDelegate.h */,
 				574AA06E185D0C7300865E1E /* CustomCell.h */,
 				574AA06F185D0C7300865E1E /* CustomCell.m */,
 				5741F374182E61C4005AF6E1 /* Images.xcassets */,
@@ -371,6 +378,7 @@
 				5706374B182FF73B002B9D09 /* CustomNavigationController.m in Sources */,
 				57539D07189AE493009B6CF1 /* PresentDayTable.m in Sources */,
 				5741F370182E61C4005AF6E1 /* AppDelegate.m in Sources */,
+				57862FEC18A68B9700B9281C /* CustomTimePicker.m in Sources */,
 				5741F36C182E61C4005AF6E1 /* main.m in Sources */,
 				574AA06D185CECC600865E1E /* AddSubjectViewController.m in Sources */,
 				573BE2F2187581D000F042A4 /* SubjectStore.m in Sources */,
