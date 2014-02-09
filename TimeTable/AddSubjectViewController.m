@@ -134,7 +134,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellIdentifier = @"Cell";
   SWTableViewCell *cell =(SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  
   if (cell == nil) {
     cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                   reuseIdentifier:CellIdentifier
@@ -202,9 +201,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [self.subjectField resignFirstResponder];
-  //[self.customTimePicker pickerWithoutHours:@[@1,@4,@7]];
+  NSMutableArray *whithoutHours = [[self.dayStore hoursInDay:self.daysArray[indexPath.section]] mutableCopy];
+  [whithoutHours addObjectsFromArray:[self transformDateArrayinNumberArray:[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]]]];
+  [self.customTimePicker pickerWithoutHours:whithoutHours];
   [self.view addSubview:self.customTimePicker];
   self.temp = indexPath;
+}
+
+- (NSArray *)transformDateArrayinNumberArray:(NSArray *)dates {
+  NSMutableArray *numbers = [@[] mutableCopy];
+  for (NSDate *date in dates) {
+    [numbers addObject:[self numberFromDate:date]];
+  }
+  return numbers;
+}
+
+- (NSNumber *)numberFromDate:(NSDate *)date {
+  NSCalendar *cal = [NSCalendar currentCalendar];
+  NSDateComponents *hour = [cal components:NSCalendarUnitWeekday|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:date];
+  return [NSNumber numberWithInteger:hour.hour];
 }
 
 

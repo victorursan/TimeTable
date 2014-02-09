@@ -16,5 +16,6 @@
 - (id)initWithContext:(NSManagedObjectContext *)managedObjectContext;
 - (NSSet *)daysWithTimeIntervalsFromDictionary:(NSDictionary *)dictionary;
 - (NSDictionary *)timeIntervalsForDay:(Day *)day;
+- (NSArray *)hoursInDay:(NSString *)day;
 
 @end

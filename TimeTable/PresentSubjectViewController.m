@@ -138,7 +138,7 @@
   switch (index) {
     case 0:
     {
-    ////[self.customTimePicker pickerWithoutHours:@[@1,@4,@7]];
+    [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.presentedDays[cellIndexPath.section]]];
     self.selectedIndex = cellIndexPath;
     [self.view addSubview:self.customTimePicker];
     

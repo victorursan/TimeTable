@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SubjectStore.h"
+#import "DayStore.h"
 #import "SWTableViewCell.h"
 #import "CustomTimePicker.h"
 
@@ -15,6 +16,7 @@
 
 @property(strong, nonatomic) UITableView *tableView;
 @property(strong, nonatomic) SubjectStore *subjectStore;
+@property(strong, nonatomic) DayStore *dayStore;
 
 - (void)setTitleWithSubject:(Subject *)subject;
 

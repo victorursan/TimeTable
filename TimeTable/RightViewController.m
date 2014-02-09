@@ -145,6 +145,7 @@
     
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
     PresentSubjectViewController *subjectView = [[PresentSubjectViewController alloc] init];
+    subjectView.dayStore = [[DayStore alloc] initWithContext:self.managedObjectContext];
     subjectView.subjectStore = self.subjectStore;
     [[self.mm_drawerController.centerViewController.childViewControllers[0] navigationController] pushViewController:subjectView
                                                                                                             animated:YES];

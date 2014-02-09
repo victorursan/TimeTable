@@ -7,6 +7,7 @@
 //
 
 #import "DayStore.h"
+#import "Subject.h"
 #import "Day.h"
 #import "TimeInterval.h"
 #import "config.h"
@@ -55,5 +56,48 @@
   NSDictionary *dayDictionary = @{day.dayName: timeIntervals};
   return dayDictionary;
 }
+
+- (NSArray *)hoursInDay:(NSString *)day {
+  NSMutableArray *hours = [@[] mutableCopy];
+  NSError *error;
+  NSFetchRequest *fetcher = [[NSFetchRequest alloc] init];
+  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Subject" inManagedObjectContext:self.context];
+  [fetcher setEntity:entity];
+  NSArray *search = [self.context executeFetchRequest:fetcher error:&error];
+  for (Subject *subj in search) {
+    for (Day *testDay in subj.days) {
+      if ([testDay.dayName isEqualToString:day]) {
+        [hours addObjectsFromArray:[self timesFromDay:testDay]];
+      }
+    }
+    
+  }
+  return hours;
+}
+
+- (NSArray *)timesFromDay:(Day *)day {
+  NSMutableArray *times = [@[] mutableCopy];
+  for (TimeInterval *time in day.timeInterval) {
+    [times addObject:[self numberFromDate:time.from]];
+  }
+  return times;
+}
+
+
+- (NSNumber *)numberFromDate:(NSDate *)date {
+  NSCalendar *cal = [NSCalendar currentCalendar];
+  NSDateComponents *hour = [cal components:NSCalendarUnitWeekday|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:date];
+  return [NSNumber numberWithInteger:hour.hour];
+}
+
+/*
+ - (NSDate *)timeFromNumber:(NSNumber *)number {
+ NSCalendar *cal = [NSCalendar currentCalendar];
+ NSDateComponents *hour = [cal components:NSCalendarUnitWeekday|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:[NSDate date]];
+ [hour setHour:number.integerValue];
+ [hour setMinute:0];
+ return [cal dateFromComponents:hour];
+ }
+ */
 
 @end
