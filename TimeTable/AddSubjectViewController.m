@@ -222,7 +222,6 @@
   return [NSNumber numberWithInteger:hour.hour];
 }
 
-
 - (void)addTime:(NSDate *)time {
   NSMutableArray *new = [[NSMutableArray alloc] initWithArray: [self.sectionDictionary valueForKey:self.daysArray[self.temp.section]]];
   if (new.count != 0 && self.temp.row<new.count) {
@@ -233,7 +232,6 @@
   [self.sectionDictionary setValue:new forKey:self.daysArray[self.temp.section]];
   [self.tableView reloadData];
 }
-
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];

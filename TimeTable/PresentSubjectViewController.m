@@ -23,6 +23,7 @@
 @property(strong, nonatomic) NSDateFormatter *timeFormat;
 @property(strong, nonatomic) CustomTimePicker *customTimePicker;
 @property(strong, nonatomic) NSIndexPath *selectedIndex;
+@property BOOL editMode;
 
 @end
 
@@ -39,6 +40,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.view.backgroundColor = [UIColor whiteColor];
+  
+  self.editMode = NO;
   
   [self setSubjectData];
   self.days = WEEKDAYS;
@@ -84,8 +87,19 @@
   self.tableView.allowsSelection = NO;
   self.tableView.scrollEnabled = YES;
   self.tableView.editing = NO;
-  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(buttonPressed)];
   [self.view addSubview:self.tableView];
+}
+
+- (void)buttonPressed {
+  self.editMode = YES;
+  
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveButton)];
+}
+
+- (void)saveButton {
+  self.editMode = NO;
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(buttonPressed)];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
