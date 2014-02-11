@@ -90,14 +90,5 @@
   return [NSNumber numberWithInteger:hour.hour];
 }
 
-/*
- - (NSDate *)timeFromNumber:(NSNumber *)number {
- NSCalendar *cal = [NSCalendar currentCalendar];
- NSDateComponents *hour = [cal components:NSCalendarUnitWeekday|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:[NSDate date]];
- [hour setHour:number.integerValue];
- [hour setMinute:0];
- return [cal dateFromComponents:hour];
- }
- */
 
 @end

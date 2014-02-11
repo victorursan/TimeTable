@@ -10,6 +10,7 @@
 #import "DayStore.h"
 #import "Subject.h"
 #import "Day.h"
+#import "config.h"
 
 @implementation SubjectStore
 
@@ -29,16 +30,6 @@
   Subject *newSubject = [NSEntityDescription insertNewObjectForEntityForName:@"Subject" inManagedObjectContext:self.context];
   newSubject.name = name;
   [newSubject addDays: days];
-  if (![self.context save:&error])
-    NSLog(@"Problem saving: %@", [error localizedDescription]);
-}
-
-- (void)addTimeInterval:(NSDate *)date forSubject:(Subject *)subject andDay:(Day *)day {
-  NSError *error;
-  TimeInterval *timeInterval = [NSEntityDescription insertNewObjectForEntityForName:@"TimeInterval" inManagedObjectContext:self.context];
-  timeInterval.from = date;
-  timeInterval.to = [date dateByAddingTimeInterval:60*60];
-  [day addTimeIntervalObject:timeInterval];
   if (![self.context save:&error])
     NSLog(@"Problem saving: %@", [error localizedDescription]);
 }
@@ -91,10 +82,20 @@
 
 - (NSDictionary *)dictionaryforSubject:(Subject *)subject {
   DayStore *dayStore = [[DayStore alloc] initWithContext:self.context];
-  NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary *mutableDictionary = [@{} mutableCopy];
   for (Day *day in subject.days ) {
     [mutableDictionary addEntriesFromDictionary:[dayStore timeIntervalsForDay:day]];
   }
+//  //NSArray *sortedArray = [[mutableDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+//  NSMutableDictionary *sortedDictionary = [@{} mutableCopy];
+//  for (NSString *key in WEEKDAYS) {
+//    NSLog(@"key:%@",key);
+//    if(mutableDictionary[key]){
+////      [sortedDictionary addEntriesFromDictionary:@{key: mutableDictionary[key]}];
+//      [sortedDictionary setValue:mutableDictionary[key] forKey:key];
+//    }
+//  }
+//  NSLog(@"%@",sortedDictionary);
   return mutableDictionary;
 }
 

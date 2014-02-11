@@ -95,6 +95,7 @@
   self.editMode = YES;
   [self.tableView reloadData];
   [self.tableView setEditing: YES animated: YES];
+  //self.tableView.allowsSelection = YES;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButton)];
 }
 
@@ -102,6 +103,7 @@
   self.editMode = NO;
   [self.tableView reloadData];
   [self.tableView setEditing: NO animated: YES];
+  //self.tableView.allowsSelection = NO;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editPressed)];
 }
 
@@ -176,7 +178,10 @@
     if (self.dayDictionary[self.days[indexPath.section]] && indexPath.row < [self.dayDictionary[self.days[indexPath.section]] count]) {
       TimeInterval *temp = self.dayDictionary[self.days[indexPath.section]][indexPath.row];
       cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
+    } else {
+      cell.textLabel.text = @"";
     }
+    
     return cell;
     
   } else {
@@ -191,8 +196,9 @@
       cell.delegate = self;
     }
     [cell setCellHeight:30];
-    TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
+      NSLog(@"section:%ld, %@",(long)indexPath.section,self.presentedDays[indexPath.section]);
+      TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
+      cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
     return cell;
     
   }
@@ -257,9 +263,8 @@
   NSMutableArray *new = [[NSMutableArray alloc] initWithArray: [self.dayDictionary valueForKey:self.days[self.selectedIndex.section]]];
   if ([new count]<self.selectedIndex.row) {
     TimeInterval *temp = new[self.selectedIndex.row];
-    Day *selectedDay = temp.day;
     [self.subjectStore deleteTimeInterval:temp];
-    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDay:selectedDay];
+    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDayName:self.days[self.selectedIndex.section]];
     [self setSubjectData];
     [self.tableView reloadData];
   } else {
