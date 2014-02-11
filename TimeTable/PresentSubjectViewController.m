@@ -87,55 +87,118 @@
   self.tableView.allowsSelection = NO;
   self.tableView.scrollEnabled = YES;
   self.tableView.editing = NO;
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(buttonPressed)];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editPressed)];
   [self.view addSubview:self.tableView];
 }
 
-- (void)buttonPressed {
+- (void)editPressed {
   self.editMode = YES;
-  
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveButton)];
+  [self.tableView reloadData];
+  [self.tableView setEditing: YES animated: YES];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButton)];
 }
 
-- (void)saveButton {
+- (void)doneButton {
   self.editMode = NO;
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(buttonPressed)];
+  [self.tableView reloadData];
+  [self.tableView setEditing: NO animated: YES];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editPressed)];
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (self.dayDictionary[self.days[indexPath.section]] && indexPath.row < [self.dayDictionary[self.days[indexPath.section]] count]) {
+    return UITableViewCellEditingStyleDelete;
+  } else {
+    return UITableViewCellEditingStyleInsert;
+  }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    [self.tableView beginUpdates];
+    TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
+    [self.subjectStore deleteTimeInterval:temp];
+    [self setSubjectData];
+    
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                          withRowAnimation:UITableViewRowAnimationLeft];
+    if ([self.tableView numberOfRowsInSection:indexPath.section]==1) {
+      [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: indexPath.section]
+                    withRowAnimation:UITableViewRowAnimationLeft];
+    }
+    [self.tableView endUpdates];
+  } else {
+    [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.days[indexPath.section]]];
+    self.selectedIndex = indexPath;
+    [self.view addSubview:self.customTimePicker];
+    [self setSubjectData];
+    [self.tableView reloadData];
+  }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (self.editMode) {
+    return YES;
+  }
+  return NO;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+  if (self.editMode) {
+    return 7;
+  }
   return [self.presentedDays count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  if (self.editMode) {
+    return self.days[section];
+  }
   return self.presentedDays[section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  if (self.editMode) {
+    return [self.dayDictionary[self.days[section]] count]+1;
+  }
   return [self.dayDictionary[self.presentedDays[section]] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *CellIdentifier = @"Cell";
   
-  SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  
-  if (cell == nil) {
-    cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                  reuseIdentifier:CellIdentifier
-                              containingTableView:_tableView // Used for row height and selection
-                               leftUtilityButtons:nil
-                              rightUtilityButtons:[self rightButtons]];
-    cell.delegate = self;
+  if (self.editMode) {
+    static NSString *CellIdentifier = @"UITableViewCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+      cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    if (self.dayDictionary[self.days[indexPath.section]] && indexPath.row < [self.dayDictionary[self.days[indexPath.section]] count]) {
+      TimeInterval *temp = self.dayDictionary[self.days[indexPath.section]][indexPath.row];
+      cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
+    }
+    return cell;
+    
+  } else {
+    static NSString *CellIdentifier = @"SWTableViewCell";
+    SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+      cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                    reuseIdentifier:CellIdentifier
+                                containingTableView:_tableView // Used for row height and selection
+                                 leftUtilityButtons:nil
+                                rightUtilityButtons:[self rightButtons]];
+      cell.delegate = self;
+    }
+    [cell setCellHeight:30];
+    TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
+    return cell;
+    
   }
-  
-  [cell setCellHeight:30];
-  TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
-  cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
-  return cell;
 }
 
-- (NSArray *)rightButtons
-{
+- (NSArray *)rightButtons {
   NSMutableArray *rightUtilityButtons = [NSMutableArray new];
   [rightUtilityButtons sw_addUtilityButtonWithColor:
    [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
@@ -177,7 +240,9 @@
     }
     default:
       break;
+      
   }
+  [self setSubjectData];
 }
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
@@ -189,13 +254,20 @@
 }
 
 - (void)addTime:(NSDate *)time {
-  NSMutableArray *new = [[NSMutableArray alloc] initWithArray: [self.dayDictionary valueForKey:self.presentedDays[self.selectedIndex.section]]];
-  TimeInterval *temp = new[self.selectedIndex.row];
-  Day *selectedDay = temp.day;
-  [self.subjectStore deleteTimeInterval:temp];
-  [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDay:selectedDay];
-  [self setSubjectData];
-  [self.tableView reloadData];
+  NSMutableArray *new = [[NSMutableArray alloc] initWithArray: [self.dayDictionary valueForKey:self.days[self.selectedIndex.section]]];
+  if ([new count]<self.selectedIndex.row) {
+    TimeInterval *temp = new[self.selectedIndex.row];
+    Day *selectedDay = temp.day;
+    [self.subjectStore deleteTimeInterval:temp];
+    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDay:selectedDay];
+    [self setSubjectData];
+    [self.tableView reloadData];
+  } else {
+    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDayName:self.days[self.selectedIndex.section]];
+    [self setSubjectData];
+    [self.tableView reloadData];
+  }
+  
 }
 
 - (void)didReceiveMemoryWarning {

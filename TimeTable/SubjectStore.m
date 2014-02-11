@@ -38,10 +38,31 @@
   TimeInterval *timeInterval = [NSEntityDescription insertNewObjectForEntityForName:@"TimeInterval" inManagedObjectContext:self.context];
   timeInterval.from = date;
   timeInterval.to = [date dateByAddingTimeInterval:60*60];
- // timeInterval.day = day;
   [day addTimeIntervalObject:timeInterval];
   if (![self.context save:&error])
     NSLog(@"Problem saving: %@", [error localizedDescription]);
+}
+
+- (void)addTimeInterval:(NSDate *)date forSubject:(Subject *)subject andDayName:(NSString *)day {
+  NSError *error;
+  Day *newDay;
+  TimeInterval *timeInterval = [NSEntityDescription insertNewObjectForEntityForName:@"TimeInterval" inManagedObjectContext:self.context];
+  timeInterval.from = date;
+  timeInterval.to = [date dateByAddingTimeInterval:60*60];
+  for (Day *search in subject.days) {
+    if ([search.dayName isEqualToString:day]) {
+      newDay = search;
+    }
+  }
+  if (!newDay) {
+    newDay = [NSEntityDescription insertNewObjectForEntityForName:@"Day" inManagedObjectContext:self.context];
+    newDay.dayName=day;
+    [subject addDaysObject:newDay];
+  }
+  [newDay addTimeIntervalObject:timeInterval];
+  if (![self.context save:&error])
+    NSLog(@"Problem saving: %@", [error localizedDescription]);
+  
 }
 
 - (NSArray *)subjects {
