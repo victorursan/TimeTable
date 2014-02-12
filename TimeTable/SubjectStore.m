@@ -86,16 +86,6 @@
   for (Day *day in subject.days ) {
     [mutableDictionary addEntriesFromDictionary:[dayStore timeIntervalsForDay:day]];
   }
-//  //NSArray *sortedArray = [[mutableDictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-//  NSMutableDictionary *sortedDictionary = [@{} mutableCopy];
-//  for (NSString *key in WEEKDAYS) {
-//    NSLog(@"key:%@",key);
-//    if(mutableDictionary[key]){
-////      [sortedDictionary addEntriesFromDictionary:@{key: mutableDictionary[key]}];
-//      [sortedDictionary setValue:mutableDictionary[key] forKey:key];
-//    }
-//  }
-//  NSLog(@"%@",sortedDictionary);
   return mutableDictionary;
 }
 

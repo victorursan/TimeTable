@@ -43,9 +43,8 @@
   
   self.editMode = NO;
   
-  [self setSubjectData];
   self.days = WEEKDAYS;
-  
+  [self setSubjectData];
   self.customTimePicker = [[CustomTimePicker alloc] initWithFrame:self.view.frame andDelegate:self];
   
   UILabel *subjectLable = [[UILabel alloc] initWithFrame:CGRectMake(25, 105, 75, 25)];
@@ -73,7 +72,13 @@
 
 - (void)setSubjectData {
   self.dayDictionary = [self.subjectStore dictionaryforSubject:self.presentedSubject];
-  self.presentedDays = self.dayDictionary.allKeys ;
+  NSMutableArray *tempArray = [@[] mutableCopy];
+  for (NSString *day in self.days) {
+    if ([self.dayDictionary.allKeys containsObject:day]) {
+      [tempArray addObject:day];
+    }
+  }
+  self.presentedDays = tempArray;
 }
 
 
@@ -130,7 +135,7 @@
     }
     [self.tableView endUpdates];
   } else {
-    [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.days[indexPath.section]]];
+    [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.presentedDays[indexPath.section]]];
     self.selectedIndex = indexPath;
     [self.view addSubview:self.customTimePicker];
     [self setSubjectData];
@@ -196,9 +201,8 @@
       cell.delegate = self;
     }
     [cell setCellHeight:30];
-      NSLog(@"section:%ld, %@",(long)indexPath.section,self.presentedDays[indexPath.section]);
-      TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
-      cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
+    TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
     return cell;
     
   }

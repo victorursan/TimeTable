@@ -53,8 +53,26 @@
   for (TimeInterval *time in day.timeInterval) {
     [timeIntervals addObject:time];
   }
-  NSDictionary *dayDictionary = @{day.dayName: timeIntervals};
+  NSDictionary *dayDictionary = @{day.dayName: [self sortTimeIntervalArray:timeIntervals]};
   return dayDictionary;
+}
+
+- (NSArray *)sortTimeIntervalArray:(NSMutableArray *)toSort {
+  TimeInterval *aux;
+  int n = [toSort count];
+  for (int i=0; i<n-1; i++) {
+    for (int j = i+1; j<n; j++) {
+      TimeInterval *first = toSort[i];
+      TimeInterval *second = toSort[j];
+      if ([[self numberFromDate:first.from] integerValue]>[[self numberFromDate:second.from] integerValue]) {
+        aux = toSort[i];
+        toSort[i] = toSort[j];
+        toSort[j] = aux;
+      }
+    }
+  }
+//  NSLog(@"%@",toSort);
+  return toSort;
 }
 
 - (NSArray *)hoursInDay:(NSString *)day {
