@@ -122,7 +122,7 @@
     weakCell.containingTableView = tableView;
   } force:NO];
   
-  [cell setCellHeight:45];
+  [cell setCellHeight:44];
   
   TimeInterval *timeInterval = self.subjectsForCurrentDay[indexPath.row];
   cell.title.text= [timeInterval.day.subjects name];

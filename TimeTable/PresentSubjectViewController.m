@@ -91,6 +91,7 @@
   self.tableView.dataSource = self;
   self.tableView.allowsSelection = NO;
   self.tableView.scrollEnabled = YES;
+  self.tableView.allowsSelectionDuringEditing = YES;
   self.tableView.editing = NO;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editPressed)];
   [self.view addSubview:self.tableView];
@@ -100,7 +101,7 @@
   self.editMode = YES;
   [self.tableView reloadData];
   [self.tableView setEditing: YES animated: YES];
-  //self.tableView.allowsSelection = YES;
+  self.tableView.allowsSelection = YES;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButton)];
 }
 
@@ -108,7 +109,7 @@
   self.editMode = NO;
   [self.tableView reloadData];
   [self.tableView setEditing: NO animated: YES];
-  //self.tableView.allowsSelection = NO;
+  self.tableView.allowsSelection = NO;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editPressed)];
 }
 
@@ -123,7 +124,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     [self.tableView beginUpdates];
-    TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
+    TimeInterval *temp = self.dayDictionary[self.days[indexPath.section]][indexPath.row];
     [self.subjectStore deleteTimeInterval:temp];
     [self setSubjectData];
     
@@ -135,7 +136,7 @@
     }
     [self.tableView endUpdates];
   } else {
-    [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.presentedDays[indexPath.section]]];
+    [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.days[indexPath.section]]];
     self.selectedIndex = indexPath;
     [self.view addSubview:self.customTimePicker];
     [self setSubjectData];
@@ -185,6 +186,7 @@
       cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
     } else {
       cell.textLabel.text = @"";
+      cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     return cell;
@@ -200,7 +202,7 @@
                                 rightUtilityButtons:[self rightButtons]];
       cell.delegate = self;
     }
-    [cell setCellHeight:30];
+    [cell setCellHeight:44];
     TimeInterval *temp = self.dayDictionary[self.presentedDays[indexPath.section]][indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
     return cell;
@@ -228,7 +230,6 @@
     [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.presentedDays[cellIndexPath.section]]];
     self.selectedIndex = cellIndexPath;
     [self.view addSubview:self.customTimePicker];
-    
     [cell hideUtilityButtonsAnimated:YES];
     break;
     }
@@ -260,23 +261,38 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 30;
+  return 44;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (tableView.editing == YES) {
+    if (![[[[tableView cellForRowAtIndexPath:indexPath] textLabel] text] isEqualToString:@""]) {
+      [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.days[indexPath.section]]];
+      self.selectedIndex = indexPath;
+      [self.view addSubview:self.customTimePicker];
+    }
+  }
 }
 
 - (void)addTime:(NSDate *)time {
-  NSMutableArray *new = [[NSMutableArray alloc] initWithArray: [self.dayDictionary valueForKey:self.days[self.selectedIndex.section]]];
-  if ([new count]<self.selectedIndex.row) {
+  NSString *dayName;
+  if (self.editMode) {
+    dayName = self.days[self.selectedIndex.section];
+  } else {
+    dayName = self.presentedDays[self.selectedIndex.section];
+  }
+  NSMutableArray *new = [[NSMutableArray alloc] initWithArray:[self.dayDictionary valueForKey:dayName]];
+  if ([new count]>self.selectedIndex.row) {
     TimeInterval *temp = new[self.selectedIndex.row];
     [self.subjectStore deleteTimeInterval:temp];
-    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDayName:self.days[self.selectedIndex.section]];
+    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDayName:dayName];
     [self setSubjectData];
     [self.tableView reloadData];
   } else {
-    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDayName:self.days[self.selectedIndex.section]];
+    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDayName:dayName];
     [self setSubjectData];
     [self.tableView reloadData];
   }
-  
 }
 
 - (void)didReceiveMemoryWarning {

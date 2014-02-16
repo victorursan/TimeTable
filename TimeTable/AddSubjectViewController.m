@@ -141,7 +141,7 @@
                                leftUtilityButtons:nil
                               rightUtilityButtons:[self rightButtons]];
     cell.delegate = self;
-    [cell setCellHeight:30];
+    [cell setCellHeight:44];
   }
   
   if (indexPath.row != [[self.sectionDictionary valueForKey:self.daysArray[indexPath.section]] count]) {
@@ -196,7 +196,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 30;
+  return 44;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
