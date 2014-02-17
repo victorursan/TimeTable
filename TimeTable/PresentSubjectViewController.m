@@ -140,7 +140,7 @@
     self.selectedIndex = indexPath;
     [self.view addSubview:self.customTimePicker];
     [self setSubjectData];
-    [self.tableView reloadData];
+    // [self.tableView reloadData];
   }
 }
 
@@ -186,7 +186,6 @@
       cell.textLabel.text = [NSString stringWithFormat:@"%@-%@",[self.timeFormat stringFromDate:temp.from],[self.timeFormat stringFromDate:temp.to]];
     } else {
       cell.textLabel.text = @"";
-      cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     return cell;
@@ -218,7 +217,6 @@
   [rightUtilityButtons sw_addUtilityButtonWithColor:
    [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
                                               title:@"Delete"];
-  
   return rightUtilityButtons;
 }
 
@@ -266,11 +264,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (tableView.editing == YES) {
-    if (![[[[tableView cellForRowAtIndexPath:indexPath] textLabel] text] isEqualToString:@""]) {
-      [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.days[indexPath.section]]];
-      self.selectedIndex = indexPath;
-      [self.view addSubview:self.customTimePicker];
-    }
+    [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.days[indexPath.section]]];
+    self.selectedIndex = indexPath;
+    [self.view addSubview:self.customTimePicker];
   }
 }
 
@@ -285,14 +281,10 @@
   if ([new count]>self.selectedIndex.row) {
     TimeInterval *temp = new[self.selectedIndex.row];
     [self.subjectStore deleteTimeInterval:temp];
-    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDayName:dayName];
-    [self setSubjectData];
-    [self.tableView reloadData];
-  } else {
-    [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDayName:dayName];
-    [self setSubjectData];
-    [self.tableView reloadData];
   }
+  [self.subjectStore addTimeInterval:time forSubject:self.presentedSubject andDayName:dayName];
+  [self setSubjectData];
+  [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
