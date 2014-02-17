@@ -23,6 +23,7 @@
 @property(strong, nonatomic) NSDateFormatter *timeFormat;
 @property(strong, nonatomic) CustomTimePicker *customTimePicker;
 @property(strong, nonatomic) NSIndexPath *selectedIndex;
+@property(strong, nonatomic) UITextField *subjectTextField;
 @property BOOL editMode;
 
 @end
@@ -55,11 +56,22 @@
   self.timeFormat = [[NSDateFormatter alloc] init];
   [self.timeFormat setDateFormat:@"HH:00"];
   
-  self.subjectName = [[UILabel alloc] initWithFrame:CGRectMake(100, 105, 100, 25)];
+  self.subjectName = [[UILabel alloc] initWithFrame:CGRectMake(100, 105, 150, 25)];
   self.subjectName.text = self.currentTitle;
-  [self.subjectName sizeToFit];
+  self.subjectName.hidden= NO;
   [self.view addSubview:self.subjectName];
+  
+  self.subjectTextField = [[UITextField alloc] initWithFrame:CGRectMake(100-2, 105, 150, 25)];
+  self.subjectTextField.hidden = YES;
+  self.subjectTextField.borderStyle = UITextBorderStyleLine;
+  self.subjectTextField.returnKeyType = UIReturnKeyDone;
+  [self.subjectTextField addTarget:self action:@selector(editingTextField) forControlEvents:UIControlEventAllEditingEvents];
+  [self.view addSubview:self.subjectTextField];
+
   [self addTableView];
+}
+
+- (void)editingTextField {
 }
 
 - (void)setTitleWithSubject:(Subject *)subject {
@@ -98,6 +110,9 @@
 }
 
 - (void)editPressed {
+  self.subjectName.hidden= YES;
+  self.subjectTextField.hidden = NO;
+  [self.subjectTextField setText:self.currentTitle];
   self.editMode = YES;
   [self.tableView reloadData];
   [self.tableView setEditing: YES animated: YES];
@@ -106,6 +121,16 @@
 }
 
 - (void)doneButton {
+  if (![self.subjectTextField.text isEqualToString:self.currentTitle]) {
+    NSLog(@"is not equal");//change in the store
+    self.currentTitle = self.subjectTextField.text;
+    self.subjectName.text = self.currentTitle;
+    self.navigationController.title = self.currentTitle;
+  }
+  
+  [self.subjectTextField resignFirstResponder];
+  self.subjectName.hidden= NO;
+  self.subjectTextField.hidden = YES;
   self.editMode = NO;
   [self.tableView reloadData];
   [self.tableView setEditing: NO animated: YES];

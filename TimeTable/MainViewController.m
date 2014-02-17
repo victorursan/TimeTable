@@ -134,8 +134,7 @@
   return cell;
 }
 
-- (NSArray *)rightButtons
-{
+- (NSArray *)rightButtons {
   NSMutableArray *rightUtilityButtons = [NSMutableArray new];
   [rightUtilityButtons sw_addUtilityButtonWithColor:
    [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
