@@ -24,5 +24,6 @@
 - (NSDictionary *)dictionaryforSubject:(Subject *)subject;
 - (void)deleteTimeInterval:(TimeInterval *)timeInterval;
 - (Subject *)subjectForTitle:(NSString *)title;
+- (void)changeSubject:(Subject *)subjectToChange inName:(NSString *)subjectName;
 
 @end

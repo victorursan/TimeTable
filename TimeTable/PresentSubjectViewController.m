@@ -67,7 +67,7 @@
   self.subjectTextField.returnKeyType = UIReturnKeyDone;
   [self.subjectTextField addTarget:self action:@selector(editingTextField) forControlEvents:UIControlEventAllEditingEvents];
   [self.view addSubview:self.subjectTextField];
-
+  
   [self addTableView];
 }
 
@@ -122,10 +122,11 @@
 
 - (void)doneButton {
   if (![self.subjectTextField.text isEqualToString:self.currentTitle]) {
-    NSLog(@"is not equal");//change in the store
     self.currentTitle = self.subjectTextField.text;
+    [self.subjectStore changeSubject:self.presentedSubject inName:self.currentTitle];
+    [self setTitleWithSubject:[self.subjectStore subjectForTitle:self.currentTitle]];
     self.subjectName.text = self.currentTitle;
-    self.navigationController.title = self.currentTitle;
+    [self setSubjectData];
   }
   
   [self.subjectTextField resignFirstResponder];
@@ -165,7 +166,6 @@
     self.selectedIndex = indexPath;
     [self.view addSubview:self.customTimePicker];
     [self setSubjectData];
-    // [self.tableView reloadData];
   }
 }
 

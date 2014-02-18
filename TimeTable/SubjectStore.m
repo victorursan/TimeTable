@@ -169,4 +169,10 @@
     NSLog(@"Problem saving: %@", [error localizedDescription]);
 }
 
+- (void)changeSubject:(Subject *)subjectToChange inName:(NSString *)subjectName {
+  NSSet *daysToMove = subjectToChange.days;
+  [self addSubjectWithName:subjectName onDays:daysToMove];
+  [self deleteSubjectWithName:subjectToChange.name];
+}
+
 @end
