@@ -161,6 +161,9 @@
                     withRowAnimation:UITableViewRowAnimationLeft];
     }
     [self.tableView endUpdates];
+    if ([self.presentedDays count] == 0) {
+      [self.navigationController popToRootViewControllerAnimated:YES];
+    }
   } else {
     [self.customTimePicker pickerWithoutHours:[self.dayStore hoursInDay:self.days[indexPath.section]]];
     self.selectedIndex = indexPath;
@@ -270,6 +273,10 @@
                     withRowAnimation:UITableViewRowAnimationLeft];
     }
     [self.tableView endUpdates];
+    if ([self.presentedDays count]==0) {
+      [self.navigationController popToRootViewControllerAnimated:YES];
+      
+    }
     break;
     }
     default:

@@ -78,6 +78,11 @@
   if ([key isEqualToString:@"resetTableView"]) {
     self.title = value;
     [self.tableView reloadData];
+    [UIView transitionWithView:self.view
+                      duration:0.7f
+                       options:UIViewAnimationOptionTransitionCurlUp
+                    animations:nil
+                    completion:nil];
   } else if ([key isEqualToString:@"reloadData"]) {
     self.title = self.currentDay;
     [self.tableView reloadData];
