@@ -78,7 +78,7 @@
   if ([key isEqualToString:@"resetTableView"]) {
     self.title = value;
     [self.tableView reloadData];
-    [UIView transitionWithView:self.view
+    [UIView transitionWithView:self.view // or self.navigationController.view
                       duration:0.7f
                        options:UIViewAnimationOptionTransitionCurlUp
                     animations:nil

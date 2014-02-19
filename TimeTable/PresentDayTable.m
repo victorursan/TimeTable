@@ -15,9 +15,10 @@
   if (self) {
     
     self.delegate = delegate;
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(5, 21, self.frame.size.width-10, self.frame.size.height-25)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.backgroundColor = [UIColor clearColor];
     self.layer.masksToBounds = NO;
     self.layer.cornerRadius = 8; // if you like rounded corners
     self.layer.shadowOffset = CGSizeMake(0, 5);
@@ -50,13 +51,50 @@
 
 
 
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
+
+- (void)drawRect:(CGRect)rect
+{
+  
+  //// General Declarations
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  
+  //// Color Declarations
+  UIColor* color2 = [UIColor colorWithRed: 1 green: 1 blue: 1 alpha: 1];
+  UIColor* color3 = [UIColor colorWithRed: 0.333 green: 0.333 blue: 0.333 alpha: 1];
+  
+  //// Shadow Declarations
+  UIColor* shadow = color3;
+  CGSize shadowOffset = CGSizeMake(0.1, 3.1);
+  CGFloat shadowBlurRadius = 5;
+  
+  //// Frames
+  CGRect frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+  
+  
+  //// Group
+  {
+  //// Bezier Drawing
+  UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+  [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(frame) + 170, CGRectGetMinY(frame) + 21)];
+  [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 205, CGRectGetMinY(frame) + 21)];
+  [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 205, CGRectGetMinY(frame) + 231)];
+  [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 5, CGRectGetMinY(frame) + 231)];
+  [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 5, CGRectGetMinY(frame) + 21)];
+  [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 151, CGRectGetMinY(frame) + 21)];
+  [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 160.5, CGRectGetMinY(frame) + 9)];
+  [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 170, CGRectGetMinY(frame) + 21)];
+  [bezierPath closePath];
+  CGContextSaveGState(context);
+  CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
+  [color2 setFill];
+  [bezierPath fill];
+  CGContextRestoreGState(context);
+  
+  }
+  
+  
+  
+}
+
 
 @end
