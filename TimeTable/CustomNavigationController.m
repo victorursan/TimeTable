@@ -108,7 +108,7 @@
 
 - (void)drawRectActive {
   //// Color Declarations
-  UIColor* color2 = [UIColor colorWithRed: 1 green: 1 blue: 1 alpha: 1];
+  UIColor* color2 = [UIColor whiteColor];
   
   //// Frames
   CGRect frame2 = CGRectMake(0, 0, 22, 21);

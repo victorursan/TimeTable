@@ -203,10 +203,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
   if (self.editMode) {
-    static NSString *CellIdentifier = @"UITableViewCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *UITableCellIdentifier = @"UITableViewCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UITableCellIdentifier];
     if (cell == nil) {
-      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:UITableCellIdentifier];
       cell.accessoryType = UITableViewCellAccessoryNone;
     }
     if (self.dayDictionary[self.days[indexPath.section]] && indexPath.row < [self.dayDictionary[self.days[indexPath.section]] count]) {
@@ -215,15 +215,13 @@
     } else {
       cell.textLabel.text = @"";
     }
-    
     return cell;
-    
   } else {
-    static NSString *CellIdentifier = @"SWTableViewCell";
-    SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *SWTableCellIdentifier = @"SWTableViewCell";
+    SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:SWTableCellIdentifier];
     if (cell == nil) {
       cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                    reuseIdentifier:CellIdentifier
+                                    reuseIdentifier:SWTableCellIdentifier
                                 containingTableView:_tableView // Used for row height and selection
                                  leftUtilityButtons:nil
                                 rightUtilityButtons:[self rightButtons]];
